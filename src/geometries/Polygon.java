@@ -2,7 +2,7 @@ package geometries;
 /**
  * 
  * @author lelid
- *
+ *blabla
  */
 public class Polygon {
 
