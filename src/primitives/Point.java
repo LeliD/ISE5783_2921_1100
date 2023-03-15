@@ -35,7 +35,7 @@ public class Point {
 
 	public Point add(Vector otherVector) {
 		Double3 obj = xyz.add(new Double3(otherVector.xyz.d1, otherVector.xyz.d2, otherVector.xyz.d3));
-		return new Vector(obj);
+		return new Point(obj);
 	}
 
 	public double distanceSquared(Point otherPoint) {

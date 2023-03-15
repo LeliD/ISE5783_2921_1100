@@ -10,12 +10,13 @@ import primitives.Vector;
 /** Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
  * @author Dan */
-public class Polygon implements Geometry {
+public class Polygon implements Geometry 
+{
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
-   protected final Plane       plane;
-   private final int           size;
+   protected final Plane plane;
+   private final int size;
 
    /** Polygon constructor based on vertices list. The list must be ordered by edge
     * path. The polygon must be convex.
@@ -41,19 +42,19 @@ public class Polygon implements Geometry {
       if (vertices.length < 3)
          throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
       this.vertices = List.of(vertices);
-      size          = vertices.length;
+      size = vertices.length;
 
       // Generate the plane according to the first three vertices and associate the
       // polygon with this plane.
       // The plane holds the invariant normal (orthogonal unit) vector to the polygon
-      plane         = new Plane(vertices[0], vertices[1], vertices[2]);
+      plane = new Plane(vertices[0], vertices[1], vertices[2]);
       if (size == 3) return; // no need for more tests for a Triangle
 
-      Vector  n        = plane.getNormal();
+      Vector  n= plane.getNormal();
       // Subtracting any subsequent points will throw an IllegalArgumentException
       // because of Zero Vector if they are in the same point
-      Vector  edge1    = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
-      Vector  edge2    = vertices[0].subtract(vertices[vertices.length - 1]);
+      Vector  edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
+      Vector  edge2 = vertices[0].subtract(vertices[vertices.length - 1]);
 
       // Cross Product of any subsequent edges will throw an IllegalArgumentException
       // because of Zero Vector if they connect three vertices that lay in the same
@@ -79,5 +80,6 @@ public class Polygon implements Geometry {
 
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
+   
 }
 
