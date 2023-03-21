@@ -1,8 +1,12 @@
 package primitives;
 
 import java.util.Objects;
-
-public class Point {
+/**
+ * Point class is for represent a point in 3 dimensional space
+ * @author Shilat and Leli
+ */
+public class Point 
+{
 
 	protected final Double3 xyz;
 

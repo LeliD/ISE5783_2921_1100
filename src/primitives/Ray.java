@@ -1,8 +1,12 @@
 package primitives;
 
 import java.util.Objects;
-
-public class Ray {
+/**
+ * Point class is for represent a point in 3 dimensional space
+ * @author Shilat and Leli
+ */
+public class Ray 
+{
 
 	private final Point p0;
 	private final Vector dir;
