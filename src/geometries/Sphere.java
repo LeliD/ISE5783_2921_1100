@@ -3,17 +3,28 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
-public class Sphere extends RadialGeometry  
-{
+/**
+ * Sphere class for representing a Sphere, extends RadialGeometry
+ * 
+ * @author Shilat Sharon and Leli Drach
+ *
+ */
+public class Sphere extends RadialGeometry {
+	/** center of a Sphere */
 	private final Point center;
-	
-	public Sphere(Point p,double r) 
-	{
+
+	/**
+	 * Constructor to initialize a Sphere
+	 * 
+	 * @param p center of a Sphere
+	 * @param r radius of a Sphere
+	 */
+	public Sphere(Point p, double r) {
 		super(r);
-		center=p;
+		center = p;
 	}
 
-    /**
+	/**
 	 * @return the center
 	 */
 	public Point getCenter() {

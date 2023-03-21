@@ -1,13 +1,14 @@
 package primitives;
 
 import java.util.Objects;
+
 /**
- * Point class is for represent a point in 3 dimensional space
+ * Point class is for representing a point in 3 dimensional space
+ * 
  * @author Shilat and Leli
  */
-public class Point 
-{
-
+public class Point {
+	/** A point */
 	protected final Double3 xyz;
 
 	/**
@@ -21,6 +22,11 @@ public class Point
 		xyz = new Double3(d1, d2, d3);
 	}
 
+	/**
+	 * Constructor to initialize xyz by Double3 object
+	 * 
+	 * @param obj Double3 object
+	 */
 	Point(Double3 obj) {
 		xyz = new Double3(obj.d1, obj.d2, obj.d3);
 	}
@@ -37,16 +43,34 @@ public class Point
 		return new Vector(obj);
 	}
 
+	/**
+	 * add vector to point and return a new point
+	 * 
+	 * @param otherVector the vector to add to the point
+	 * @return result of add
+	 */
 	public Point add(Vector otherVector) {
 		Double3 obj = xyz.add(new Double3(otherVector.xyz.d1, otherVector.xyz.d2, otherVector.xyz.d3));
 		return new Point(obj);
 	}
 
+	/**
+	 * Calculate the Squared distance between two points
+	 * 
+	 * @param otherPoint other Point
+	 * @return the Squared distance
+	 */
 	public double distanceSquared(Point otherPoint) {
 		Double3 obj = this.subtract(otherPoint).xyz;
 		return obj.d1 * obj.d1 + obj.d2 * obj.d2 + obj.d3 * obj.d3;
 	}
 
+	/**
+	 * Calculate the distance between two points
+	 * 
+	 * @param otherPoint other Point
+	 * @return the distance
+	 */
 	public double distance(Point otherPoint) {
 		return Math.sqrt(distanceSquared(otherPoint));
 	}

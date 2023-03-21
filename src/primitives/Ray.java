@@ -1,16 +1,24 @@
 package primitives;
 
 import java.util.Objects;
+
 /**
- * Point class is for represent a point in 3 dimensional space
+ * Ray class is for representing a ray in 3 dimensional space
+ * 
  * @author Shilat and Leli
  */
-public class Ray 
-{
-
+public class Ray {
+	/** start point */
 	private final Point p0;
+	/** direction vector */
 	private final Vector dir;
 
+	/**
+	 * Constructor to initialize Ray by a start point and direction vector
+	 * 
+	 * @param p start point
+	 * @param v direction vector
+	 */
 	public Ray(Point p, Vector v) {
 		p0 = p;
 		dir = v.normalize();

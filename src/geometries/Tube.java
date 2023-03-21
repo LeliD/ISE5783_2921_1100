@@ -4,14 +4,27 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-public class Tube extends RadialGeometry 
-{
+/**
+ * Tube class for representing a Tube, extends RadialGeometry
+ * 
+ * @author Shilat Sharon and Leli Drach
+ *
+ */
+public class Tube extends RadialGeometry {
+	/** Ray of Tube */
 	protected final Ray axisRay;
-	public Tube(Ray ray, double radius) 
-	{
+
+	/**
+	 * Constructor to initialize a Tube
+	 * 
+	 * @param ray    Ray of Tube
+	 * @param radius radius of Tube
+	 */
+	public Tube(Ray ray, double radius) {
 		super(radius);
-		axisRay=ray;
+		axisRay = ray;
 	}
+
 	/**
 	 * @return the axisRay
 	 */
@@ -24,11 +37,10 @@ public class Tube extends RadialGeometry
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Tube [axisRay=" + axisRay + ", radius=" + radius + "]";
 	}
 
-	
 }
