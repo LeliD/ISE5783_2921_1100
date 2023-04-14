@@ -87,12 +87,12 @@ class VectorTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: A simple single test
 		Vector v2 = new Vector(2, 3, 4);
-		assertEquals(20, v1.dotProduct(v2), 0.00001, "ERROR: dotProduct() wrong value");
+		assertEquals(20, v1.dotProduct(v2), 0.00000001, "ERROR: dotProduct() wrong value");
 
 		// =============== Boundary Values Tests ==================
 		// TC10: Test for orthogonal vectors - expected value is exactly 0
 		Vector v3 = new Vector(0, -3, 2);
-		assertEquals(0, v1.dotProduct(v3), 0, "ERROR: dotProduct() for orthogonal vectors is not zero");
+		assertEquals(0, v1.dotProduct(v3), 0.00000001, "ERROR: dotProduct() for orthogonal vectors is not zero");
 	}
 
 	/**
@@ -125,7 +125,7 @@ class VectorTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: A simple single test
 		Vector v = new Vector(1, 2, 3);
-		assertEquals(14, v.lengthSquared(), 0.00001, "Bad vectors length-squared: wrong value");
+		assertEquals(14, v.lengthSquared(), 0.00000001, "Bad vectors length-squared: wrong value");
 	}
 
 	/**
@@ -136,7 +136,7 @@ class VectorTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: A simple single test
 		Vector v = new Vector(5, 0, 0);
-		assertEquals(5, v.length(), 0.00001, "Bad vectors length: wrong value");
+		assertEquals(5, v.length(), 0.00000001, "Bad vectors length: wrong value");
 	}
 
 	/**
@@ -145,12 +145,11 @@ class VectorTests {
 	@Test
 	void testNormalize() {
 		// ============ Equivalence Partitions Tests ==============
-		// TC01: A simple single test
-		Vector v1 = new Vector(1, 1, 1);
-		Vector v2 = new Vector(1, 2, 3);
-
-		assertEquals(v1, v1.normalize(), "Bad vectors normalize: not the same vector");
-		assertEquals(1, v1.normalize().length(), "Bad vectors normalize: wrong value");
+		// TC01: A simple single test of changing the vector itself
+		Vector v1 = new Vector(1, 2, 3);
+		Vector v2 = v1.normalize();
+		assertEquals(v1, v2, "Bad vectors normalize: not the same vector");
+		assertEquals(1, v1.normalize().length(), 0.00000001, "Bad vectors normalize: wrong value");
 
 	}
 
