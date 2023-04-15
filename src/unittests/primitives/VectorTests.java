@@ -4,6 +4,7 @@
 package unittests.primitives;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -51,11 +52,6 @@ class VectorTests {
 		// =============== Boundary Values Tests ==================
 		// TC11: test zero vector from add of parallel vectors in opposite directions
 		Vector v3 = new Vector(-1, -2, -3);
-		/*
-		 * try { v1.add(v3);
-		 * fail("ERROR: Vector + -itself does not throw an exception"); }
-		 * catch(IllegalArgumentException e){}
-		 */
 		assertThrows(IllegalArgumentException.class, () -> v1.add(v3),
 				"ERROR: Vector + -itself does not throw an exception");
 
@@ -148,9 +144,10 @@ class VectorTests {
 		// TC01: A simple single test of changing the vector itself
 		Vector v1 = new Vector(1, 2, 3);
 		Vector v2 = v1.normalize();
-		assertEquals(v1, v2, "Bad vectors normalize: not the same vector");
 		assertEquals(1, v1.normalize().length(), 0.00000001, "Bad vectors normalize: wrong value");
-
+		assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v2),
+				"ERROR: the normalized vector is not parallel to the original one");
+		assertFalse(v1.dotProduct(v2) < 0, "ERROR: the normalized vector is opposite to the original one");
 	}
 
 	/**
@@ -167,11 +164,7 @@ class VectorTests {
 		// TC11: test zero vector from subtract of parallel vectors in the same
 		// directions
 		Vector v3 = new Vector(1, 2, 3);
-		/*
-		 * try { v1.add(v3);
-		 * fail("ERROR: Vector + -itself does not throw an exception"); }
-		 * catch(IllegalArgumentException e){}
-		 */
+
 		assertThrows(IllegalArgumentException.class, () -> v1.subtract(v3),
 				"ERROR: Vector - itself does not throw an exception");
 
