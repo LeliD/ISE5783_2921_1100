@@ -23,11 +23,14 @@ public class Plane implements Geometry {
 	 * @param p3 third point in the plane
 	 */
 
-	public Plane(Point p1, Point p2, Point p3) {
-		p0 = p1;
-		normal = null;
+	public Plane(Point p1, Point p2, Point p3) 
+	{
+	    this.p0 = p1;
+		Vector v1=p2.subtract(p1);
+		Vector v2=p3.subtract(p1);
+	    normal = v1.crossProduct(v2).normalize();//if v1 and v2 are on the same direction of vector- the cross product and the normal will be zero vector.	
+	
 	}
-
 	/**
 	 * Constructor to initialize a plane
 	 * 

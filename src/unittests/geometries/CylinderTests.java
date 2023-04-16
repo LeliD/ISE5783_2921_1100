@@ -40,7 +40,7 @@ class CylinderTests {
 
 		// =============== Boundary Values Tests ==================
 		// TC10: Test for the center point on the cylinder's first base (where the axis
-		// starts) i
+		// starts) 
 		assertEquals(new Vector(0, 0, -1), cyl.getNormal(new Point(0, 0, 0)),
 				"Cylinder's normal isn't correct for points on the cylinder's first base (on the axis' starting point)");
 		// TC11: Test for the center point on the cylinder's second base (where the axis

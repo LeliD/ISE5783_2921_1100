@@ -24,18 +24,18 @@ class VectorTests {
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
 	 */
-	@Test
-	void testVectorDoubleDoubleDouble() {
-		fail("Not yet implemented");
-	}
+	//@Test
+	//void testVectorDoubleDoubleDouble() {
+	//	fail("Not yet implemented");
+	//}
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.
 	 */
-	@Test
-	void testVectorDouble3() {
-		fail("Not yet implemented");
-	}
+	//@Test
+	//void testVectorDouble3() {
+	//	fail("Not yet implemented");
+	//}
 
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
