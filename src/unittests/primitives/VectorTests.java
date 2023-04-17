@@ -161,8 +161,7 @@ class VectorTests {
 		// TC01: There is a simple single test here
 		assertEquals(new Vector(0, 5, 7), v1.subtract(v2), "ERROR: subtract() does not work correctly");
 		// =============== Boundary Values Tests ==================
-		// TC11: test zero vector from subtract of parallel vectors in the same
-		// directions
+		// TC11: test zero vector of parallel vectors in same direction and length
 		Vector v3 = new Vector(1, 2, 3);
 
 		assertThrows(IllegalArgumentException.class, () -> v1.subtract(v3),
