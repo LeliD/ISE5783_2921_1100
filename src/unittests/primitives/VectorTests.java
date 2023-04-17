@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
@@ -24,18 +23,18 @@ class VectorTests {
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
 	 */
-	//@Test
-	//void testVectorDoubleDoubleDouble() {
-	//	fail("Not yet implemented");
-	//}
+	// @Test
+	// void testVectorDoubleDoubleDouble() {
+	// fail("Not yet implemented");
+	// }
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.
 	 */
-	//@Test
-	//void testVectorDouble3() {
-	//	fail("Not yet implemented");
-	//}
+	// @Test
+	// void testVectorDouble3() {
+	// fail("Not yet implemented");
+	// }
 
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
@@ -107,7 +106,7 @@ class VectorTests {
 		assertTrue(isZero(vr.dotProduct(v1)), "crossProduct() result is not orthogonal to 1st operand");
 		assertTrue(isZero(vr.dotProduct(v2)), "crossProduct() result is not orthogonal to 2nd operand");
 		// =============== Boundary Values Tests ==================
-		// TC11: test zero vector from cross-productof co-lined vectors
+		// TC11: test zero vector from cross-product of co-lined vectors
 		Vector v3 = new Vector(-2, -4, -6);
 		assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v3),
 				"crossProduct() for parallel vectors does not throw an exception");
@@ -161,9 +160,8 @@ class VectorTests {
 		// TC01: There is a simple single test here
 		assertEquals(new Vector(0, 5, 7), v1.subtract(v2), "ERROR: subtract() does not work correctly");
 		// =============== Boundary Values Tests ==================
-		// TC11: test zero vector of parallel vectors in same direction and length
+		// TC11: test zero vector of parallel vectors in the same direction and length
 		Vector v3 = new Vector(1, 2, 3);
-
 		assertThrows(IllegalArgumentException.class, () -> v1.subtract(v3),
 				"ERROR: Vector - itself does not throw an exception");
 
