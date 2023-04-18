@@ -1,6 +1,9 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -64,5 +67,15 @@ public class Plane implements Geometry {
 	@Override
 	public String toString() {
 		return "Plane [" + (p0 != null ? "p0=" + p0 + ", " : "") + (normal != null ? "normal= " + normal : "") + "]";
+	}
+	/**
+	 * Finding intersection points on the geometry with a given ray
+	 * @param ray - the ray to find intersection points with
+	 * @return List of intersection-points on the geometry with the given ray
+	 */
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

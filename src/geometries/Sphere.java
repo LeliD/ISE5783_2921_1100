@@ -1,6 +1,9 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -39,5 +42,15 @@ public class Sphere extends RadialGeometry {
 	@Override
 	public Vector getNormal(Point p) {
 		return (p.subtract(center)).normalize();
+	}
+	/**
+	 * Finding intersection points on the geometry with a given ray
+	 * @param ray - the ray to find intersection points with
+	 * @return List of intersection-points on the geometry with the given ray
+	 */
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

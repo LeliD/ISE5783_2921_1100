@@ -24,10 +24,13 @@ class VectorTests {
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
 	 */
-	//@Test
-	//void testVectorDoubleDoubleDouble() {
-	//	fail("Not yet implemented");
-	//}
+	@Test
+	void testConstructor() 
+	{
+		// ============ Boundary Values Tests ==============
+	    // TC10:test zero vector
+		assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0),	"ERROR: zero vector does not throw an exception");
+	}
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.

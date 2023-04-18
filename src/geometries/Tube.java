@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.isZero;
+
+import java.util.List;
 /**
  * Tube class for representing a Tube, extends RadialGeometry
  * 
@@ -50,6 +52,16 @@ public class Tube extends RadialGeometry {
 	@Override
 	public String toString() {
 		return "Tube [axisRay=" + axisRay + ", radius=" + radius + "]";
+	}
+	/**
+	 * Finding intersection points on the geometry with a given ray
+	 * @param ray - the ray to find intersection points with
+	 * @return List of intersection-points on the geometry with the given ray
+	 */
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
