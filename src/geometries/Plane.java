@@ -88,7 +88,7 @@ public class Plane implements Geometry {
 
             if(isZero(t) || t<0)// the ray starts on the plane or doesn't cross the plane
                return null;
-            return List.of((p0.add(v.scale(t))));
+            return List.of((p0ray.add(v.scale(t))));
 
         }
         catch(IllegalArgumentException ex)

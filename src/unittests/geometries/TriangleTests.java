@@ -58,7 +58,6 @@ class TriangleTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: the ray goes through the triangle
 		r = new Ray(new Point(1, 1, -2), new Vector(-2, 0.5, -1));
-		List<Point> intersections = tr.findIntersections(r);
 		assertEquals(List.of(new Point(-1, 1.5, -3)), tr.findIntersections(r), "The ray goes through the triangle");
 		// TC02: the ray is outside the triangle in front of one edge
 		r = new Ray(new Point(4, 4, -2), new Vector(1, 1, -4));
