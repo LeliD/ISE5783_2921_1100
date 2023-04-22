@@ -2,9 +2,8 @@ package geometries;
 
 import java.util.List;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
+import static primitives.Util.isZero;
 
 /**
  * Sphere class for representing a Sphere, extends RadialGeometry
@@ -50,7 +49,52 @@ public class Sphere extends RadialGeometry {
 	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+		//get ray point and vector
+        Point p0 = ray.getP0();
+        Vector v = ray.getDir();
+
+        //vector between p0 start and sphere center-O
+        Vector u = null;
+        try 
+        {
+            u = center.subtract(p0);
+        } 
+        catch (Exception ex)//p0=center
+        {
+            //return p0 + r*v
+            return List.of(p0.add(v.scale(radius)));
+        }
+
+        double tm = v.dotProduct(u);
+
+        double lengthU = u.length();
+
+        //get the distance between the ray and the sphere center
+        double d = Math.sqrt(Math.abs((lengthU * lengthU)-(tm * tm)));
+
+        //the ray doesn't cross the sphere
+        if (d>radius)
+            return null;
+
+        //the ray tangent the sphere
+        if (isZero(d- radius)) //if d=radius
+        {                  
+            return null;
+        }
+        //the ray crosses the sphere in two places
+        double th = Math.sqrt(Math.abs((radius * radius)- d*d));
+        //get the distance to the two points
+        double t1 = tm- th;
+        double t2 =tm+th;
+
+        //return the points that are after the ray
+        if ((t1 < 0 || isZero(t1)) && (t2 < 0|| isZero(t2))) 
+        	return null;
+        if (t1 > 0 && t2 > 0) 
+        	return List.of(p0.add(v.scale(t1)),p0.add(v.scale(t2))); //P1 , P2
+        if (t1 > 0)
+            return List.of(p0.add(v.scale(t1)));
+        else //t2 > 0
+            return List.of(p0.add(v.scale(t2)));
 	}
 }

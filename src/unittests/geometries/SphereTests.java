@@ -49,14 +49,14 @@ class SphereTests {
 	Sphere sphere2 = new Sphere(new Point (0, -1, 0), 2d);
 	result = sphere2.findIntersections(new Ray(new Point(-1, 0, 0),new Vector(3, -1, 0)));
 	assertEquals(1, result.size(),"Wrong number of points");
-	assertEquals(new Point(2, -1, 0), result.get(0),"Ray starts inside the sphere");
+	assertEquals(List.of(new Point(2, -1, 0)), result,"Ray starts inside the sphere");
     // TC04: Ray starts after the sphere (0 points)
 	assertNull(sphere2.findIntersections(new Ray(new Point(-3, 0, 0),new Vector(-1, 0, 0))),"Ray starts after the sphere and cross sphere ");
 	// =============== Boundary Values Tests ==================
     // **** Group: Ray's line crosses the sphere (but not the center)
 	// TC11: Ray starts at sphere and goes inside (1 points)
 	result = sphere2.findIntersections(new Ray(new Point(0, -3, 0), new Vector(0, 2, 2)));
-    assertEquals(new Point(0, -1, 2), result.get(0));
+    assertEquals(List.of(new Point(0, -1, 2)), result);
     // TC12: Ray starts at sphere and goes outside (0 points)
 	result = sphere2.findIntersections(new Ray(new Point(0, -3, 0), new Vector(0, -2, -2)));
 	assertNull(result);
@@ -68,13 +68,13 @@ class SphereTests {
 	assertEquals(List.of(p1, p2), result);
 	// TC14: Ray starts at sphere and goes inside (1 points)
 	result = sphere2.findIntersections(new Ray(new Point(0, 1, 0), new Vector(0, -4, 0)));
-	assertEquals(new Point(0, -3, 0), result);
+	assertEquals(List.of(new Point(0, -3, 0)), result);
 	// TC15: Ray starts inside (1 points)
 	result = sphere2.findIntersections(new Ray(new Point(0, -2, 0), new Vector(0, 5, 0)));
-	assertEquals(new Point(0, 1, 0), result);
+	assertEquals(List.of(new Point(0, 1, 0)), result);
     // TC16: Ray starts at the center (1 points)
 	result = sphere.findIntersections(new Ray(new Point(1, 0, 0), new Vector(0, 1, 0)));
-	assertEquals(new Point(1, 1, 0), result);
+	assertEquals(List.of(new Point(1, 1, 0)), result);
     // TC17: Ray starts at sphere and goes outside (0 points)
 	result = sphere2.findIntersections(new Ray(new Point(0, 1, 0), new Vector(0, 11, 0)));
 	assertNull(result);
