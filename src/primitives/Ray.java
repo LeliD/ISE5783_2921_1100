@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 import java.util.Objects;
 
 /**
@@ -36,6 +38,14 @@ public class Ray {
 	 */
 	public Vector getDir() {
 		return dir;
+	}
+
+	/**
+	 * @param t - scalar
+	 * @return p0 + t*v
+	 */
+	public Point getPoint(double t) {
+		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 
 	@Override

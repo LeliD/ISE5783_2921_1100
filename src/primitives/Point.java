@@ -96,4 +96,22 @@ public class Point {
 		return "Point [xyz=" + xyz + "]";
 	}
 
+	/**
+	 * getX
+	 * 
+	 * @return x coordinate
+	 */
+	public double getX() {
+		return xyz.d1;
+	}
+
+	/**
+	 * getY
+	 * 
+	 * @return y coordinate
+	 */
+	public double getY() {
+		return xyz.d2;
+	}
+
 }
