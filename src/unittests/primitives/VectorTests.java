@@ -16,7 +16,7 @@ import primitives.Vector;
 /**
  * Unit tests for primitives.Vector class
  * 
- * @author Lea and Shilat
+ * @author Shilat Sharon and Lea Drach
  */
 class VectorTests {
 

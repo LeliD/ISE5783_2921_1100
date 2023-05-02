@@ -21,7 +21,7 @@ import primitives.Vector;
 /**
  * Unit tests for geometries.Triangle class
  * 
- * @author Lea and Shilat
+ * @author Shilat Sharon and Lea Drach
  */
 class TriangleTests {
 

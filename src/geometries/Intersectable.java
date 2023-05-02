@@ -10,7 +10,7 @@ import java.util.List;
  * Intersectable Interface. Represents the general behavior of an intersectable
  * object.
  * 
- * @author Lea and Shilat
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public interface Intersectable {

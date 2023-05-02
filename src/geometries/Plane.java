@@ -12,7 +12,7 @@ import primitives.Vector;
 /**
  * Plane class for representing a plane, implements Geometry interface
  * 
- * @author Shilat Sharon and Leli Drach
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public class Plane implements Geometry {

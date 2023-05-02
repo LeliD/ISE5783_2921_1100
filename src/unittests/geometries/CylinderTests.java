@@ -15,7 +15,7 @@ import primitives.Vector;
 /**
  * Unit tests for geometries.Cylinder class
  * 
- * @author Lea and Shilat
+ * @author Shilat Sharon and Lea Drach
  */
 class CylinderTests {
 

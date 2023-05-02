@@ -6,7 +6,7 @@ import primitives.Vector;
 /**
  * Interface of Geometry
  * 
- * @author Shilat Sharon and Leli Drach
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public interface Geometry extends Intersectable {

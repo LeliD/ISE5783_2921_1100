@@ -18,7 +18,7 @@ import primitives.Vector;
 import java.util.List;
 
 /**
- * @author Shilat Sharon
+ * @author Shilat Sharon and Lea Drach
  *
  */
 class PlaneTests {

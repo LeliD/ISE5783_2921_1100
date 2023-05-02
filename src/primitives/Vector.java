@@ -5,7 +5,7 @@ package primitives;
 
 /**
  * Vector class for representing a point with direction
- * @author Leli and Shilat
+ * @author Shilat Sharon and Lea Drach
  *
  */
 import static primitives.Double3.ZERO;
@@ -19,7 +19,7 @@ public class Vector extends Point {
 	 * @param d3 third number value
 	 * @throws IllegalArgumentException
 	 */
-	public Vector(double d1, double d2, double d3) throws IllegalArgumentException {
+	public Vector(double d1, double d2, double d3) {
 		super(d1, d2, d3);
 		if (xyz.equals(ZERO))
 			throw new IllegalArgumentException("ERROR. Cannot create zero vector");

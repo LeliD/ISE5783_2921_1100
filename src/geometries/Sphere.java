@@ -11,7 +11,7 @@ import primitives.Vector;
 /**
  * Sphere class for representing a Sphere, extends RadialGeometry
  * 
- * @author Shilat Sharon and Leli Drach
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public class Sphere extends RadialGeometry {

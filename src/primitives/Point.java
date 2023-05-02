@@ -3,70 +3,70 @@ package primitives;
 /**
  * Point class is for representing a point in 3 dimensional space
  * 
- * @author Shilat and Leli
+ * @author Shilat Sharon and Lea Drach
  */
 public class Point {
-	/** A point */
+	/** The coordinates of the point */
 	protected final Double3 xyz;
 
 	/**
-	 * Constructor to initialize Double3 based object with its three number values
+	 * Constructs a Point object with the given coordinates.
 	 * 
-	 * @param d1 first number value
-	 * @param d2 second number value
-	 * @param d3 third number value
+	 * @param d1 the x coordinate
+	 * @param d2 the y coordinate
+	 * @param d3 the z coordinate
 	 */
 	public Point(double d1, double d2, double d3) {
 		xyz = new Double3(d1, d2, d3);
 	}
 
 	/**
-	 * Constructor to initialize xyz by Double3 object
+	 * Constructs a Point object using a Double3 object.
 	 * 
-	 * @param obj Double3 object
+	 * @param obj the Double3 object to use
 	 */
 	Point(Double3 obj) {
 		xyz = obj;
 	}
 
 	/**
-	 * subtract between two points and return vector
+	 * Subtracts another point from this point and returns the resulting vector.
 	 * 
-	 * @param otherPoint the second point
-	 * @return new vector after subtract
-	 * @throws IllegalArgumentException when subtracting identical points
+	 * @param otherPoint the point to subtract from this point
+	 * @return the resulting vector
 	 */
 	public Vector subtract(Point otherPoint) {
-		return new Vector(xyz.subtract(xyz.subtract(otherPoint.xyz)));
+		return new Vector(xyz.subtract(otherPoint.xyz));
 	}
 
 	/**
-	 * add vector to point and return a new point
+	 * Adds a vector to this point and returns the resulting point.
 	 * 
-	 * @param otherVector the vector to add to the point
-	 * @return result of add
+	 * @param otherVector the vector to add to this point
+	 * @return the resulting point
 	 */
 	public Point add(Vector otherVector) {
-		Double3 obj = xyz.add(new Double3(otherVector.xyz.d1, otherVector.xyz.d2, otherVector.xyz.d3));
-		return new Point(obj);
+		return new Point(xyz.add(otherVector.xyz));
 	}
 
 	/**
-	 * Calculate the Squared distance between two points
 	 * 
-	 * @param otherPoint other Point
-	 * @return the Squared distance
+	 * Calculates the squared distance between this point and another point.
+	 * 
+	 * @param otherPoint the other point to calculate the distance to
+	 * @return the squared distance between this point and the other point
 	 */
 	public double distanceSquared(Point otherPoint) {
-		Double3 obj = this.subtract(otherPoint).xyz;
+		Double3 obj = xyz.subtract(otherPoint.xyz);
 		return obj.d1 * obj.d1 + obj.d2 * obj.d2 + obj.d3 * obj.d3;
 	}
 
 	/**
-	 * Calculate the distance between two points
 	 * 
-	 * @param otherPoint other Point
-	 * @return the distance
+	 * Calculates the distance between this point and another point.
+	 * 
+	 * @param otherPoint the other point to calculate the distance to
+	 * @return the distance between this point and the other point
 	 */
 	public double distance(Point otherPoint) {
 		return Math.sqrt(distanceSquared(otherPoint));
@@ -81,11 +81,8 @@ public class Point {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (obj instanceof Point other)
-			return this.xyz.equals(other.xyz);
-		return false;
+		return obj instanceof Point other //
+				&& this.xyz.equals(other.xyz);
 	}
 
 	@Override
@@ -94,18 +91,20 @@ public class Point {
 	}
 
 	/**
-	 * getX
 	 * 
-	 * @return x coordinate
+	 * Returns the x coordinate of this point.
+	 * 
+	 * @return the x coordinate
 	 */
 	public double getX() {
 		return xyz.d1;
 	}
 
 	/**
-	 * getY
 	 * 
-	 * @return y coordinate
+	 * Returns the y coordinate of this point.
+	 * 
+	 * @return the y coordinate
 	 */
 	public double getY() {
 		return xyz.d2;

@@ -4,7 +4,7 @@ package geometries;
  * RadialGeometry class for representing a Radial Geometry which implements
  * Geometry interface
  * 
- * @author Shilat Sharon and Leli Drach
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public abstract class RadialGeometry implements Geometry {

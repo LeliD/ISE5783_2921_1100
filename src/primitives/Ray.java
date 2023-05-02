@@ -7,44 +7,56 @@ import java.util.Objects;
 /**
  * Ray class is for representing a ray in 3 dimensional space
  * 
- * @author Shilat and Leli
+ * @author Shilat Sharon and Lea Drach
  */
 public class Ray {
-	/** start point */
+	/** The starting point of the ray */
 	private final Point p0;
-	/** direction vector */
+	/** The direction vector of the ray */
 	private final Vector dir;
 
 	/**
-	 * Constructor to initialize Ray by a start point and direction vector
 	 * 
-	 * @param p start point
-	 * @param v direction vector
+	 * Constructs a Ray object with the given starting point and direction vector.
+	 * The direction vector is automatically normalized to ensure that it has length
+	 * 1.
+	 * 
+	 * @param p the starting point of the ray
+	 * @param v the direction vector of the ray
 	 */
+
 	public Ray(Point p, Vector v) {
 		p0 = p;
 		dir = v.normalize();
 	}
 
 	/**
-	 * @return the p0
+	 * 
+	 * Returns the starting point of the ray.
+	 * 
+	 * @return the starting point of the ray
 	 */
 	public Point getP0() {
 		return p0;
 	}
 
 	/**
-	 * @return the dir
+	 * 
+	 * Returns the direction vector of the ray.
+	 * 
+	 * @return the direction vector of the ray
 	 */
 	public Vector getDir() {
 		return dir;
 	}
 
 	/**
-	 * Calculates a point on the ray at a given distance from the ray head
+	 * 
+	 * Returns a point along the ray at a given distance from the ray head The point
+	 * is calculated as p0 + t*dir, where t is the given distance.
 	 * 
 	 * @param t the distance
-	 * @return the calculated point
+	 * @return a point along the ray at the given distance
 	 */
 	public Point getPoint(double t) {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));

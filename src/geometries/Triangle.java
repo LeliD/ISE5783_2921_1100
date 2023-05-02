@@ -8,7 +8,7 @@ import static primitives.Util.*;
 /**
  * Triangle class for representing a Triangle, extends Polygon
  * 
- * @author Shilat Sharon and Leli Drach
+ * @author Shilat Sharon and Lea Drach
  *
  */
 public class Triangle extends Polygon {
