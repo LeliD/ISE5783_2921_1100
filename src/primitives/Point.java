@@ -1,7 +1,5 @@
 package primitives;
 
-import java.util.Objects;
-
 /**
  * Point class is for representing a point in 3 dimensional space
  * 
@@ -28,7 +26,7 @@ public class Point {
 	 * @param obj Double3 object
 	 */
 	Point(Double3 obj) {
-		xyz = new Double3(obj.d1, obj.d2, obj.d3);
+		xyz = obj;
 	}
 
 	/**
@@ -36,11 +34,10 @@ public class Point {
 	 * 
 	 * @param otherPoint the second point
 	 * @return new vector after subtract
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException when subtracting identical points
 	 */
 	public Vector subtract(Point otherPoint) {
-		Double3 obj = xyz.subtract(new Double3(otherPoint.xyz.d1, otherPoint.xyz.d2, otherPoint.xyz.d3));
-		return new Vector(obj);
+		return new Vector(xyz.subtract(xyz.subtract(otherPoint.xyz)));
 	}
 
 	/**
@@ -77,7 +74,7 @@ public class Point {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(xyz);
+		return xyz.hashCode();
 	}
 
 	@Override

@@ -9,9 +9,10 @@ import primitives.Vector;
  * @author Shilat Sharon and Leli Drach
  *
  */
-public interface Geometry extends Intersectable{
+public interface Geometry extends Intersectable {
 	/**
-	 * Calculate normal vector of point on geometry shape
+	 * Calculate normal vector of point on geometry shape's surface
+	 * 
 	 * @param p point to get its normal
 	 * @return normal Vector in the point
 	 */

@@ -58,8 +58,10 @@ public class Cylinder extends Tube {
 		// in case point p is on the cylinder's side
 		return super.getNormal(p);
 	}
+
 	/**
 	 * Finding intersection points on the geometry with a given ray
+	 * 
 	 * @param ray - the ray to find intersection points with
 	 * @return List of intersection-points on the geometry with the given ray
 	 */

@@ -67,7 +67,7 @@ class PointTests {
 		Point p1 = new Point(1, 2, 3);
 		// ============ Equivalence Partitions Tests ==============
 		// TC01:A simple single test
-		assertTrue(isZero(p1.distance(new Point(4, 5, 7)) - 25), "ERROR: distance() does not work correctly");
+		assertTrue(isZero(p1.distance(new Point(4, 6, 3)) - 5), "ERROR: distance() does not work correctly");
 		// =============== Boundary Values Tests ==================
 		// TC11: A test of zero-distance
 		// assertTrue(isZero(p1.distance(p1)),"ERROR: distance() does not work correctly

@@ -41,8 +41,10 @@ public class Ray {
 	}
 
 	/**
-	 * @param t - scalar
-	 * @return p0 + t*v
+	 * Calculates a point on the ray at a given distance from the ray head
+	 * 
+	 * @param t the distance
+	 * @return the calculated point
 	 */
 	public Point getPoint(double t) {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
@@ -57,11 +59,8 @@ public class Ray {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (obj instanceof Ray other)
-			return this.p0.equals(other.p0) && this.dir.equals(other.dir);
-		return false;
+		return obj instanceof Ray other //
+				&& this.p0.equals(other.p0) && this.dir.equals(other.dir);
 	}
 
 	@Override

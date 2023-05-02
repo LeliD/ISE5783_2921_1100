@@ -10,6 +10,7 @@ package geometries;
 public abstract class RadialGeometry implements Geometry {
 	/** parameter of radius */
 	protected final double radius;
+	protected final double radius2;
 
 	/**
 	 * Constructor to initialize RadialGeometry
@@ -18,6 +19,7 @@ public abstract class RadialGeometry implements Geometry {
 	 */
 	public RadialGeometry(double r) {
 		radius = r;
+		radius2 = r * r;
 	}
 
 	/**

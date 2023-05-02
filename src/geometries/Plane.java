@@ -91,10 +91,8 @@ public class Plane implements Geometry {
 
 		try {
 			double t = alignZero((normal.dotProduct(p0.subtract(p0ray))) / (normal.dotProduct(v)));
-
-			if (t <= 0)// the ray starts on the plane or doesn't cross the plane
-				return null;
-			return List.of((ray.getPoint(t)));
+			// if the the ray starts on the plane or doesn't cross the plane - return null
+			return t <= 0 ? null : List.of((ray.getPoint(t)));
 
 		} catch (IllegalArgumentException ex) {
 			// if p0.subtract(p0ray) is vector zero, if p0ray=p0

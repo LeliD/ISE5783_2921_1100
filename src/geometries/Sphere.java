@@ -1,6 +1,6 @@
 package geometries;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 import java.util.List;
 
@@ -70,34 +70,23 @@ public class Sphere extends RadialGeometry {
 
 		double tm = v.dotProduct(u);
 
-		double lengthU = u.length();
-
 		// get the distance between the ray and the sphere center
-		double d = Math.sqrt(Math.abs((lengthU * lengthU) - (tm * tm)));
-
-		// the ray doesn't cross the sphere
-		if (d > radius)
-			return null;
+		double d2 = alignZero(u.lengthSquared() - tm * tm);
 
 		// the ray tangent the sphere
-		if (isZero(d - radius)) // if d=radius
-		{
+		double delta2 = alignZero(radius2 - d2);
+		if (delta2 <= 0) // if d=radius
 			return null;
-		}
-		// the ray crosses the sphere in two places
-		double th = Math.sqrt(Math.abs((radius * radius) - d * d));
-		// get the distance to the two points
-		double t1 = tm - th;
-		double t2 = tm + th;
 
-		// return the points that are after the ray
-		if ((t1 < 0 || isZero(t1)) && (t2 < 0 || isZero(t2)))
-			return null;
-		if (t1 > 0 && t2 > 0)
-			return List.of(ray.getPoint(t1), ray.getPoint(t2)); // P1 , P2
-		if (t1 > 0)
-			return List.of(ray.getPoint(t1));
-		else // t2 > 0
-			return List.of(ray.getPoint(t2));
+		// the ray crosses the sphere in two places
+		double th = Math.sqrt(delta2);
+		// get the distance to the two points
+		double t2 = alignZero(tm + th);
+		if (t2 <= 0) return null;
+		
+		double t1 = alignZero(tm - th);
+		return t1 <= 0 //
+				? List.of(ray.getPoint(t2)) // P2
+				: List.of(ray.getPoint(t1), ray.getPoint(t2)); // P1 , P2
 	}
 }

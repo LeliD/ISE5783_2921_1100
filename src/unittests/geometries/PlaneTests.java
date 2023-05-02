@@ -2,6 +2,7 @@
  * 
  */
 package unittests.geometries;
+
 import primitives.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +16,7 @@ import geometries.Plane;
 import primitives.Point;
 import primitives.Vector;
 import java.util.List;
+
 /**
  * @author Shilat Sharon
  *
@@ -57,6 +59,7 @@ class PlaneTests {
 					"Triangle's normal is not orthogonal to one of the edges");
 
 	}
+
 	/**
 	 * checks findIntersections Test method for plane
 	 * {@link geometries.Plane#findIntersections(primitives.Ray)}.
@@ -66,32 +69,39 @@ class PlaneTests {
 		// ============ Equivalence Partitions Tests ==============
 		// EP: The Ray must be neither orthogonal nor parallel to the plane
 		// TC01: Ray intersects the plane
-		List<Point> result = pl.findIntersections( new Ray(new Point(1, 1, 0), new Vector(2, 1, -1)));
-		assertEquals(List.of(new Point(7, 4, -3)), result,"the ray intersects the plane");
-        // TC02:Ray does not intersect the plane
+		List<Point> result = pl.findIntersections(new Ray(new Point(1, 1, 0), new Vector(2, 1, -1)));
+		assertEquals(List.of(new Point(7, 4, -3)), result, "the ray intersects the plane");
+		// TC02:Ray does not intersect the plane
 		result = pl.findIntersections(new Ray(new Point(1, 1, 0), new Vector(2, 1, 1)));
-		assertNull(result,"the ray does not intersect the plane");
-        // =============== Boundary Values Tests ==================
-        // Group:Ray is parallel to the plane
+		assertNull(result, "the ray does not intersect the plane");
+		// =============== Boundary Values Tests ==================
+		// Group:Ray is parallel to the plane
 		// TC11:Ray is parallel to the plane,the ray included in the plan
-		assertNull(pl.findIntersections(new Ray(new Point(1, 2, -3), new Vector(2, 1, 0))),"The ray is parallel and included in the plane");
+		assertNull(pl.findIntersections(new Ray(new Point(1, 2, -3), new Vector(2, 1, 0))),
+				"The ray is parallel and included in the plane");
 		// TC12: Ray is parallel to the plane and ray is not included in the plane
-		assertNull(pl.findIntersections(new Ray(new Point(1, 2, -2), new Vector(2, 1, 0))),"The ray is parallel and not included in the plane");
-        // Group: Ray is orthogonal to the plane
+		assertNull(pl.findIntersections(new Ray(new Point(1, 2, -2), new Vector(2, 1, 0))),
+				"The ray is parallel and not included in the plane");
+		// Group: Ray is orthogonal to the plane
 		// TC13:Ray starts before the plane
-		assertEquals(List.of(new Point(1, 1, -3)),pl.findIntersections( new Ray(new Point(1, 1, 0), new Vector(0, 0, -1))),"the ray is orthogonal and starts before the plane" );
+		assertEquals(List.of(new Point(1, 1, -3)),
+				pl.findIntersections(new Ray(new Point(1, 1, 0), new Vector(0, 0, -1))),
+				"the ray is orthogonal and starts before the plane");
 		// TC14:Ray starts in the plane
-		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -3), new Vector(0, 0, -1))),"The ray is orthogonal and starts in the plane");
+		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -3), new Vector(0, 0, -1))),
+				"The ray is orthogonal and starts in the plane");
 		// TC15:Ray starts after the plane
-		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -4), new Vector(0, 0, -1))),"The ray is orthogonal and starts after the plane");
+		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -4), new Vector(0, 0, -1))),
+				"The ray is orthogonal and starts after the plane");
 
 		// TC16: Starting point on the plane, but the rest of the ray is not
-		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -3), new Vector(2, 1, -1))),"Starting point on the plane, but the rest of the ray is not");
+		assertNull(pl.findIntersections(new Ray(new Point(1, 1, -3), new Vector(2, 1, -1))),
+				"Starting point on the plane, but the rest of the ray is not");
 
 		// TC17: Starting point is equal to the plane point
-		assertNull( pl.findIntersections(new Ray(new Point(0, 0, -3), new Vector(2, 1, -1))),"Starting point is equal to the plane point");
-	
+		assertNull(pl.findIntersections(new Ray(new Point(0, 0, -3), new Vector(2, 1, -1))),
+				"Starting point is equal to the plane point");
 
-  } 
+	}
 
 }
