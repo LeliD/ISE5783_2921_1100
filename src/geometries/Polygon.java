@@ -109,7 +109,6 @@ public class Polygon implements Geometry {
 		double sign = v.dotProduct(v1.crossProduct(v2));
 		if (isZero(sign))
 			return null;// ray contain in the plane of v1,v2
-
 		boolean positive = sign > 0;
 
 		for (int i = vertices.size() - 1; i > 0; --i) {
