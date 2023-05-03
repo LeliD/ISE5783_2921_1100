@@ -11,7 +11,7 @@ import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Unit tests for primitives.Vector class
@@ -32,13 +32,6 @@ class VectorTests {
 				"ERROR: zero vector does not throw an exception");
 	}
 
-	/**
-	 * Test method for {@link primitives.Vector#Vector(primitives.Double3)}.
-	 */
-	// @Test
-	// void testVectorDouble3() {
-	// fail("Not yet implemented");
-	// }
 
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.

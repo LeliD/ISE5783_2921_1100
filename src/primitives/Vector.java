@@ -4,20 +4,22 @@
 package primitives;
 
 /**
- * Vector class for representing a point with direction
+ * Vector class is for representing a vector in 3D space 
  * @author Shilat Sharon and Lea Drach
  *
  */
 import static primitives.Double3.ZERO;
 
 public class Vector extends Point {
+
 	/**
-	 * Constructor to initialize Vector
 	 * 
-	 * @param d1 first number value
-	 * @param d2 second number value
-	 * @param d3 third number value
-	 * @throws IllegalArgumentException
+	 * Constructs a vector with the given x, y, and z values.
+	 * 
+	 * @param d1 the x-coordinate of the vector
+	 * @param d2 the y-coordinate of the vector
+	 * @param d3 the z-coordinate of the vector
+	 * @throws IllegalArgumentException if it is a zero vector
 	 */
 	public Vector(double d1, double d2, double d3) {
 		super(d1, d2, d3);
@@ -26,9 +28,14 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * Constructor to initialize xyz by Double3 object
 	 * 
-	 * @param obj Double3 object
+	 * Constructs a vector with the x, y, and z values from the given Double3
+	 * object.
+	 * 
+	 * @param obj the Double3 object containing the x, y, and z values for the
+	 *            vector
+	 * 
+	 * @throws IllegalArgumentException if it is a zero vector
 	 */
 	Vector(Double3 obj) {
 		super(obj);
@@ -37,71 +44,86 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * add vector to vector and return a new vector
 	 * 
-	 * @param otherVector the vector to add to the vector
-	 * @return result of add
+	 * Adds the given vector to this vector and returns a new vector representing
+	 * the result.
+	 * 
+	 * @param otherVector the vector to be added to this vector
+	 * @return a new vector representing the sum of the two vectors
+	 * @throws IllegalArgumentException in case the result vector is zero one
 	 */
 	public Vector add(Vector otherVector) {
 		return new Vector(otherVector.xyz.add(this.xyz));
 	}
 
 	/**
-	 * scale product
 	 * 
-	 * @param rhs a scale number
-	 * @return new vector after scale product
+	 * Multiplies this vector by the given scalar and returns a new vector
+	 * representing the result.
+	 * 
+	 * @param rhs the scalar to multiply the vector by
+	 * 
+	 * @return a new vector representing the result of the scalar multiplication
+	 * @throws IllegalArgumentException in case the given scalar is 0
 	 */
 	public Vector scale(double rhs) {
 		return new Vector(xyz.scale(rhs));
 	}
 
 	/**
-	 * dot Product
 	 * 
-	 * @param otherVector other Vector
-	 * @return new vector after dot product
+	 * Computes the dot product of this vector and the given vector.
+	 * 
+	 * @param otherVector the vector to compute the dot product with
+	 * 
+	 * @return the dot product of the two vectors
 	 */
 	public double dotProduct(Vector otherVector) {
-		return this.xyz.d1 * otherVector.xyz.d1 //
-				+ this.xyz.d2 * otherVector.xyz.d2 //
-				+ this.xyz.d3 * otherVector.xyz.d3;
+		return xyz.d1 * otherVector.xyz.d1 //
+				+ xyz.d2 * otherVector.xyz.d2 //
+				+ xyz.d3 * otherVector.xyz.d3;
 	}
 
 	/**
-	 * cross Product
 	 * 
-	 * @param otherVector other Vector
-	 * @return new vector after cross product
+	 * Computes the cross product of this vector and the given vector.
+	 * 
+	 * @param otherVector the vector to compute the cross product with
+	 * @return a new vector representing the cross product of the two vectors
 	 */
 	public Vector crossProduct(Vector otherVector) {
-		return new Vector(this.xyz.d2 * otherVector.xyz.d3 - this.xyz.d3 * otherVector.xyz.d2,
-				this.xyz.d3 * otherVector.xyz.d1 - this.xyz.d1 * otherVector.xyz.d3,
-				this.xyz.d1 * otherVector.xyz.d2 - this.xyz.d2 * otherVector.xyz.d1);
+		return new Vector(xyz.d2 * otherVector.xyz.d3 - xyz.d3 * otherVector.xyz.d2,
+				xyz.d3 * otherVector.xyz.d1 - xyz.d1 * otherVector.xyz.d3,
+				xyz.d1 * otherVector.xyz.d2 - xyz.d2 * otherVector.xyz.d1);
 	}
 
 	/**
-	 * calculate Squared length
 	 * 
-	 * @return Squared length
+	 * Computes the square of the length of this vector.
+	 * 
+	 * @return the square of the length of this vector
 	 */
 	public double lengthSquared() {
 		return dotProduct(this);
 	}
 
 	/**
-	 * calculate the length of the vector
 	 * 
-	 * @return length Squared
+	 * Computes the length of this vector.
+	 * 
+	 * @return the length of this vector
 	 */
 	public double length() {
 		return Math.sqrt(lengthSquared());
 	}
 
 	/**
-	 * normalize the vector
 	 * 
-	 * @return this vector but normalized
+	 * Returns a new vector that is the normalization of this vector. The
+	 * normalization of a vector is a vector in the same direction with a length of
+	 * 1.
+	 * 
+	 * @return a new vector representing the normalization of this vector
 	 */
 	public Vector normalize() {
 		return scale(1.0 / length());
