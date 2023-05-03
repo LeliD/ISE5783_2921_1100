@@ -5,7 +5,7 @@ import static primitives.Util.isZero;
 import java.util.Objects;
 
 /**
- * Ray class is for representing a ray in 3D space
+ * Ray class for representing a ray in 3D space
  * 
  * @author Shilat Sharon and Lea Drach
  */

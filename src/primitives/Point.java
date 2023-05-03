@@ -1,7 +1,7 @@
 package primitives;
 
 /**
- * Point class is for representing a point in 3D space
+ * Point class for representing a point in 3D space
  * 
  * @author Shilat Sharon and Lea Drach
  */

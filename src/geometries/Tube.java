@@ -14,23 +14,26 @@ import java.util.List;
  *
  */
 public class Tube extends RadialGeometry {
-	/** Ray of Tube */
+	/** The axis ray of the tube, which represents the center of the tube and its direction. */
 	protected final Ray axisRay;
 
+	
 	/**
-	 * Constructor to initialize a Tube
-	 * 
-	 * @param ray    Ray of Tube
-	 * @param radius radius of Tube
-	 */
+
+	Constructs a tube with the specified axis ray and radius.
+	@param ray the axis ray of the tube
+	@param radius the radius of the tube
+	*/
 	public Tube(Ray ray, double radius) {
 		super(radius);
 		axisRay = ray;
 	}
 
 	/**
-	 * @return the axisRay
-	 */
+
+	Returns the axis ray of the tube.
+	@return the axis ray of the tube
+	*/
 	public Ray getAxisRay() {
 		return axisRay;
 	}
@@ -49,12 +52,6 @@ public class Tube extends RadialGeometry {
 		return "Tube [axisRay=" + axisRay + ", radius=" + radius + "]";
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		// TODO Auto-generated method stub

@@ -4,7 +4,7 @@
 package primitives;
 
 /**
- * Vector class is for representing a vector in 3D space 
+ * Vector class for representing a vector in 3D space ,extends Point
  * @author Shilat Sharon and Lea Drach
  *
  */

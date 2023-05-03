@@ -12,23 +12,19 @@ import static primitives.Util.*;
  *
  */
 public class Triangle extends Polygon {
-	/**
-	 * Constructor to initialize a Triangle
+	/*
+	 * Constructs a Triangle object.
 	 * 
-	 * @param p1 first point in the Triangle
-	 * @param p2 second point in the Triangle
-	 * @param p3 third point in the Triangle
+	 * @param p1 First point of the Triangle.
+	 * 
+	 * @param p2 Second point of the Triangle.
+	 * 
+	 * @param p3 Third point of the Triangle.
 	 */
 	public Triangle(Point p1, Point p2, Point p3) {
 		super(p1, p2, p3);
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		List<Point> intersections = plane.findIntersections(ray);
@@ -54,7 +50,7 @@ public class Triangle extends Polygon {
 		double s3 = alignZero(v.dotProduct(n3));
 		if (s1 * s3 <= 0) // if v contain in plane of v3, v1 ,there aren't Intsersections points
 			return null;
-		
+
 		// The point is inside if all v*ni have the same sign (+/-)
 		return intersections;
 	}

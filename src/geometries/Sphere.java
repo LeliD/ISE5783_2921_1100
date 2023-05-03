@@ -15,14 +15,14 @@ import primitives.Vector;
  *
  */
 public class Sphere extends RadialGeometry {
-	/** center of a Sphere */
+	/** center point of the sphere */
 	private final Point center;
 
 	/**
-	 * Constructor to initialize a Sphere
+	 * Constructs a Sphere with the specified center point and radius.
 	 * 
-	 * @param p center of a Sphere
-	 * @param r radius of a Sphere
+	 * @param center the center point of the sphere
+	 * @param radius the radius of the sphere
 	 */
 	public Sphere(Point p, double r) {
 		super(r);
@@ -30,7 +30,9 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
-	 * @return the center
+	 * Returns the center point of the sphere.
+	 * 
+	 * @return the center point of the sphere
 	 */
 	public Point getCenter() {
 		return center;
@@ -46,12 +48,6 @@ public class Sphere extends RadialGeometry {
 		return (p.subtract(center)).normalize();
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		// get ray point and vector
@@ -82,8 +78,9 @@ public class Sphere extends RadialGeometry {
 		double th = Math.sqrt(delta2);
 		// get the distance to the two points
 		double t2 = alignZero(tm + th);
-		if (t2 <= 0) return null;
-		
+		if (t2 <= 0)
+			return null;
+
 		double t1 = alignZero(tm - th);
 		return t1 <= 0 //
 				? List.of(ray.getPoint(t2)) // P2

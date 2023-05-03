@@ -4,9 +4,7 @@ import static primitives.Util.isZero;
 
 import java.util.List;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Cylinder class for representing a Cylinder, extends Tube
@@ -15,22 +13,26 @@ import primitives.Vector;
  *
  */
 public class Cylinder extends Tube {
-	/** height of Cylinder */
+	/** The height of Cylinder */
 	private final double height;
 
 	/**
-	 * @param ray    Ray of Cylinder
-	 * @param radius radius of Cylinder
-	 * @param height height of Cylinder
-	 */
+
+	Constructs a cylinder with the specified axis ray, radius, and height.
+	@param ray the axis ray of the cylinder
+	@param radius the radius of the cylinder
+	@param height the height of the cylinder
+	*/
 	public Cylinder(Ray ray, double radius, double height) {
 		super(ray, radius);
 		this.height = height;
 	}
 
 	/**
-	 * @return the height
-	 */
+
+	Returns the height of this cylinder.
+	@return the height of this cylinder
+	*/
 	public double getHeight() {
 		return height;
 	}
@@ -49,22 +51,14 @@ public class Cylinder extends Tube {
 			return axisRay.getDir();
 		Vector v1 = p.subtract(axisRay.getP0());// p-p0
 		if (v1.length() < radius && isZero(v1.dotProduct(axisRay.getDir())))// if point p is on the cylinder's first
-																			// base
 			return axisRay.getDir().scale(-1);
 		Vector v2 = p.subtract(centerSecondBase);// p-centerSecondBase
 		if (v2.length() < radius && isZero(v2.dotProduct(axisRay.getDir())))// if point p is on the cylinder's upper
-																			// base
 			return axisRay.getDir();
 		// in case point p is on the cylinder's side
 		return super.getNormal(p);
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		// TODO Auto-generated method stub

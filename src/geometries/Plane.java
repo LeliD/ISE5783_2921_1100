@@ -10,7 +10,7 @@ import primitives.Ray;
 import primitives.Vector;
 
 /**
- * Plane class for representing a plane, implements Geometry interface
+ * Plane class for representing a plane.implements Geometry interface
  * 
  * @author Shilat Sharon and Lea Drach
  *
@@ -22,11 +22,12 @@ public class Plane implements Geometry {
 	private final Vector normal;
 
 	/**
-	 * Constructor to initialize a plane
 	 * 
-	 * @param p1 first point in the plane
-	 * @param p2 second point in the plane
-	 * @param p3 third point in the plane
+	 * Constructs a plane from three points.
+	 * 
+	 * @param p1 The first point on the plane
+	 * @param p2 The second point on the plane
+	 * @param p3 The third point on the plane
 	 */
 
 	public Plane(Point p1, Point p2, Point p3) {
@@ -39,10 +40,11 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * Constructor to initialize a plane
 	 * 
-	 * @param p point in the plane
-	 * @param v normal of the plane (not necessarily normalized)
+	 * Constructs a plane from a point and a normal vector.
+	 * 
+	 * @param p The point on the plane
+	 * @param v The normal vector to the plane
 	 */
 	public Plane(Point p, Vector v) {
 		p0 = p;
@@ -50,14 +52,20 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * @return the p0
+	 * 
+	 * Returns the point on the plane.
+	 * 
+	 * @return The point on the plane
 	 */
 	public Point getP0() {
 		return p0;
 	}
 
 	/**
-	 * @return the normal
+	 * 
+	 * Returns the normal vector to the plane.
+	 * 
+	 * @return The normal vector to the plane
 	 */
 	public Vector getNormal() {
 		return normal;
@@ -73,12 +81,6 @@ public class Plane implements Geometry {
 		return "Plane [" + (p0 != null ? "p0=" + p0 + ", " : "") + (normal != null ? "normal= " + normal : "") + "]";
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		// get ray point and vector
