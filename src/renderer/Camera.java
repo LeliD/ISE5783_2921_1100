@@ -1,7 +1,10 @@
 
 package renderer;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
+
+import java.util.MissingResourceException;
 
 import primitives.Point;
 import primitives.Ray;
@@ -9,7 +12,7 @@ import primitives.Vector;
 
 /**
  * 
- * The Camera class represents a camera in a 3D space. It defines the position
+ * Camera class for representing a camera in a 3D space. It defines the position
  * of the camera
  * 
  * and the direction it faces, and is used to construct rays for rendering an
@@ -173,10 +176,10 @@ public class Camera {
 	 * @throws IllegalArgumentException if the distance is 0
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
-		if (isZero(distance)) {
-			throw new IllegalArgumentException("distance cannot be 0");
-		}
-
+		if (alignZero(width) <= 0 || alignZero(height) <= 0 || alignZero(distance) <= 0)
+			throw new MissingResourceException(
+					"The view-plane's fields saved in the camera (- width, height and distance) must be updated to a positive number",
+					"double", null);
 		Point Pc = p0.add(vTo.scale(distance));
 
 		double Ry = height / nY;// height of each pixel
@@ -187,16 +190,14 @@ public class Camera {
 
 		Point Pij = Pc;
 
-		if (!isZero(xj)) {
+		if (alignZero(xj) != 0) {
 			Pij = Pij.add(vRight.scale(xj));
 		}
-		if (!isZero(yi)) {
+		if (alignZero(yi) != 0) {
 			Pij = Pij.add(vUp.scale(-yi));
 		}
 
-		Vector Vij = Pij.subtract(p0);
-
-		return new Ray(p0, Vij);
+		return new Ray(p0, Pij.subtract(p0));
 
 	}
 }
