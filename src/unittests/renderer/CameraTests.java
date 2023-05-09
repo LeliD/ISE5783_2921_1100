@@ -3,13 +3,14 @@
  */
 package unittests.renderer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-import primitives.*;
 import org.junit.jupiter.api.Test;
-import renderer.Camera;
 
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
+import renderer.Camera;
 
 /**
  * Testing Camera Class
@@ -18,9 +19,13 @@ import renderer.Camera;
  *
  */
 class CameraTests {
-	static final Point ZERO_POINT = new Point(0, 0, 0);
+	static private final Point ZERO_POINT = new Point(0, 0, 0);
+
+	/**
+	 * Test method for {@link renderer.Camera#constructRay(int,int,int,int)}.
+	 */
 	@Test
-	void test() {
+	void testConstructRay() {
 		Camera camera = new Camera(ZERO_POINT, new Vector(0, 0, -1), new Vector(0, -1, 0)).setVPDistance(10);
 		String badRay = "Bad ray";
 
@@ -57,4 +62,3 @@ class CameraTests {
 	}
 
 }
-

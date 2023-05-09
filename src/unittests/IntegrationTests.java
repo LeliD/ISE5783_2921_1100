@@ -28,22 +28,20 @@ import renderer.Camera;
 public class IntegrationTests {
 
 	/** Camera object for testing. */
-	Camera cam1 = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
+	private Camera cam1 = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
 			.setVPSize(3, 3);
-	Camera cam2 = new Camera(new Point(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
+	private Camera cam2 = new Camera(new Point(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
 			.setVPSize(3, 3);
 	/** pixels in row. */
-	int Nx = 3;
+	private int nX = 3;
 	/** pixels in column. */
-	int Ny = 3;
+	private int nY = 3;
 
 	/**
 	 * 
 	 * Counts the number of intersection points between an intersectable geometry
 	 * and camera rays.
 	 * 
-	 * @param Nx    The number of pixels in a row.
-	 * @param Ny    The number of pixels in a column.
 	 * @param inter The intersectable geometry to test.
 	 * @param cam   The camera to test.
 	 * @return The number of intersection points.
@@ -51,9 +49,9 @@ public class IntegrationTests {
 	private int countIntersection(Intersectable inter, Camera cam) {
 		List<Point> results; // List of intersection points of one intersectable
 		int count = 0; // Counter of intersection points
-		for (int i = 0; i < Nx; ++i) {
-			for (int j = 0; j < Ny; ++j) {
-				Ray ray = cam.constructRay(Nx, Ny, j, i);
+		for (int i = 0; i < nX; ++i) {
+			for (int j = 0; j < nY; ++j) {
+				Ray ray = cam.constructRay(nX, nY, j, i);
 				results = inter.findIntersections(ray);
 				if (results != null)
 					count += results.size();
@@ -63,9 +61,8 @@ public class IntegrationTests {
 	}
 
 	/**
-	 * 
-	 * Tests the {@link Camera#constructRayThroughPixel(int, int, int, int)} method
-	 * with a sphere.
+	 * Tests the {@link Camera#constructRay(int, int, int, int)} method with a
+	 * sphere.
 	 */
 	@Test
 	public void constructRayThroughPixelWithSphere() {

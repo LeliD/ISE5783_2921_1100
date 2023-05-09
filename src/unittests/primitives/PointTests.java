@@ -4,8 +4,6 @@
 package unittests.primitives;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +42,8 @@ class PointTests {
 
 		// =============== Boundary Values Tests ==================
 		// TC11: test (0, 0, 0) point from add
-	     assertEquals(new Point(0, 0, 0), p1.add( new Vector(-1, -2, -3)),"ERROR: add() does not work correctly in case of Point(0,0,0)");
+		assertEquals(new Point(0, 0, 0), p1.add(new Vector(-1, -2, -3)),
+				"ERROR: add() does not work correctly in case of Point(0,0,0)");
 	}
 
 	/**
@@ -55,7 +54,8 @@ class PointTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: A simple single test
 		Point p1 = new Point(1, 2, 3);
-		assertEquals(27,p1.distanceSquared(new Point(4, 5, 6)),0.00000001,"ERROR: distanceSquared() does not work correctly");
+		assertEquals(27, p1.distanceSquared(new Point(4, 5, 6)), 0.00000001,
+				"ERROR: distanceSquared() does not work correctly");
 	}
 
 	/**
@@ -66,11 +66,11 @@ class PointTests {
 		Point p1 = new Point(1, 2, 3);
 		// ============ Equivalence Partitions Tests ==============
 		// TC01:A simple single test
-		assertEquals(5,p1.distance(new Point(4, 6, 3)),0.00000001, "ERROR: distance() does not work correctly");
-		
+		assertEquals(5, p1.distance(new Point(4, 6, 3)), 0.00000001, "ERROR: distance() does not work correctly");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: A test of zero-distance
-		assertEquals(0,p1.distance(p1),0.00000001,"ERROR: distance() does not work correctly in case of distance 0");
+		assertEquals(0, p1.distance(p1), 0.00000001, "ERROR: distance() does not work correctly in case of distance 0");
 	}
 
 }

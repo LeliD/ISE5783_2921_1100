@@ -6,12 +6,10 @@ package unittests.primitives;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
-import primitives.*;
+import primitives.Vector;
 
 /**
  * Unit tests for primitives.Vector class
@@ -31,7 +29,6 @@ class VectorTests {
 		assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0),
 				"ERROR: zero vector does not throw an exception");
 	}
-
 
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
@@ -100,8 +97,8 @@ class VectorTests {
 		// for simplicity)
 		assertEquals(v1.length() * v2.length(), vr.length(), 0.00001, "crossProduct() wrong result length");
 		// TC02: Test cross-product result orthogonality to its operands
-		assertTrue(isZero(vr.dotProduct(v1)), "crossProduct() result is not orthogonal to 1st operand");
-		assertTrue(isZero(vr.dotProduct(v2)), "crossProduct() result is not orthogonal to 2nd operand");
+		assertEquals(0, vr.dotProduct(v1), 0.000001, "crossProduct() result is not orthogonal to 1st operand");
+		assertEquals(0, vr.dotProduct(v2), 0.000001, "crossProduct() result is not orthogonal to 2nd operand");
 		// =============== Boundary Values Tests ==================
 		// TC11: test zero vector from cross-product of co-lined vectors
 		Vector v3 = new Vector(-2, -4, -6);

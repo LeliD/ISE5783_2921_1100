@@ -4,8 +4,6 @@ package renderer;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-import java.util.MissingResourceException;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -50,15 +48,13 @@ public class Camera {
 	 *                                  direction vector are not orthogonal.
 	 */
 	public Camera(Point p0, Vector vTo, Vector vUp) {
-		super();
-		if (isZero(vUp.dotProduct(vTo))) {
-			this.p0 = p0;
-			this.vUp = vUp.normalize();
-			this.vTo = vTo.normalize();
-			this.vRight = vTo.crossProduct(vUp).normalize();
-		} else
+		if (!isZero(vUp.dotProduct(vTo)))
 			throw new IllegalArgumentException("Error: vUp and vTo are not orthogonal");
 
+		this.p0 = p0;
+		this.vUp = vUp.normalize();
+		this.vTo = vTo.normalize();
+		this.vRight = this.vTo.crossProduct(this.vUp);
 	}
 
 	/**
@@ -136,12 +132,14 @@ public class Camera {
 	 * Sets the size of the view plane to the given width and height.
 	 * 
 	 * @param width  The width of the view plane.
-	 * 
 	 * @param height The height of the view plane.
-	 * 
 	 * @return This Camera object.
+	 * @throws IllegalArgumentException if width or height are 0 or negative
 	 */
 	public Camera setVPSize(double width, double height) {
+		if (alignZero(width) <= 0 || alignZero(height) <= 0)
+			throw new IllegalArgumentException(
+					"The view-plane's fields width and height must get a positive number value");
 		this.width = width;
 		this.height = height;
 		return this;
@@ -153,8 +151,11 @@ public class Camera {
 	 * 
 	 * @param distance the distance from the camera to the view plane
 	 * @return the camera object
+	 * @throws IllegalArgumentException if the distance is 0 or negative
 	 */
 	public Camera setVPDistance(double distance) {
+		if (alignZero(distance) <= 0)
+			throw new IllegalArgumentException("The view-plane's field distance must get a positive number value");
 		this.distance = distance;
 		return this;
 	}
@@ -164,40 +165,29 @@ public class Camera {
 	 * Constructs a ray through a specified pixel on the view plane.
 	 * 
 	 * @param nX the number of pixels in the x direction
-	 * 
 	 * @param nY the number of pixels in the y direction
-	 * 
 	 * @param j  the x coordinate of the pixel
-	 * 
 	 * @param i  the y coordinate of the pixel
-	 * 
 	 * @return the ray passing through the specified pixel
-	 * 
-	 * @throws IllegalArgumentException if the distance is 0
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
-		if (alignZero(width) <= 0 || alignZero(height) <= 0 || alignZero(distance) <= 0)
-			throw new MissingResourceException(
-					"The view-plane's fields saved in the camera (- width, height and distance) must be updated to a positive number",
-					"double", null);
-		Point Pc = p0.add(vTo.scale(distance));
+		Point pc = p0.add(vTo.scale(distance));
 
-		double Ry = height / nY;// height of each pixel
-		double Rx = width / nX;// width of each pixel
+		double rY = height / nY;// height of each pixel
+		double rX = width / nX;// width of each pixel
 		// the middle of the pixel (xj,yi)
-		double yi = (i - (nY - 1) / 2d) * Ry;
-		double xj = (j - (nX - 1) / 2d) * Rx;
+		double yi = (i - (nY - 1) / 2d) * rY;
+		double xj = (j - (nX - 1) / 2d) * rX;
 
-		Point Pij = Pc;
+		Point pij = pc;
 
-		if (alignZero(xj) != 0) {
-			Pij = Pij.add(vRight.scale(xj));
-		}
-		if (alignZero(yi) != 0) {
-			Pij = Pij.add(vUp.scale(-yi));
-		}
+		if (alignZero(xj) != 0)
+			pij = pij.add(vRight.scale(xj));
 
-		return new Ray(p0, Pij.subtract(p0));
+		if (alignZero(yi) != 0)
+			pij = pij.add(vUp.scale(-yi));
+
+		return new Ray(p0, pij.subtract(p0));
 
 	}
 }

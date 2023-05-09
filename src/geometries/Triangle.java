@@ -1,9 +1,12 @@
 package geometries;
 
+import static primitives.Util.alignZero;
+
 import java.util.List;
 
-import primitives.*;
-import static primitives.Util.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Triangle class for representing a Triangle, extends Polygon
@@ -12,7 +15,7 @@ import static primitives.Util.*;
  *
  */
 public class Triangle extends Polygon {
-	/*
+	/**
 	 * Constructs a Triangle object.
 	 * 
 	 * @param p1 First point of the Triangle.

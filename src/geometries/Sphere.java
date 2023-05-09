@@ -1,6 +1,6 @@
 package geometries;
 
-import static primitives.Util.*;
+import static primitives.Util.alignZero;
 
 import java.util.List;
 
@@ -21,8 +21,8 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * Constructs a Sphere with the specified center point and radius.
 	 * 
-	 * @param center the center point of the sphere
-	 * @param radius the radius of the sphere
+	 * @param p the center point of the sphere
+	 * @param r the radius of the sphere
 	 */
 	public Sphere(Point p, double r) {
 		super(r);

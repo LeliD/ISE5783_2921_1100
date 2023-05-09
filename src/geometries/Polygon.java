@@ -20,6 +20,7 @@ public class Polygon implements Geometry {
 	protected final List<Point> vertices;
 	/** Associated plane in which the polygon lays */
 	protected final Plane plane;
+	/** polygon's vertices size */
 	private final int size;
 
 	/**
@@ -89,12 +90,6 @@ public class Polygon implements Geometry {
 		return plane.getNormal();
 	}
 
-	/**
-	 * Finding intersection points on the geometry with a given ray
-	 * 
-	 * @param ray - the ray to find intersection points with
-	 * @return List of intersection-points on the geometry with the given ray
-	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		List<Point> intersections = plane.findIntersections(ray);

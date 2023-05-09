@@ -4,15 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static primitives.Util.isZero;
+
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
-import geometries.Triangle;
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Testing Polygons
@@ -83,7 +84,7 @@ public class PolygonTests {
 		assertEquals(1, result.length(), 0.00000001, "Polygon's normal is not a unit vector");
 		// ensure the result is orthogonal to all the edges
 		for (int i = 0; i < 3; ++i)
-			assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
+			assertEquals(0, result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1])), 0.00000001,
 					"Polygon's normal is not orthogonal to one of the edges");
 	}
 

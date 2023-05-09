@@ -3,13 +3,14 @@
  */
 package primitives;
 
+import static primitives.Double3.ZERO;
+
 /**
  * Vector class for representing a vector in 3D space ,extends Point
+ * 
  * @author Shilat Sharon and Lea Drach
  *
  */
-import static primitives.Double3.ZERO;
-
 public class Vector extends Point {
 
 	/**
@@ -34,7 +35,6 @@ public class Vector extends Point {
 	 * 
 	 * @param obj the Double3 object containing the x, y, and z values for the
 	 *            vector
-	 * 
 	 * @throws IllegalArgumentException if it is a zero vector
 	 */
 	Vector(Double3 obj) {
@@ -75,7 +75,6 @@ public class Vector extends Point {
 	 * Computes the dot product of this vector and the given vector.
 	 * 
 	 * @param otherVector the vector to compute the dot product with
-	 * 
 	 * @return the dot product of the two vectors
 	 */
 	public double dotProduct(Vector otherVector) {
