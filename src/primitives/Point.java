@@ -6,9 +6,11 @@ package primitives;
  * @author Shilat Sharon and Lea Drach
  */
 public class Point {
+
 	/** The coordinates of the point */
 	protected final Double3 xyz;
-
+    /** Zero point (0,0,0)*/
+	//public static final Point ZERO = new Point(Double3.ZERO);
 	/**
 	 * Constructs a Point object with the given coordinates.
 	 * 

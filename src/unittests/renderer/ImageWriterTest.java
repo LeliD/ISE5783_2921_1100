@@ -21,11 +21,13 @@ class ImageWriterTest {
 	 */
 	@Test
 	void testWriteToImage() {
+		// TC01: Constructing a experimental picture of a grid
+		
 		// Create an instance of ImageWriter
 		ImageWriter imageWriter = new ImageWriter("image1", 801, 501);
-		// Get the width and height of the image
-		int nX = imageWriter.getNx();// nX= how many columns
-		int nY = imageWriter.getNy();// nY= how many rows
+		// Get the resolution of the image
+		int nX = imageWriter.getNx();
+		int nY = imageWriter.getNy();
 		// Define colors
 		Color b = new Color(0, 0, 200); // Blue color -the background color
 		Color r = new Color(200, 0, 0); // Red color  -the grid's color

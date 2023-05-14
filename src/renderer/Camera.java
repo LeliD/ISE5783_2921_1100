@@ -4,6 +4,9 @@ package renderer;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+import java.util.MissingResourceException;
+
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -34,6 +37,10 @@ public class Camera {
 	private double height;
 	/** The distance from the camera to the view plane. */
 	private double distance;
+	/** The image writer */
+	private ImageWriter imageWriter;
+	/** The ray tracer */
+	private RayTracerBase rayTracer;
 
 	/**
 	 * 
@@ -160,6 +167,29 @@ public class Camera {
 		return this;
 	}
 
+	/***
+	 * Sets the RayTracerBase object to be used for rendering images with the
+	 * camera.
+	 * 
+	 * @param rayTracer The RayTracerBase object to be set
+	 * @return This Camera object
+	 */
+	public Camera setRayTracer(RayTracerBase rayTracer) {
+		this.rayTracer = rayTracer;
+		return this;
+	}
+
+	/***
+	 * Sets the ImageWriter object to be used for writing rendered images.
+	 * 
+	 * @param imageWriter The ImageWriter object to be set.
+	 * @return This Camera object.
+	 */
+	public Camera setImageWriter(ImageWriter imageWriter) {
+		this.imageWriter = imageWriter;
+		return this;
+	}
+
 	/**
 	 * 
 	 * Constructs a ray through a specified pixel on the view plane.
@@ -189,5 +219,84 @@ public class Camera {
 
 		return new Ray(p0, pij.subtract(p0));
 
+	}
+
+	/**
+	 * Renders the image by casting rays and writing pixels to the image writer.
+	 * 
+	 * @throws MissingResourceException if any required field is null
+	 */
+	public void renderImage() {
+		if (p0 == null || vUp == null || vTo == null || vRight == null)
+			throw new MissingResourceException("All the render's fields mustn't be null", "Camera", null);
+		if (imageWriter == null)
+			throw new MissingResourceException("All the render's fields mustn't be null, including the imageWriter",
+					"Camera", null);
+		if (rayTracer == null)
+			throw new MissingResourceException("All the render's fields mustn't be null, including the rayTracer",
+					"Camera", null);
+		// throw new UnsupportedOperationException();
+		int nX = imageWriter.getNx();
+		int nY = imageWriter.getNy();
+		for (int i = 0; i < nY; i++)
+			for (int j = 0; j < nX; j++)
+				imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
+	}
+
+	/**
+	 * 
+	 * Casts a ray and returns the color of the traced ray.
+	 * 
+	 * @param nX the number of pixels in the x direction
+	 * @param nY the number of pixels in the y direction
+	 * @param j  The horizontal position of the pixel.
+	 * @param i  The vertical position of the pixel.
+	 * @return The color of the traced ray.
+	 */
+	private Color castRay(int nX, int nY, int j, int i) {
+		Ray ray = constructRay(nX, nY, j, i);
+		return this.rayTracer.traceRay(ray);
+	}
+
+	/**
+	 * 
+	 * Prints a grid on the image with the given interval and color.
+	 * 
+	 * @param interval The interval between grid lines.
+	 * @param color    The color of the grid lines.
+	 * @return This Camera object.
+	 * @throws MissingResourceException if the imageWriter field is null.
+	 * @throws IllegalArgumentException if the interval is not a divisor of both nX
+	 *                                  and nY.
+	 */
+	public Camera printGrid(int interval, Color color) {
+		if (imageWriter == null)
+			throw new MissingResourceException("The render's field imageWriter mustn't be null", "Camera", null);
+
+		if (imageWriter.getNx() % interval != 0 || imageWriter.getNy() % interval != 0)
+			throw new IllegalArgumentException(
+					"The grid is supposed to have squares, therefore the given interval must be a divisor of both nX and nY");
+		int nX = imageWriter.getNx();
+		int nY = imageWriter.getNy();
+
+		for (int i = 0; i < nY; i++)
+			for (int j = 0; j < nX; j++)
+				if (i % interval == 0 || j % interval == 0)
+					imageWriter.writePixel(j, i, color);
+		return this;
+	}
+
+	/**
+	 * 
+	 * Writes the image to the image writer.
+	 * 
+	 * @return The Camera object.
+	 * @throws MissingResourceException if the imageWriter field is null.
+	 */
+	public Camera writeToImage() {
+		if (imageWriter == null)
+			throw new MissingResourceException("The render's field imageWriter mustn't be null", "Camera", null);
+		imageWriter.writeToImage();
+		return this;
 	}
 }
