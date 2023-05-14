@@ -67,23 +67,23 @@ public class IntegrationTests {
 	@Test
 	public void constructRayThroughPixelWithSphere() {
 
-		// ***** 2 intersection points*****
+		// TC01: ***** 2 intersection points*****
 		Sphere sph = new Sphere(new Point(0, 0, -3), 1);
 		assertEquals(2, countIntersection(sph, cam1), "ERROR: 2 points expected");
 
-		// ***** 18 intersection points*****
+		// TC02: ***** 18 intersection points*****
 		sph = new Sphere(new Point(0, 0, -2.5), 2.5);
 		assertEquals(18, countIntersection(sph, cam2), "ERROR: 8 points expected");
 
-		// ***** 10 intersection points*****
+		// TC03: ***** 10 intersection points*****
 		sph = new Sphere(new Point(0, 0, -2), 2);
 		assertEquals(10, countIntersection(sph, cam2), "ERROR: 10 points expected");
 
-		// ***** 9 intersection points*****
+		// TC04:***** 9 intersection points*****
 		sph = new Sphere(new Point(0, 0, 1), 4);
 		assertEquals(9, countIntersection(sph, cam2), "ERROR: 9 points expected");
 
-		// ***** 0 intersection points*****
+		// TC05: ***** 0 intersection points*****
 		sph = new Sphere(new Point(0, 0, 1), 0.5);
 		assertEquals(0, countIntersection(sph, cam2), "ERROR: no points expected");
 	}
@@ -94,15 +94,15 @@ public class IntegrationTests {
 	@Test
 	public void constructRayThroughPixelWithPlane() {
 
-		// ***** 9 intersection points*****
+		// TC01: ***** 9 intersection points*****
 		Plane pl = new Plane(new Point(0, 0, -7), new Vector(0, 0, 1));
 		assertEquals(9, countIntersection(pl, cam2), "ERROR: 9 points expected");
 
-		// ***** 9 intersection points*****
+		// TC02: ***** 9 intersection points*****
 		pl = new Plane(new Point(0, 0, -2), new Vector(0, -1, 3));
 		assertEquals(9, countIntersection(pl, cam2), "ERROR: 9 points expected");
 
-		// ***** 6 intersection points*****
+		// TC03: ***** 6 intersection points*****
 		pl = new Plane(new Point(0, 0, -2), new Vector(0, -3, 1));
 		assertEquals(6, countIntersection(pl, cam2), "ERROR: 6 points expected");
 	}
@@ -113,11 +113,11 @@ public class IntegrationTests {
 	@Test
 	public void constructRayThroughPixelWithTriangle() {
 
-		// ***** One intersection point*****
+		// TC01: ***** One intersection point*****
 		Triangle tr = new Triangle(new Point(1, -1, -2), new Point(-1, -1, -2), new Point(0, 1, -2));
 		assertEquals(1, countIntersection(tr, cam2), "ERROR: 1 points expected");
 
-		// ***** Two intersection point*****
+		// TC02: ***** Two intersection point*****
 		tr = new Triangle(new Point(1, -1, -2), new Point(-1, -1, -2), new Point(0, 20, -2));
 		assertEquals(2, countIntersection(tr, cam2), "ERROR: 2 points expected");
 	}
