@@ -30,6 +30,7 @@ public class Color {
 	 * @param r Red component
 	 * @param g Green component
 	 * @param b Blue component
+	 * @throws IllegalArgumentException in case of negative color components
 	 */
 	public Color(double r, double g, double b) {
 		if (r < 0 || g < 0 || b < 0)
@@ -42,6 +43,7 @@ public class Color {
 	 * range 0..255 (for printed white color) or more [for lights]
 	 * 
 	 * @param rgb triad of Red/Green/Blue components
+	 * @throws IllegalArgumentException in case of negative color components
 	 */
 	private Color(Double3 rgb) {
 		if (rgb.d1 < 0 || rgb.d2 < 0 || rgb.d3 < 0)
@@ -94,6 +96,8 @@ public class Color {
 	 * 
 	 * @param k scale factor per rgb
 	 * @return new Color object which is the result of the operation
+	 * @throws IllegalArgumentException in case one of k components is negative
+	 * 
 	 */
 	public Color scale(Double3 k) {
 		if (k.d1 < 0.0 || k.d2 < 0.0 || k.d3 < 0.0)
@@ -105,7 +109,9 @@ public class Color {
 	 * Scale the color by a scalar
 	 * 
 	 * @param k scale factor
-	 * @return new Color object which is the result of the operation
+	 * @return new Color object which is the result of the operation *
+	 * @throws IllegalArgumentException in case k is negative
+	 * 
 	 */
 	public Color scale(double k) {
 		if (k < 0.0)
@@ -117,7 +123,9 @@ public class Color {
 	 * Scale the color by (1 / reduction factor)
 	 * 
 	 * @param k reduction factor
-	 * @return new Color object which is the result of the operation
+	 * @return new Color object which is the result of the operation * *
+	 * @throws IllegalArgumentException in case k is negative
+	 * 
 	 */
 	public Color reduce(double k) {
 		if (k < 1)
@@ -129,7 +137,9 @@ public class Color {
 	 * Scale the color by (1 / reduction factor)
 	 * 
 	 * @param k reduction factor
-	 * @return new Color object which is the result of the operation
+	 * @return new Color object which is the result of the operation *
+	 * @throws IllegalArgumentException in case one of k components is lower than 1
+	 * 
 	 */
 	public Color reduce(Double3 k) {
 		if (k.d1 < 1.0 || k.d2 < 1.0 || k.d3 < 1.0)

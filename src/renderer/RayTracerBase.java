@@ -33,7 +33,7 @@ public abstract class RayTracerBase {
 	 * This method needs to be implemented by concrete subclasses.
 	 * 
 	 * @param ray The ray to be traced
-	 * @return The color of the intersected object or the background color
+	 * @return The color of the intersected object or the background color.
 	 */
 	public abstract Color traceRay(Ray ray);
 }

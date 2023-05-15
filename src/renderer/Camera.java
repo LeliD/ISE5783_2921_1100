@@ -140,7 +140,7 @@ public class Camera {
 	 * 
 	 * @param width  The width of the view plane.
 	 * @param height The height of the view plane.
-	 * @return This Camera object.
+	 * @return The Camera object itself (for method chaining)
 	 * @throws IllegalArgumentException if width or height are 0 or negative
 	 */
 	public Camera setVPSize(double width, double height) {
@@ -157,7 +157,7 @@ public class Camera {
 	 * Sets the distance from the camera to the view plane.
 	 * 
 	 * @param distance the distance from the camera to the view plane
-	 * @return the camera object
+	 * @return The Camera object itself (for method chaining)
 	 * @throws IllegalArgumentException if the distance is 0 or negative
 	 */
 	public Camera setVPDistance(double distance) {
@@ -172,7 +172,7 @@ public class Camera {
 	 * camera.
 	 * 
 	 * @param rayTracer The RayTracerBase object to be set
-	 * @return This Camera object
+	 * @return The Camera object itself (for method chaining)
 	 */
 	public Camera setRayTracer(RayTracerBase rayTracer) {
 		this.rayTracer = rayTracer;
@@ -183,7 +183,7 @@ public class Camera {
 	 * Sets the ImageWriter object to be used for writing rendered images.
 	 * 
 	 * @param imageWriter The ImageWriter object to be set.
-	 * @return This Camera object.
+	 * @return The Camera object itself (for method chaining)
 	 */
 	public Camera setImageWriter(ImageWriter imageWriter) {
 		this.imageWriter = imageWriter;
@@ -227,14 +227,8 @@ public class Camera {
 	 * @throws MissingResourceException if any required field is null
 	 */
 	public void renderImage() {
-		if (p0 == null || vUp == null || vTo == null || vRight == null)
-			throw new MissingResourceException("All the render's fields mustn't be null", "Camera", null);
-		if (imageWriter == null)
-			throw new MissingResourceException("All the render's fields mustn't be null, including the imageWriter",
-					"Camera", null);
-		if (rayTracer == null)
-			throw new MissingResourceException("All the render's fields mustn't be null, including the rayTracer",
-					"Camera", null);
+		if (p0 == null || vUp == null || vTo == null || vRight == null || imageWriter == null || rayTracer == null)
+			throw new MissingResourceException("All the camera's fields mustn't be null", "Camera", null);
 		// throw new UnsupportedOperationException();
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
@@ -273,11 +267,12 @@ public class Camera {
 		if (imageWriter == null)
 			throw new MissingResourceException("The render's field imageWriter mustn't be null", "Camera", null);
 
-		if (imageWriter.getNx() % interval != 0 || imageWriter.getNy() % interval != 0)
-			throw new IllegalArgumentException(
-					"The grid is supposed to have squares, therefore the given interval must be a divisor of both nX and nY");
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
+
+		if (nX % interval != 0 || nY % interval != 0)
+			throw new IllegalArgumentException(
+					"The grid is supposed to have squares, therefore the given interval must be a divisor of both nX and nY");
 
 		for (int i = 0; i < nY; i++)
 			for (int j = 0; j < nX; j++)
@@ -288,7 +283,7 @@ public class Camera {
 
 	/**
 	 * 
-	 * Writes the image to the image writer.
+	 * Writes the image to the imageWriter.
 	 * 
 	 * @return The Camera object.
 	 * @throws MissingResourceException if the imageWriter field is null.
