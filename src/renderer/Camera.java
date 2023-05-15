@@ -222,7 +222,8 @@ public class Camera {
 	}
 
 	/**
-	 * Renders the image by casting rays and writing pixels to the image writer.
+	 * Renders the image by casting rays and writing pixels (determines them a
+	 * color)to the image writer.
 	 * 
 	 * @throws MissingResourceException if any required field is null
 	 */
@@ -258,14 +259,15 @@ public class Camera {
 	 * 
 	 * @param interval The interval between grid lines.
 	 * @param color    The color of the grid lines.
-	 * @return This Camera object.
+	 * 
 	 * @throws MissingResourceException if the imageWriter field is null.
 	 * @throws IllegalArgumentException if the interval is not a divisor of both nX
 	 *                                  and nY.
 	 */
-	public Camera printGrid(int interval, Color color) {
+	public void printGrid(int interval, Color color) {
 		if (imageWriter == null)
-			throw new MissingResourceException("The render's field imageWriter mustn't be null", "Camera", null);
+			throw new MissingResourceException("The render's field imageWriter mustn't be null", "ImageWriter",
+					"imageWriter");
 
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
@@ -278,20 +280,20 @@ public class Camera {
 			for (int j = 0; j < nX; j++)
 				if (i % interval == 0 || j % interval == 0)
 					imageWriter.writePixel(j, i, color);
-		return this;
+
 	}
 
 	/**
 	 * 
-	 * Writes the image to the imageWriter.
+	 * Creates the image by writing it to the imageWriter. This function delegates
+	 * the function writeToImage of imageWriter class
 	 * 
-	 * @return The Camera object.
 	 * @throws MissingResourceException if the imageWriter field is null.
 	 */
-	public Camera writeToImage() {
+	public void writeToImage() {
 		if (imageWriter == null)
 			throw new MissingResourceException("The render's field imageWriter mustn't be null", "Camera", null);
-		imageWriter.writeToImage();
-		return this;
+		imageWriter.writeToImage(); // delegation
+
 	}
 }
