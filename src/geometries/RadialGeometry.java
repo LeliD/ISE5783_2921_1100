@@ -10,7 +10,7 @@ package geometries;
  * @author Shilat Sharon and Lea Drach
  *
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 	/** The radius of the radial geometry. */
 	protected final double radius;
 	/** The square of the radius of the radial geometry. */

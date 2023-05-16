@@ -16,7 +16,7 @@ import primitives.Ray;
  * 
  * @author Shilat Sharon and Lea Drach
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 	/** List of intersectable geometries */
 	private List<Intersectable> geometries;
 
@@ -73,6 +73,22 @@ public class Geometries implements Intersectable {
 		}
 		return intersections;
 
+	}
+	@Override
+	 public List<GeoPoint> findGeoIntersectionsHelper (Ray ray) {
+	     List<GeoPoint> intersections = null;
+
+	     for (Intersectable geo : geometries) 
+	     {
+	         List<GeoPoint> tempIntersections = geo.findGeoIntersections(ray);//list of single geometry
+	         if (tempIntersections != null) 
+	         {
+	             if (intersections == null)//for the first time
+	                 intersections = new ArrayList<>();
+	             intersections.addAll(tempIntersections);
+	         }
+	     }
+	     return intersections;
 	}
 
 }

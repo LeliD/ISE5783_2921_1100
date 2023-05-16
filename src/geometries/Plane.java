@@ -15,7 +15,7 @@ import primitives.Vector;
  * @author Shilat Sharon and Lea Drach
  *
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 	/** a point in the plane */
 	private final Point p0;
 	/** normal of the plane */
