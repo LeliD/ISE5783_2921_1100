@@ -15,7 +15,7 @@ import primitives.Double3;
  */
 public class AmbientLight {
 	/** The intensity of the ambient light */
-	private Color intensity;
+	private final Color intensity;
 	/** Default AmbientLight with black color and zero attenuation coefficient. */
 	public static final AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 

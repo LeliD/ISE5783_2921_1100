@@ -16,7 +16,7 @@ import primitives.Color;
  */
 public class Scene {
 	/** The name of the scene */
-	public String name;
+	public final String name;
 	/** The background color of the scene */
 	public Color background = Color.BLACK;
 	/** The ambient light in the scene */
