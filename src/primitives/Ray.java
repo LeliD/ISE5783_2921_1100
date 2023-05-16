@@ -95,16 +95,16 @@ public class Ray {
 		if (points == null || points.isEmpty()) // points is empty or uninitialized
 			return null;
 		// initialize variables
-		double minDis = p0.distance(points.get(0));// the smallest distance
-		Point closestPoint = points.get(0);// the closest point
+		double minDis = Double.POSITIVE_INFINITY;// the smallest distance
+		Point closestPoint = null;// the closest point
 		double currentDis;// saves the current distance (for the loop)
 		// iterate through the list of points
-		for (int i = 1; i < points.size(); i++) {
-			currentDis = p0.distance(points.get(i));
+		for (var p : points) {
+			currentDis = p0.distance(p);
 			// update the closest point and distance if a closer point is found
 			if (currentDis < minDis) {
 				minDis = currentDis;
-				closestPoint = points.get(i);
+				closestPoint = p;
 			}
 		}
 		return closestPoint;
