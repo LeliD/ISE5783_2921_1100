@@ -1,11 +1,10 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import static primitives.Util.isZero;
-
-import java.util.List;
 
 /**
  * Tube class for representing a Tube, extends RadialGeometry
@@ -14,26 +13,30 @@ import java.util.List;
  *
  */
 public class Tube extends RadialGeometry {
-	/** The axis ray of the tube, which represents the center of the tube and its direction. */
+	/**
+	 * The axis ray of the tube, which represents the center of the tube and its
+	 * direction.
+	 */
 	protected final Ray axisRay;
 
-	
 	/**
-
-	Constructs a tube with the specified axis ray and radius.
-	@param ray the axis ray of the tube
-	@param radius the radius of the tube
-	*/
+	 * 
+	 * Constructs a tube with the specified axis ray and radius.
+	 * 
+	 * @param ray    the axis ray of the tube
+	 * @param radius the radius of the tube
+	 */
 	public Tube(Ray ray, double radius) {
 		super(radius);
 		axisRay = ray;
 	}
 
 	/**
-
-	Returns the axis ray of the tube.
-	@return the axis ray of the tube
-	*/
+	 * 
+	 * Returns the axis ray of the tube.
+	 * 
+	 * @return the axis ray of the tube
+	 */
 	public Ray getAxisRay() {
 		return axisRay;
 	}
@@ -53,7 +56,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		// TODO Auto-generated method stub
 		return null;
 	}

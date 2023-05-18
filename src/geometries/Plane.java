@@ -82,7 +82,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		// get ray point and vector
 		Point p0ray = ray.getP0();
 		Vector v = ray.getDir();
@@ -94,7 +94,7 @@ public class Plane extends Geometry {
 		try {
 			double t = alignZero((normal.dotProduct(p0.subtract(p0ray))) / (normal.dotProduct(v)));
 			// if the the ray starts on the plane or doesn't cross the plane - return null
-			return t <= 0 ? null : List.of((ray.getPoint(t)));
+			return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 
 		} catch (IllegalArgumentException ex) {
 			// if p0.subtract(p0ray) is vector zero, if p0ray=p0

@@ -5,6 +5,8 @@ import static primitives.Util.isZero;
 import java.util.List;
 import java.util.Objects;
 
+import geometries.Intersectable.GeoPoint;
+
 /**
  * Ray class for representing a ray in 3D space
  * 
@@ -84,7 +86,7 @@ public class Ray {
 	/**
 	 * 
 	 * Finds the closest point to the starting point of the ray from a list of
-	 * points.
+	 * points by calling the function findClosestGeoPoint
 	 * 
 	 * @param points The list of points to search for the closest point
 	 * 
@@ -92,22 +94,37 @@ public class Ray {
 	 *         list is either null or empty
 	 */
 	public Point findClosestPoint(List<Point> points) {
-		if (points == null || points.isEmpty()) // points is empty or uninitialized
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+	}
+
+	/**
+	 * 
+	 * Finds the closest GeoPoint to the starting point of the ray from a list of
+	 * points.
+	 * 
+	 * @param points The list of points to search for the closest GeoPoint
+	 * 
+	 * @return The closest GeoPoint to the starting point of the ray, or null if the
+	 *         list is either null or empty
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
+		if (intersections == null || intersections.isEmpty()) // points is empty or uninitialized
 			return null;
 		// initialize variables
 		double minDis = Double.POSITIVE_INFINITY;// the smallest distance
-		Point closestPoint = null;// the closest point
+		GeoPoint closestGeoPoint = null;// the closest GeoPoint
 		double currentDis;// saves the current distance (for the loop)
 		// iterate through the list of points
-		for (var p : points) {
-			currentDis = p0.distance(p);
+		for (var p : intersections) {
+			currentDis = p0.distance(p.point);
 			// update the closest point and distance if a closer point is found
 			if (currentDis < minDis) {
 				minDis = currentDis;
-				closestPoint = p;
+				closestGeoPoint = p;
 			}
 		}
-		return closestPoint;
+		return closestGeoPoint;
 	}
 
 }

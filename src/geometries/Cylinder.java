@@ -4,7 +4,9 @@ import static primitives.Util.isZero;
 
 import java.util.List;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Cylinder class for representing a Cylinder, extends Tube
@@ -17,22 +19,24 @@ public class Cylinder extends Tube {
 	private final double height;
 
 	/**
-
-	Constructs a cylinder with the specified axis ray, radius, and height.
-	@param ray the axis ray of the cylinder
-	@param radius the radius of the cylinder
-	@param height the height of the cylinder
-	*/
+	 * 
+	 * Constructs a cylinder with the specified axis ray, radius, and height.
+	 * 
+	 * @param ray    the axis ray of the cylinder
+	 * @param radius the radius of the cylinder
+	 * @param height the height of the cylinder
+	 */
 	public Cylinder(Ray ray, double radius, double height) {
 		super(ray, radius);
 		this.height = height;
 	}
 
 	/**
-
-	Returns the height of this cylinder.
-	@return the height of this cylinder
-	*/
+	 * 
+	 * Returns the height of this cylinder.
+	 * 
+	 * @return the height of this cylinder
+	 */
 	public double getHeight() {
 		return height;
 	}
@@ -60,7 +64,7 @@ public class Cylinder extends Tube {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		// TODO Auto-generated method stub
 		return null;
 	}
