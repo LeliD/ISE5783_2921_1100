@@ -12,8 +12,6 @@ import primitives.Ray;
  * The Intersectable interface represents a geometry object that can be
  * intersected by a ray.
  * 
- * 
- * 
  * @author Shilat Sharon and Lea Drach
  *
  */
@@ -23,8 +21,9 @@ public abstract class Intersectable {
 	 * geometry.
 	 */
 	public static class GeoPoint {
-
+        /** The Geometry of the intersection point*/
 		public Geometry geometry;
+		 /** The Point of the intersection point*/
 		public Point point;
 
 		/**

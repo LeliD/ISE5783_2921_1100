@@ -30,6 +30,7 @@ public class IntegrationTests {
 	/** Camera object for testing. */
 	private Camera cam1 = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
 			.setVPSize(3, 3);
+	/** Camera object for testing. */
 	private Camera cam2 = new Camera(new Point(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPDistance(1)
 			.setVPSize(3, 3);
 	/** pixels in row. */

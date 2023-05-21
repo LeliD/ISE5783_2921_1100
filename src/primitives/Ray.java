@@ -65,10 +65,6 @@ public class Ray {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(dir, p0);
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -103,7 +99,7 @@ public class Ray {
 	 * Finds the closest GeoPoint to the starting point of the ray from a list of
 	 * points.
 	 * 
-	 * @param points The list of points to search for the closest GeoPoint
+	 * @param intersections The list of points to search for the closest GeoPoint
 	 * 
 	 * @return The closest GeoPoint to the starting point of the ray, or null if the
 	 *         list is either null or empty

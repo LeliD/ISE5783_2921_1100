@@ -226,8 +226,9 @@ public class Camera {
 	 * color)to the image writer.
 	 * 
 	 * @throws MissingResourceException if any required field is null
+	 * @return The Camera object itself (for method chaining)
 	 */
-	public void renderImage() {
+	public Camera renderImage() {
 		if (p0 == null || vUp == null || vTo == null || vRight == null || imageWriter == null || rayTracer == null)
 			throw new MissingResourceException("All the camera's fields mustn't be null", "Camera", null);
 		// throw new UnsupportedOperationException();
@@ -236,6 +237,7 @@ public class Camera {
 		for (int i = 0; i < nY; i++)
 			for (int j = 0; j < nX; j++)
 				imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
+		return this;
 	}
 
 	/**
