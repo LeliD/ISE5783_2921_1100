@@ -65,14 +65,17 @@ public class RayTracerBasic extends RayTracerBase {
 		Vector v = ray.getDir();
 		Vector n = gp.geometry.getNormal(gp.point);
 		double nv = alignZero(n.dotProduct(v));
+		double nl;
+		Color iL;
+		Vector l;
 		if (nv == 0)
 			return Color.BLACK;
 		Material material = gp.geometry.getMaterial();
 		for (LightSource lightSource : scene.lights) {
-			Vector l = lightSource.getL(gp.point);
-			double nl = alignZero(n.dotProduct(l));
+			l = lightSource.getL(gp.point);
+			nl = alignZero(n.dotProduct(l));
 			if (nl * nv > 0) { // sign(nl) == sing(nv)
-				Color iL = lightSource.getIntensity(gp.point);
+				iL = lightSource.getIntensity(gp.point);
 				color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, v, nl)));
 			}
 		}
@@ -95,7 +98,8 @@ public class RayTracerBasic extends RayTracerBase {
 	private Double3 calcSpecular(Material material, Vector n, Vector l, Vector v, double nl) {
 		Vector r = l.add(n.scale(-2 * nl));
 		double minusVr = -alignZero(r.dotProduct(v));
-		return minusVr <= 0 ? Double3.ZERO : material.kS.scale(Math.pow(minusVr, material.nShininess));
+		return minusVr <= 0 ? Double3.ZERO //
+				: material.kS.scale(Math.pow(minusVr, material.nShininess));
 	}
 
 	/**

@@ -3,7 +3,6 @@ package primitives;
 import static primitives.Util.isZero;
 
 import java.util.List;
-import java.util.Objects;
 
 import geometries.Intersectable.GeoPoint;
 
