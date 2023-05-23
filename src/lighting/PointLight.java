@@ -18,7 +18,7 @@ import primitives.Vector;
 public class PointLight extends Light implements LightSource {
 
 	/** The position of the light source. */
-	private Point position;
+	private final Point position;
 	/** The quadratic attenuation factor. */
 	private double kQ = 0;
 	/** The linear attenuation factor. */
@@ -77,8 +77,7 @@ public class PointLight extends Light implements LightSource {
 	@Override
 	public Color getIntensity(Point p) {
 		double distance2 = p.distanceSquared(position);
-		double distance = p.distance(position);
-		return getIntensity().scale(1 / (kC + kL * distance + kQ * distance2));
+		return getIntensity().scale(1 / (kC + kL * Math.sqrt(distance2) + kQ * distance2));
 	}
 
 	@Override

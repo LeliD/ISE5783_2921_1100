@@ -73,18 +73,17 @@ public class RayTracerBasic extends RayTracerBase {
 		Vector v = ray.getDir();
 		Vector n = gp.geometry.getNormal(gp.point);
 		double nv = alignZero(n.dotProduct(v));
-		double nl;
-		Color iL;
-		Vector l;
 		if (nv == 0)
 			return Color.BLACK;
 		Material material = gp.geometry.getMaterial();
 		for (LightSource lightSource : scene.lights) {
-			l = lightSource.getL(gp.point);
-			nl = alignZero(n.dotProduct(l));
+			Vector l = lightSource.getL(gp.point);
+			double nl = l == null ? 0 : alignZero(n.dotProduct(l));
 			if (nl * nv > 0) { // sign(nl) == sing(nv)
-				iL = lightSource.getIntensity(gp.point);
-				color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, v, nl)));
+				Color iL = lightSource.getIntensity(gp.point);
+				color = color.add( //
+						iL.scale(calcDiffusive(material, nl)), //
+						iL.scale(calcSpecular(material, n, l, v, nl)));
 			}
 		}
 		return color;
@@ -121,9 +120,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return the diffuse reflection color
 	 */
 	private Double3 calcDiffusive(Material material, double nl) {
-		if (nl < 0)
-			nl = -nl;
-		return material.kD.scale(nl);
+		return material.kD.scale(nl < 0 ? -nl : nl);
 
 	}
 

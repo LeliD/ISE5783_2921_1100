@@ -3,6 +3,7 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import static primitives.Util.*;
 
 /**
  * The SpotLight class for representing a spotlight source. It extends the
@@ -13,7 +14,7 @@ import primitives.Vector;
  */
 public class SpotLight extends PointLight {
 	/** The direction vector of the spotlight. */
-	private Vector direction;
+	private final Vector direction;
 
 	/**
 	 * 
@@ -31,7 +32,7 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public Color getIntensity(Point p) {
-		double pl = direction.dotProduct(getL(p));
+		double pl = alignZero(direction.dotProduct(getL(p)));
 		return pl <= 0 ? Color.BLACK : super.getIntensity(p).scale(pl);
 	}
 }
