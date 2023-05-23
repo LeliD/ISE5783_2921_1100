@@ -8,8 +8,14 @@ import lighting.LightSource;
 import primitives.Color;
 import primitives.Double3;
 import primitives.Material;
+import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
+
 import static primitives.Util.*;
+
+import java.util.List;
+
 import primitives.Vector;
 import scene.Scene;
 
@@ -20,6 +26,7 @@ import scene.Scene;
  *
  */
 public class RayTracerBasic extends RayTracerBase {
+	private static final double DELTA = 0.1;
 
 	/**
 	 * 
@@ -42,8 +49,9 @@ public class RayTracerBasic extends RayTracerBase {
 	/**
 	 * 
 	 * Calculates the color at a given point in the scene.
+	 * 
 	 * @param intersection The point to calculate the color for
-	 * @param ray the ray that intersected with the scene
+	 * @param ray          the ray that intersected with the scene
 	 * 
 	 * @return The color at the given point
 	 */
@@ -118,4 +126,31 @@ public class RayTracerBasic extends RayTracerBase {
 		return material.kD.scale(nl);
 
 	}
+
+	/**
+	 * 
+	 * Determines if a point is unshaded by a light source.
+	 * 
+	 * @param lightSource The light source
+	 * @param gp          The geometric point
+	 * @param l           The light direction vector
+	 * @param n           The surface normal vector
+	 * @return true if the point is unshaded, false otherwise
+	 */
+	private boolean unshaded(LightSource lightSource, GeoPoint gp, Vector l, Vector n) {
+		Vector lightDirection = l.scale(-1);
+		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+		Point point = gp.point.add(delta);
+		Ray shadowRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(shadowRay);
+		if (intersections == null)
+			return true;
+		double lightDistance = lightSource.getDistance(gp.point);
+		for (GeoPoint g : intersections) {
+			if (alignZero(g.point.distance(shadowRay.getP0()) - lightDistance) <= 0)
+				return false;
+		}
+		return true;
+	}
+
 }

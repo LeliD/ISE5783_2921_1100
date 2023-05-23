@@ -1,8 +1,8 @@
 package unittests.renderer;
 
-import static java.awt.Color.*;
+import static java.awt.Color.BLUE;
 import static java.awt.Color.WHITE;
-
+import static java.awt.Color.RED;
 import org.junit.jupiter.api.Test;
 
 import geometries.Geometry;

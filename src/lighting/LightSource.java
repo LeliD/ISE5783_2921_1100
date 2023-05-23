@@ -3,8 +3,6 @@
  */
 package lighting;
 
-
-
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
@@ -28,10 +26,21 @@ public interface LightSource {
 
 	/**
 	 * 
-	 * Returns the direction vector from the light source towards the specified point.
+	 * Returns the direction vector from the light source towards the specified
+	 * point.
 	 * 
 	 * @param p the point the direction is calculated to
-	 * @return the direction vector from the light source towards the specified point.
+	 * @return the direction vector from the light source towards the specified
+	 *         point.
 	 */
 	public Vector getL(Point p);
+
+	/**
+	 * 
+	 * Calculates the distance between the light source and a given point.
+	 * 
+	 * @param point The point for which the distance is calculated
+	 * @return The distance between the light source and the point
+	 */
+	double getDistance(Point point);
 }
