@@ -144,7 +144,7 @@ public class LightsTests {
 		scene2.geometries.add(triangle1, triangle2);
 		scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)
 				.setKl(0.001).setKq(0.0001));
-
+ 
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
@@ -184,7 +184,7 @@ public class LightsTests {
 				.setKc(1).setKl(0.00005).setKq(0.0000025));
 		scene2.lights.add(new PointLight(new Color(500, 250, 250), new Point(10, -10, -130)).setKc(1).setKl(0.0005)
 				.setKq(0.0005));
-		scene2.lights.add(new DirectionalLight(new Color(100, 100, 150), trianglesLightDirection));
+		scene2.lights.add(new DirectionalLight(new Color(100, 100, 150), new Vector(-2, -2, 5)));
 		ImageWriter imageWriter = new ImageWriter("testMultiplieEffectsTriangle", 500, 500);
 
 		camera2.setImageWriter(imageWriter) //
@@ -201,7 +201,7 @@ public class LightsTests {
 		scene1.lights.add( //
 				new PointLight(new Color(RED), new Point(-50, 50, 25)) //
 						.setKl(0.001).setKq(0.0002));
-		scene1.lights.add(new DirectionalLight(new Color(250, 250, 250), new Vector(-1, 0, -0.5)));
+		scene1.lights.add(new DirectionalLight(new Color(400, 500, 250), new Vector(-1, 0, -0.5)));
 
 		ImageWriter imageWriter = new ImageWriter("testMultiplieEffectsSphere", 500, 500);
 
