@@ -15,6 +15,11 @@ import static primitives.Util.*;
 public class SpotLight extends PointLight {
 	/** The direction vector of the spotlight. */
 	private final Vector direction;
+	/**
+	 * The narrowBeam variable represents the narrow beam angle of a SpotLight
+	 * object. The default value is 1.
+	 */
+	private double narrowBeam = 1;
 
 	/**
 	 * 
@@ -32,7 +37,19 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public Color getIntensity(Point p) {
-		double pl = alignZero(direction.dotProduct(getL(p)));
-		return pl <= 0 ? Color.BLACK : super.getIntensity(p).scale(pl);
+		double dirDotL = Math.pow(alignZero(direction.dotProduct(getL(p))), narrowBeam);
+		return dirDotL <= 0 ? Color.BLACK : super.getIntensity(p).scale(dirDotL);
+	}
+
+	/**
+	 * 
+	 * Sets the narrow beam angle for the spotlight.
+	 * 
+	 * @param narrowBeam the narrow beam angle
+	 * @return the SpotLight object itself (for method chaining)
+	 */
+	public SpotLight setNarrowBeam(double narrowBeam) {
+		this.narrowBeam = narrowBeam;
+		return this;
 	}
 }
