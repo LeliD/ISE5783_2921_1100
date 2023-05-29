@@ -6,16 +6,21 @@ package primitives;
 /**
  * 
  * The Material class represents the material properties of an object.
+ * 
  * @author Shilat Sharon and Lea Drach
  */
 public class Material {
 
-	/** The diffuse reflection coefficient.  */
+	/** The diffuse reflection coefficient. */
 	public Double3 kD = Double3.ZERO;
 	/** The specular reflection coefficient. */
 	public Double3 kS = Double3.ZERO;
 	/** The shininess value for controlling specular highlights. */
 	public int nShininess = 0;
+	/** The transparency coefficient. */
+	public Double3 kT = Double3.ZERO;
+	/** The reflection coefficient. */
+	public Double3 kR = Double3.ZERO;
 
 	/**
 	 * 
@@ -72,10 +77,64 @@ public class Material {
 	 * Sets the shininess value of the material for controlling specular highlights.
 	 * 
 	 * @param nShininess the shininess value
-	 * @return the updated Material object
+	 * @return The Material object itself (for method chaining)
 	 */
 	public Material setShininess(int nShininess) {
 		this.nShininess = nShininess;
+		return this;
+	}
+
+	/**
+	 * 
+	 * Sets the transparency coefficient of the material to the specified Double3
+	 * object.
+	 * 
+	 * @param kT the Double3 object representing the new transparency coefficient
+	 * @return The Material object itself (for method chaining)
+	 */
+	public Material setkT(Double3 kT) {
+		this.kT = kT;
+		return this;
+	}
+
+	/**
+	 * 
+	 * Sets the reflection coefficient of the material to the specified Double3
+	 * object.
+	 * 
+	 * @param kR the Double3 object representing the new reflection coefficient
+	 * @return The Material object itself (for method chaining)
+	 */
+	public Material setkR(Double3 kR) {
+		this.kR = kR;
+		return this;
+	}
+
+	/**
+	 * 
+	 * Sets the transparency coefficient of the material to the specified double
+	 * value. The double value is converted to a Double3 object using the
+	 * constructor.
+	 * 
+	 * @param kT the double value representing the new transparency coefficient
+	 * @return The Material object itself (for method chaining)
+	 */
+	public Material setkT(double kT) {
+		this.kT = new Double3(kT);
+		return this;
+	}
+
+	/**
+	 * 
+	 * Sets the reflection coefficient of the material to the specified double
+	 * value. The double value is converted to a Double3 object using the
+	 * constructor.
+	 * 
+	 * @param kR the double value representing the new reflection coefficient
+	 * @return The Material object itself (for method chaining)
+	 */
+	public Material setkR(double kR) {
+		this.kR = new Double3(kR);
 		return this;
 	}
 }

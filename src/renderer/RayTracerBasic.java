@@ -10,7 +10,6 @@ import primitives.Double3;
 import primitives.Material;
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 
 import static primitives.Util.*;
 
@@ -26,7 +25,8 @@ import scene.Scene;
  *
  */
 public class RayTracerBasic extends RayTracerBase {
-	private static final double DELTA = 0.1;
+	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final double MIN_CALC_COLOR_K = 0.001;
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class RayTracerBasic extends RayTracerBase {
 	public RayTracerBasic(Scene scene) {
 		super(scene);
 	}
-
+	
 	@Override
 	public Color traceRay(Ray ray) {
 		var intersections = scene.geometries.findGeoIntersections(ray);
@@ -139,9 +139,9 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private boolean unshaded(LightSource lightSource, GeoPoint gp, Vector l, Vector n) {
 		Vector lightDirection = l.scale(-1);
-		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-		Point point = gp.point.add(delta);
-		Ray shadowRay = new Ray(point, lightDirection);
+		//Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+		//Point point = gp.point.add(delta);
+		Ray shadowRay = new Ray(gp.point, lightDirection,n);
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(shadowRay);
 		if (intersections == null)
 			return true;
@@ -152,5 +152,33 @@ public class RayTracerBasic extends RayTracerBase {
 		}
 		return true;
 	}
+	/**
+	 * construct refracted ray
+	 * 
+	 * @param pointGeo - intersection point
+	 * @param inRay    - ray v from the camera
+	 * @return refracted ray
+	 */
+	private Ray constructTransparencyRay(Point p, Ray r, Vector n) {
+		return new Ray(p, r.getDir(), n);
+	}
 
+	/**
+	 * construct reflected ray
+	 * 
+	 * @param pointGeo - intersection point
+	 * @param inRay    - ray v from the camera
+	 * @param n        - normal from the geometry in the intersection point
+	 * @return reflected ray
+	 */
+	private Ray constructReflectionRay(Point p, Ray r, Vector n) {
+
+		Vector v = r.getDir();
+		double vn = v.dotProduct(n);
+        if (isZero(vn)) 
+			return null;//r?
+		Vector ray = (v.subtract(n.scale(2 * vn))).normalize();
+		return new Ray(p, ray, n);
+
+	}
 }

@@ -16,7 +16,10 @@ public class Ray {
 	private final Point p0;
 	/** The direction vector of the ray */
 	private final Vector dir;
-
+	/** A constant value representing the delta used for moving the origin point
+	 *  along the normal vector direction.*/
+	private static final double DELTA = 0.1;
+	
 	/**
 	 * 
 	 * Constructs a Ray object with the given starting point and direction vector.
@@ -30,6 +33,21 @@ public class Ray {
 	public Ray(Point p, Vector v) {
 		p0 = p;
 		dir = v.normalize();
+	}
+
+	/**
+	 * 
+	 * Constructs a Ray object with the specified origin point moved in normal direction in length DELTA, direction vector,
+	 * and normal vector.
+	 * 
+	 * @param p0     the origin point of the ray
+	 * @param dir    the direction vector of the ray
+	 * @param normal the normal vector of the point on a geometry object
+	 */
+	public Ray(Point p0, Vector dir, Vector normal) {
+		this.dir = dir.normalize();
+		Vector delta = normal.scale(normal.dotProduct(dir) > 0 ? DELTA : -DELTA);// where we need to move the point
+		this.p0 = p0.add(delta);// moving the point
 	}
 
 	/**
@@ -63,7 +81,6 @@ public class Ray {
 	public Point getPoint(double t) {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
