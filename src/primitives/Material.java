@@ -92,7 +92,7 @@ public class Material {
 	 * @param kT the Double3 object representing the new transparency coefficient
 	 * @return The Material object itself (for method chaining)
 	 */
-	public Material setkT(Double3 kT) {
+	public Material setKt(Double3 kT) {
 		this.kT = kT;
 		return this;
 	}
@@ -105,7 +105,7 @@ public class Material {
 	 * @param kR the Double3 object representing the new reflection coefficient
 	 * @return The Material object itself (for method chaining)
 	 */
-	public Material setkR(Double3 kR) {
+	public Material setKr(Double3 kR) {
 		this.kR = kR;
 		return this;
 	}
@@ -119,7 +119,7 @@ public class Material {
 	 * @param kT the double value representing the new transparency coefficient
 	 * @return The Material object itself (for method chaining)
 	 */
-	public Material setkT(double kT) {
+	public Material setKt(double kT) {
 		this.kT = new Double3(kT);
 		return this;
 	}
@@ -133,7 +133,7 @@ public class Material {
 	 * @param kR the double value representing the new reflection coefficient
 	 * @return The Material object itself (for method chaining)
 	 */
-	public Material setkR(double kR) {
+	public Material setKr(double kR) {
 		this.kR = new Double3(kR);
 		return this;
 	}
