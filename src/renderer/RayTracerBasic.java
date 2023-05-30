@@ -27,6 +27,7 @@ import scene.Scene;
 public class RayTracerBasic extends RayTracerBase {
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
+	private static final Double3 INITIAL_K = new Double3(1.0);
 
 	/**
 	 * 
@@ -73,7 +74,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return The calculated color at the intersection point.
 	 */
 	private Color calcColor(GeoPoint geoPoint, Ray ray) {
-		return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(1)).add(scene.ambientLight.getIntensity());
+		return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K).add(scene.ambientLight.getIntensity());
 	}
 
 	/**
@@ -151,7 +152,7 @@ public class RayTracerBasic extends RayTracerBase {
 		Vector n = gp.geometry.getNormal(gp.point);
 		double nv = alignZero(n.dotProduct(v));
 		if (nv == 0)
-			return Color.BLACK;
+			return color;// Color.Black???
 		Material material = gp.geometry.getMaterial();
 		for (LightSource lightSource : scene.lights) {
 			Vector l = lightSource.getL(gp.point);
@@ -261,7 +262,7 @@ public class RayTracerBasic extends RayTracerBase {
 		for (GeoPoint g : intersections) {
 			if (alignZero(g.point.distance(shadowRay.getP0()) - lightDistance) <= 0) {// if the intersection is before
 																						// the light source
-				ktr.product(g.geometry.getMaterial().kT);
+				ktr = ktr.product(g.geometry.getMaterial().kT);
 				if (ktr.lowerThan(MIN_CALC_COLOR_K))// if ktr is smaller than the minimum k - the point completely
 													// shaded and there is no need to continue with the loop
 					return Double3.ZERO;
