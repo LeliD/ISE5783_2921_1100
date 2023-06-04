@@ -9,9 +9,11 @@ import static java.awt.Color.WHITE;
 
 import org.junit.jupiter.api.Test;
 
+import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
+import lighting.DirectionalLight;
 import lighting.SpotLight;
 import primitives.Color;
 import primitives.Double3;
@@ -114,4 +116,48 @@ public class ReflectionRefractionTests {
 				.writeToImage();
 	}
 
+	@Test
+	public void projectShilatAndLeli() {
+		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(150,150).setVPDistance(1000);
+		scene.background = new Color(30, 30, 220);
+		scene.geometries.add( //
+				new Sphere(new Point(10, 15, -60), 15) //head
+				        .setEmission(new Color(java.awt.Color.WHITE)) //
+				        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
+				new Sphere(new Point(10, -20, -60), 25) // body
+						.setEmission(new Color(java.awt.Color.WHITE)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
+				new Sphere(new Point(12,20, -40), 2.5) // right eye
+						.setEmission(new Color(java.awt.Color.BLACK)), //
+						//.setMaterial(new Material()),
+				new Sphere(new Point(0, 20, -40), 2.5) // left eye
+						.setEmission(new Color(java.awt.Color.BLACK)), //
+						//.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
+						new Point(-100, -120, 400)) // down squere
+						.setEmission(new Color(130,160,210)) //
+						.setMaterial(new Material().setKr(0.1)),
+				new Triangle(new Point(-3, 12, -25), new Point(8, 12, -35), new Point(6, 16, -35)) //
+						.setEmission(new Color(java.awt.Color.ORANGE)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
+				new Sphere(new Point(0, -6, -30), 3) //button
+						.setEmission(new Color(java.awt.Color.RED)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Sphere(new Point(-3, -18, -30), 3) //button
+						.setEmission(new Color(java.awt.Color.RED)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Sphere(new Point(0, -30, -30), 3) //button
+						.setEmission(new Color(java.awt.Color.RED)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)));
+		
+		scene.lights.add(new DirectionalLight(new Color(800, 500, 0), new Vector(0, 0, 1)));
+
+
+		camera.setImageWriter(new ImageWriter("ProjectShilat&Leli", 1000, 1000)) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage();
+		
+	}
 }
