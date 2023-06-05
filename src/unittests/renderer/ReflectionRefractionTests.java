@@ -134,13 +134,19 @@ public class ReflectionRefractionTests {
 				new Sphere(new Point(0, 20, -40), 2.5) // left eye
 						.setEmission(new Color(java.awt.Color.BLACK)), //
 						//.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Polygon(new Point(-40, 20, -390), new Point(140, 20, -390), new Point(100, -120, 410),
+								new Point(-80, -120, 410)) // down squere
+								.setEmission(new Color(130,160,210)) //
+								.setMaterial(new Material().setKr(0.1)),
 				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
-						new Point(-100, -120, 400)) // down squere
-						.setEmission(new Color(130,160,210)) //
-						.setMaterial(new Material().setKr(0.1)),
-				new Triangle(new Point(-3, 12, -25), new Point(8, 12, -35), new Point(6, 16, -35)) //
+								new Point(-100, -120, 400)) // down squere
+							   .setEmission(new Color(java.awt.Color.WHITE)) //
+								.setMaterial(new Material().setKr(0.1)),
+								
+               new Triangle(new Point(-3, 12, -25), new Point(8, 12, -35), new Point(6, 16, -35)) //
 						.setEmission(new Color(java.awt.Color.ORANGE)) //
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
+				
 				new Sphere(new Point(0, -6, -30), 3) //button
 						.setEmission(new Color(java.awt.Color.RED)) //
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
@@ -150,11 +156,15 @@ public class ReflectionRefractionTests {
 				new Sphere(new Point(0, -30, -30), 3) //button
 						.setEmission(new Color(java.awt.Color.RED)) //
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)));
-		
+		       
 		scene.lights.add(new DirectionalLight(new Color(800, 500, 0), new Vector(0, 0, 1)));
 
 
-		camera.setImageWriter(new ImageWriter("ProjectShilat&Leli", 1000, 1000)) //
+       //scene.lights.add( //
+        //new SpotLight(new Color(1000, 600, 0), new Point(-150, 0, 0), new Vector(-1, -1, -2)) //
+      // .setKl(0.0004).setKq(0.0000006));
+
+		camera.setImageWriter(new ImageWriter("ProjectShilat&Leli", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage();
