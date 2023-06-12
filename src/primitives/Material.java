@@ -21,7 +21,19 @@ public class Material {
 	public Double3 kT = Double3.ZERO;
 	/** The reflection coefficient. */
 	public Double3 kR = Double3.ZERO;
-
+	/** Size of glossy and diffused grid */
+	public double gd=0;
+	/**
+	 * 
+	 * Sets the size of glossy and diffused grid.
+	 * 
+	 * @param gd the size of glossy and diffused grid
+	 * @return The Material object itself (for method chaining)
+	 */
+	public Material setGd(double gd) {
+	     this.gd = gd;
+	     return this;
+	}
 	/**
 	 * 
 	 * Sets the diffuse reflection coefficient of the material.

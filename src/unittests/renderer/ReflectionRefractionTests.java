@@ -142,7 +142,7 @@ public class ReflectionRefractionTests {
 				new Polygon(new Point(-40, 20, -390), new Point(140, 20, -390), new Point(100, -120, 410),
 						new Point(-80, -120, 410)) // down squere
 						.setEmission(new Color(130, 160, 210)) //
-						.setMaterial(new Material().setKr(0.1)),
+						.setMaterial(new Material().setKr(0.1).setGd(80)),
 				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
 						new Point(-100, -120, 400)) // down squere
 						.setEmission(new Color(java.awt.Color.WHITE)) //
@@ -301,4 +301,5 @@ public class ReflectionRefractionTests {
 				.writeToImage();
 
 	}
+	
 }

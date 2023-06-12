@@ -111,5 +111,13 @@ public class Point {
 	public double getY() {
 		return xyz.d2;
 	}
-
+	/**
+	 * 
+	 * Returns the z coordinate of this point.
+	 * 
+	 * @return the z coordinate
+	 */
+	public double getZ() {
+		return xyz.d2;
+	}
 }
