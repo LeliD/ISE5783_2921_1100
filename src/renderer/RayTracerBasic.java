@@ -28,11 +28,16 @@ import scene.Scene;
 public class RayTracerBasic extends RayTracerBase {
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
-	private static final Double3 INITIAL_K = new Double3(1.0);
+	private static final Double3 INITIAL_K = Double3.ONE;
 	private int gdNumRays = 36;
-	private double distanceGrid = 25;
-	//private double sizeGrid = 4;
+	private double distanceGrid = 1;
 
+	/**
+	 * 
+	 * Sets the distance of the grid.
+	 * 
+	 * @param distanceGrid the distance of the grid to be set
+	 */
 	public void setDistanceGrid(double distanceGrid) {
 		this.distanceGrid = distanceGrid;
 	}
@@ -117,15 +122,17 @@ public class RayTracerBasic extends RayTracerBase {
 		Vector v = ray.getDir();
 		Vector n = gp.geometry.getNormal(gp.point);
 		Material material = gp.geometry.getMaterial();
-		return calcGlobalEffect(constructReflectionRays(gp.point, v, n,gp.geometry.getMaterial().gd), level, k, material.kR)//
-				.add(calcGlobalEffect(constructTransparencyRays(gp.point, v, n,gp.geometry.getMaterial().gd), level, k, material.kT));
+		return calcGlobalEffect(constructReflectionRays(gp.point, v, n, gp.geometry.getMaterial().gd), level, k,
+				material.kR)//
+				.add(calcGlobalEffect(constructTransparencyRays(gp.point, v, n, gp.geometry.getMaterial().gd), level, k,
+						material.kT));
 	}
 
 	/**
 	 * 
 	 * Calculates the global effect (reflection or transparency) for a given ray.
 	 * 
-	 * @param ray   The ray to calculate the global effect for.
+	 * @param rays  The list of rays to calculate the global effect for.
 	 * @param level The current recursion level.
 	 * @param k     The accumulation factor for global effects.
 	 * @param kx    The reflection or transparency factor for the material.
@@ -135,23 +142,18 @@ public class RayTracerBasic extends RayTracerBase {
 		Double3 kkx = k.product(kx);
 		if (kkx.lowerThan(MIN_CALC_COLOR_K))
 			return Color.BLACK;
-		//GeoPoint gp = findClosestIntersection(ray);
-		//if (gp == null)// if there arn't intersection points with the secondary ray
-		//	return scene.background.scale(kx);
-		//return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())) ? Color.BLACK
-		//		: calcColor(gp, ray, level - 1, kkx).scale(kx);
 		Color color = primitives.Color.BLACK;
-        // for each ray
-        for(Ray ray: rays)
-        {
-        	GeoPoint gp = findClosestIntersection(ray);
-        	if (gp == null)// if there arn't intersection points with the secondary ray
-        		color = color.add(scene.background.scale(kx));
-        	else
-        		if (!isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())))
-        			color = color.add(calcColor(gp, ray, level - 1, kkx).scale(kx));
-        }
-        return color.add(color.reduce(rays.size()));
+		// for each ray
+		for (Ray ray : rays) {
+			GeoPoint gp = findClosestIntersection(ray);
+			if (gp == null)
+				color = color.add(scene.background.scale(kx));
+			else if (!isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())))
+				color = color.add(calcColor(gp, ray, level - 1, kkx).scale(kx));
+		}
+
+		return color = color.reduce(rays.size());
+
 	}
 
 	/**
@@ -288,72 +290,86 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 * Constructs a transparency ray given a point, direction vector, and surface
-	 * normal.
-	 *
-	 * @param p The point representing the intersection point.
-	 * @param v The direction vector to the intersection point.
-	 * @param n The surface normal vector at the intersection point.
-	 * @return The transparency ray which it's head moved by DELTA length to the
+	 * 
+	 * Constructs transparency rays based on the given parameters.
+	 * 
+	 * @param p  the starting point of the rays
+	 * @param v  the direction vector of the rays
+	 * @param n  the surface normal vector
+	 * @param gd the grid size
+	 * @return a list of transparency rays
 	 */
-	private List<Ray> constructTransparencyRays(Point p, Vector v, Vector n,double gd) {
-		Ray transparencyRay= new Ray(p, v, n);
+	private List<Ray> constructTransparencyRays(Point p, Vector v, Vector n, double gd) {
+		Ray transparencyRay = new Ray(p, v, n);
 		return gridRays(n, transparencyRay, 1, gd);
-		
+
 	}
 
 	/**
-	 * Constructs a reflection ray given a point, direction vector, and surface
+	 * Constructs reflection rays given a point, direction vector, and surface
 	 * normal.
 	 *
-	 * @param p The point representing the intersection point.
-	 * @param v The direction vector of the ray.
-	 * @param n The surface normal vector at the intersection point.
-	 * @return The reflection ray.
+	 * @param p  The point representing the intersection point.
+	 * @param v  The direction vector of the ray.
+	 * @param n  The surface normal vector at the intersection point.
+	 * @param gd the grid size
+	 * @return list of the reflection rays.
 	 */
-	private List<Ray> constructReflectionRays(Point p, Vector v, Vector n,double gd) {
+	private List<Ray> constructReflectionRays(Point p, Vector v, Vector n, double gd) {
 		double vn = v.dotProduct(n);
 		if (isZero(vn))
 			return null;
 		Vector reflectionDirection = (v.subtract(n.scale(2 * vn))).normalize();
-		//return new Ray(p, reflectionDirection, n);
 		return gridRays(n, new Ray(p, reflectionDirection, n), -1, gd);
 
 	}
-	
-	
-	List<Ray> gridRays(Vector n, Ray mainRay, int direction, double gd){
-		if (isZero(gd)) return List.of(mainRay);
-        int numOfRowCol = (int) Math.ceil(Math.sqrt(gdNumRays));
-        Point pMainRay= mainRay.getP0();
-        Vector vTo=mainRay.getDir();
-        Vector vUp = vTo.findOrthogonal();
-        Vector vRight = vUp.crossProduct(vTo).normalize();
-        Point pij = pMainRay.add(vTo.scale(distanceGrid)); // center point of the grid
-        double sizeOfCube = gd/numOfRowCol;//size of each cube in the grid
-        List<Ray> rays = new LinkedList<> ();
-        n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);//fix the normal direction
-        Point currentPoint = pij;//save the center of the grid
-        Vector currentRay;
-        for (int j = 0;  j< numOfRowCol; j++)
-        {
-        	double xJ= (j - (numOfRowCol/2d))*sizeOfCube + sizeOfCube/2d;
-        		for(int i = 0; i < numOfRowCol; i++)
-        		{
-        			double yI=(i - (numOfRowCol/2d))*sizeOfCube + sizeOfCube/2d;
-        			if(xJ != 0) 
-        				currentPoint = pij.add(vRight.scale(-xJ)) ;//????
-        			if(yI != 0) 
-        				currentPoint = pij.add(vUp.scale(-yI)) ;
-        			currentRay = currentPoint.subtract(pMainRay);
-                	if(n.dotProduct(currentRay) < 0 && direction == 1) //transparency
-                		rays.add(new Ray(pMainRay, currentRay, n));
-                	if(n.dotProduct(currentRay) > 0 && direction == -1) //reflection
-                		rays.add(new Ray(pMainRay, currentRay, n));
-        		}
-        }
-        return rays;
-        
-    }
+
+	/**
+	 * 
+	 * Generates a list of rays in a grid pattern.
+	 * 
+	 * @param n         the surface normal vector
+	 * 
+	 * @param mainRay   the main ray
+	 * 
+	 * @param direction the direction of the rays (-1 for reflection, 1 for
+	 *                  transparency)
+	 * 
+	 * @param gd        the grid distance
+	 * 
+	 * @return a list of rays in the grid
+	 */
+	List<Ray> gridRays(Vector n, Ray mainRay, int direction, double gd) {
+		if (isZero(gd))
+			return List.of(mainRay);
+		int numOfRowCol = (int) Math.ceil(Math.sqrt(gdNumRays));
+		Point pMainRay = mainRay.getP0();
+		Vector vTo = mainRay.getDir();
+		Vector vUp = vTo.findOrthogonal();
+		Vector vRight = vUp.crossProduct(vTo).normalize();
+		Point pij = pMainRay.add(vTo.scale(distanceGrid)); // center point of the grid
+		double sizeOfCube = gd / numOfRowCol;// size of each cube in the grid
+		List<Ray> rays = new LinkedList<>();
+		n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);// fix the normal direction
+		Point currentPoint = pij;// save the center of the grid
+		Vector currentRay;
+		for (int j = 0; j < numOfRowCol; j++) {
+			double xJ = (j - (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d;
+			for (int i = 0; i < numOfRowCol; i++) {
+				double yI = (i - (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d;
+				if (xJ != 0)
+					currentPoint = pij.add(vRight.scale(xJ));// ????
+				if (yI != 0)
+					currentPoint = pij.add(vUp.scale(-yI));
+				currentRay = currentPoint.subtract(pMainRay);
+				if (n.dotProduct(currentRay) < 0 && direction == 1) // transparency
+					rays.add(new Ray(pMainRay, currentRay, n));
+				if (n.dotProduct(currentRay) > 0 && direction == -1) // reflection
+					rays.add(new Ray(pMainRay, currentRay, n));
+			}
+		}
+		return rays;
+
+	}
 
 }
