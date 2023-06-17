@@ -369,5 +369,6 @@ public class RayTracerBasic extends RayTracerBase {
 			}
 		}
 		return rays;
+		
 	}
 }
