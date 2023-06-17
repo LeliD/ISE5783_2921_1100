@@ -143,7 +143,7 @@ public class ReflectionRefractionTests {
 					new Polygon(new Point(-40, 20, -390), new Point(140, 20, -390), new Point(100, -120, 410),
 							new Point(-80, -120, 410)) // down squere
 							.setEmission(new Color(130, 160, 210)) //
-							.setMaterial(new Material().setKr(0.1).setGd(15)),
+							.setMaterial(new Material().setKr(0.1)),
 					new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
 							new Point(-100, -120, 400)) // down squere
 							.setEmission(new Color(java.awt.Color.WHITE)) //
@@ -334,7 +334,7 @@ public class ReflectionRefractionTests {
 
 				new Plane(new Point(1500, 1500, 0), new Point(-1500, -1500, 3850), new Point(-1500, 1500, 0))
 						.setEmission(new Color(java.awt.Color.BLACK).reduce(5))
-						.setMaterial(new Material().setKr(0.4).setKd(0.4).setKs(0.3).setShininess(2000).setGd(15)));
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(2000)));
 
 		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(0, 300, -400), new Vector(-1, 1, 4))
 				.setKl(0.00001).setKq(0.000005));

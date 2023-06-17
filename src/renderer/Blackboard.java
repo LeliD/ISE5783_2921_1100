@@ -12,10 +12,9 @@ import java.util.Random;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 /**
- * @author Shilat Sharon
- *
+ * The Blackboard class represents a blackboard in a scene, used for generating jittered grid rays.
+ * @author Shilat Sharon and Lea Drach
  */
 public class Blackboard {
 	private final int nX;
@@ -27,7 +26,14 @@ public class Blackboard {
 	private final double gridSize;
 	private final Point pc;
 	private final Point p0;
-
+	 /**
+     * Constructs a Blackboard object with the specified parameters.
+     *
+     * @param nXY       The number of pixels in each row/column of the grid.
+     * @param mainRay   The transparency or reflection ray in the scene.
+     * @param distance  The distance between the blackboard and the main ray's origin.
+     * @param gd        The size of the grid in world coordinates.
+     */
 	public Blackboard(int nXY, Ray mainRay, double distance, double gd) {
 		this.nX = nXY;
 		this.nY = nXY;
