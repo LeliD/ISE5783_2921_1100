@@ -6,7 +6,6 @@ package renderer;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -29,7 +28,7 @@ public class RayTracerBasic extends RayTracerBase {
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final Double3 INITIAL_K = Double3.ONE;
-	private int gdNumRays = 36;
+	private int nXY = 22;
 	private double distanceGrid = 1;
 
 	/**
@@ -301,8 +300,10 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private List<Ray> constructTransparencyRays(Point p, Vector v, Vector n, double gd) {
 		Ray transparencyRay = new Ray(p, v, n);
-		return gridRays(n, transparencyRay, 1, gd);
-
+		if (isZero(gd))
+			return List.of(transparencyRay);
+		return new Blackboard(nXY, transparencyRay, distanceGrid, gd).gridRays();
+		// return gridRays(n, transparencyRay, 1, gd);
 	}
 
 	/**
@@ -320,7 +321,10 @@ public class RayTracerBasic extends RayTracerBase {
 		if (isZero(vn))
 			return null;
 		Vector reflectionDirection = (v.subtract(n.scale(2 * vn))).normalize();
-		return gridRays(n, new Ray(p, reflectionDirection, n), -1, gd);
+		if (isZero(gd))
+			return List.of(new Ray(p, reflectionDirection, n));
+		return new Blackboard(nXY, new Ray(p, reflectionDirection, n), distanceGrid, gd).gridRays();
+		// return gridRays(n, new Ray(p, reflectionDirection, n), -1, gd);
 
 	}
 
@@ -338,37 +342,29 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param gd        the grid distance
 	 * 
 	 * @return a list of rays in the grid
+	 * 
+	 *         List<Ray> gridRays(Vector n, Ray mainRay, int direction, double gd) {
+	 *         if (isZero(gd)) return List.of(mainRay); int numOfRowCol = (int)
+	 *         Math.ceil(Math.sqrt(gdNumRays)); Point pMainRay = mainRay.getP0();
+	 *         Vector vTo = mainRay.getDir(); Vector vUp = vTo.findOrthogonal();
+	 *         Vector vRight = vUp.crossProduct(vTo).normalize(); Point pij =
+	 *         pMainRay.add(vTo.scale(distanceGrid)); // center point of the grid
+	 *         double sizeOfCube = gd / numOfRowCol;// size of each cube in the grid
+	 *         List<Ray> rays = new LinkedList<>(); n = n.dotProduct(vTo) > 0 ?
+	 *         n.scale(-direction) : n.scale(direction);// fix the normal direction
+	 *         Point currentPoint = pij;// save the center of the grid Vector
+	 *         currentRay; for (int j = 0; j < numOfRowCol; j++) { double xJ = (j -
+	 *         (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d; for (int i = 0; i
+	 *         < numOfRowCol; i++) { double yI = (i - (numOfRowCol / 2d)) *
+	 *         sizeOfCube + sizeOfCube / 2d; if (xJ != 0) currentPoint =
+	 *         pij.add(vRight.scale(xJ));// ???? if (yI != 0) currentPoint =
+	 *         pij.add(vUp.scale(-yI)); currentRay =
+	 *         currentPoint.subtract(pMainRay); if (n.dotProduct(currentRay) < 0 &&
+	 *         direction == 1) // transparency rays.add(new Ray(pMainRay,
+	 *         currentRay, n)); if (n.dotProduct(currentRay) > 0 && direction == -1)
+	 *         // reflection rays.add(new Ray(pMainRay, currentRay, n)); } } return
+	 *         rays;
+	 * 
+	 *         }
 	 */
-	List<Ray> gridRays(Vector n, Ray mainRay, int direction, double gd) {
-		if (isZero(gd))
-			return List.of(mainRay);
-		int numOfRowCol = (int) Math.ceil(Math.sqrt(gdNumRays));
-		Point pMainRay = mainRay.getP0();
-		Vector vTo = mainRay.getDir();
-		Vector vUp = vTo.findOrthogonal();
-		Vector vRight = vUp.crossProduct(vTo).normalize();
-		Point pij = pMainRay.add(vTo.scale(distanceGrid)); // center point of the grid
-		double sizeOfCube = gd / numOfRowCol;// size of each cube in the grid
-		List<Ray> rays = new LinkedList<>();
-		n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);// fix the normal direction
-		Point currentPoint = pij;// save the center of the grid
-		Vector currentRay;
-		for (int j = 0; j < numOfRowCol; j++) {
-			double xJ = (j - (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d;
-			for (int i = 0; i < numOfRowCol; i++) {
-				double yI = (i - (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d;
-				if (xJ != 0)
-					currentPoint = pij.add(vRight.scale(xJ));// ????
-				if (yI != 0)
-					currentPoint = pij.add(vUp.scale(-yI));
-				currentRay = currentPoint.subtract(pMainRay);
-				if (n.dotProduct(currentRay) < 0 && direction == 1) // transparency
-					rays.add(new Ray(pMainRay, currentRay, n));
-				if (n.dotProduct(currentRay) > 0 && direction == -1) // reflection
-					rays.add(new Ray(pMainRay, currentRay, n));
-			}
-		}
-		return rays;
-		
-	}
 }
