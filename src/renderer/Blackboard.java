@@ -7,6 +7,7 @@ import static primitives.Util.alignZero;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import primitives.Point;
 import primitives.Ray;
@@ -40,16 +41,28 @@ public class Blackboard {
 
 	}
 
+	/**
+	 * Generates jittered grid rays for a given scene.
+	 *
+	 * @return A list of Ray objects representing the jittered grid rays.
+	 */
 	public List<Ray> gridRays() {
 		List<Ray> rays = new LinkedList<>();
 		double sizeOfCube = gridSize / nX;// height of each pixel
 		// double rX = gridSize / nX;// width of each pixel
+		Random random = new Random(); // Create a random number generator
+
 		for (int i = 0; i < nY; i++)
 			for (int j = 0; j < nX; j++) {
 
-				// the middle of the pixel (xj,yi)
-				double yi = (i - (nY - 1) / 2d) * sizeOfCube;
-				double xj = (j - (nX - 1) / 2d) * sizeOfCube;
+				// Calculate the jittered offsets between -0.5sizeOfCube to 0.5sizeOfCube for x
+				// and y coordinates
+				double xOffset = random.nextDouble() * sizeOfCube - sizeOfCube / 2;
+				double yOffset = random.nextDouble() * sizeOfCube - sizeOfCube / 2;
+
+				// Calculate the middle of the jittered pixel (xj, yi)
+				double yi = (i - (nY - 1) / 2d) * sizeOfCube + xOffset;
+				double xj = (j - (nX - 1) / 2d) * sizeOfCube + yOffset;
 
 				Point pij = pc;
 
