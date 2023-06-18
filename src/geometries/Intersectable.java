@@ -16,14 +16,187 @@ import primitives.Ray;
  *
  */
 public abstract class Intersectable {
+	/** a box- for BVH */
+	protected Box box = null;
+
+	/**
+	 * C-TOR that gets a box
+	 * 
+	 * @param box a box
+	 */
+	public Intersectable(Box box) {
+		this.box = box;
+	}
+
+	/**
+	 * Class for representing a Box for BVH contains 6 double values of x,y,z
+	 * minimum and maximum
+	 * 
+	 * @author Shilat Sharon and Lea Drach
+	 *
+	 */
+	public static class Box {// for MP2
+		/** x minimum */
+		protected final double x0;
+		/** x maximum */
+		protected final double x1;
+		/** y minimum */
+		protected final double y0;
+		/** y maximum */
+		protected final double y1;
+		/** z minimum */
+		protected final double z0;
+		/** z maximum */
+		protected final double z1;
+
+		/**
+		 * Constructor, build a box around among of shapes
+		 * 
+		 * @param x0 x minimum
+		 * @param x1 x max
+		 * @param y0 y minimum
+		 * @param y1 y max
+		 * @param z0 z minimum
+		 * @param z1 z max
+		 */
+		public Box(double x0, double x1, double y0, double y1, double z0, double z1) {
+			super();
+			this.x0 = x0;
+			this.x1 = x1;
+			this.y0 = y0;
+			this.y1 = y1;
+			this.z0 = z0;
+			this.z1 = z1;
+		}
+
+		/**
+		 * Get x0
+		 * 
+		 * @return x0 value
+		 */
+		public double getX0() {
+			return x0;
+		}
+
+		/**
+		 * Get x1
+		 * 
+		 * @return x1 value
+		 */
+		public double getX1() {
+			return x1;
+		}
+
+		/**
+		 * Get y0
+		 * 
+		 * @return y0 value
+		 */
+		public double getY0() {
+			return y0;
+		}
+
+		/**
+		 * Get y1
+		 * 
+		 * @return y1 value
+		 */
+		public double getY1() {
+			return y1;
+		}
+
+		/**
+		 * Get z0
+		 * 
+		 * @return z0 value
+		 */
+		public double getZ0() {
+			return z0;
+		}
+
+		/**
+		 * Get z1
+		 * 
+		 * @return z1 value
+		 */
+		public double getZ1() {
+			return z1;
+		}
+
+		/**
+		 * Returns true if the ray intersects the box
+		 * 
+		 * @param r ray
+		 * @return True if the ray intersects the box. Otherwise, False
+		 */
+		public boolean IntersectionBox(Ray r) {
+
+			double txMin = (x0 - r.getP0().getX()) / r.getDir().getX();
+			double txMax = (x1 - r.getP0().getX()) / r.getDir().getX();
+			if (txMin > txMax) {
+				double temp = txMin;
+				txMin = txMax;
+				txMax = temp;
+			}
+			double tyMin = (y0 - r.getP0().getY()) / r.getDir().getY();
+			double tyMax = (y1 - r.getP0().getY()) / r.getDir().getY();
+			if (tyMin > tyMax) {
+				double temp = tyMin;
+				tyMin = tyMax;
+				tyMax = temp;
+			}
+			if ((txMin > tyMax) || (tyMin > txMax))
+				return false;
+			if (tyMin > txMin)
+				txMin = tyMin;
+			if (tyMax < txMax)
+				txMax = tyMax;
+			double tzMin = (z0 - r.getP0().getZ()) / r.getDir().getZ();
+			double tzMax = (z1 - r.getP0().getZ()) / r.getDir().getZ();
+			if (tzMin > tzMax) {
+				double temp = tzMin;
+				tzMin = tzMax;
+				tzMax = temp;
+			}
+			if ((txMin > tzMax) || (tzMin > txMax))
+				return false;
+			if (tzMin > txMin)
+				txMin = tzMin;
+			if (tzMax < txMax)
+				txMax = tzMax;
+			return true;
+		}
+
+	}
+
+	/**
+	 * Get box
+	 * 
+	 * @return the box
+	 */
+	public Box getBox() {
+		return box;
+	}
+
+	/**
+	 * set box
+	 * 
+	 * @param box
+	 * @return The Intersectable object itself (for method chaining)
+	 */
+	public Intersectable setBox(Box box) {
+		this.box = box;
+		return this;
+	}
+
 	/**
 	 * The GeoPoint class represents an intersection point between a ray and a
 	 * geometry.
 	 */
 	public static class GeoPoint {
-        /** The Geometry of the intersection point*/
+		/** The Geometry of the intersection point */
 		public Geometry geometry;
-		 /** The Point of the intersection point*/
+		/** The Point of the intersection point */
 		public Point point;
 
 		/**

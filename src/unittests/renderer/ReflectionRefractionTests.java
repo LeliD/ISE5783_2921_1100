@@ -147,7 +147,7 @@ public class ReflectionRefractionTests {
 				new Polygon(new Point(-40, 20, -390), new Point(140, 20, -390), new Point(100, -120, 410),
 						new Point(-80, -120, 410)) // down squere
 						.setEmission(new Color(130, 160, 210)) //
-						.setMaterial(new Material().setKr(0.1).setGd(15)),
+						.setMaterial(new Material().setKr(0.1).setGd(0)),
 				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
 						new Point(-100, -120, 400)) // down squere
 						.setEmission(new Color(java.awt.Color.WHITE)) //
@@ -324,8 +324,16 @@ public class ReflectionRefractionTests {
 
 				new Sphere(new Point(0, -50, 1600), 200).setEmission(new Color(0, 25, 51))
 						.setMaterial(new Material().setKr(0.7).setKd(0.8).setShininess(200).setKs(0.8)),
-
-				new Triangle(new Point(40, -15, -8200), new Point(350, -15, -8200), new Point(350, 185, -8200))
+				new Polygon(new Point(-330, 185, -8200), new Point(-330, -20, -8200), new Point(-130, -20, -8200),new Point(-130, 185, -8200))
+				        .setEmission(new Color(java.awt.Color.WHITE).reduce(10)).setMaterial(new Material().setKt(1)),
+			    new Polygon(new Point(-130, 185, -8200), new Point(-130, -20, -8200), new Point(100, -20, -8200),new Point(100, 185, -8200))
+			    .setEmission(new Color(java.awt.Color.WHITE).reduce(10))
+				.setMaterial(new Material().setKt(1).setGd(15)),
+				new Polygon(new Point(100, 185, -8200), new Point(100, -20, -8200), new Point(390, -20, -8200),new Point(390, 185, -8200))
+				.setEmission(new Color(java.awt.Color.WHITE).reduce(10))
+				.setMaterial(new Material().setKt(1).setGd(30)),
+				
+				/*new Triangle(new Point(40, -15, -8200), new Point(350, -15, -8200), new Point(350, 185, -8200))
 						.setEmission(new Color(java.awt.Color.WHITE).reduce(10)).setMaterial(new Material().setKt(1)),
 
 				new Triangle(new Point(40, -15, -8200), new Point(350, 185, -8200), new Point(-270, 185, -8200))
@@ -335,7 +343,7 @@ public class ReflectionRefractionTests {
 				new Triangle(new Point(40, -15, -8200), new Point(-270, -15, -8200), new Point(-270, 185, -8200))
 						.setEmission(new Color(java.awt.Color.WHITE).reduce(10))
 						.setMaterial(new Material().setKt(1).setGd(30)),
-
+*/
 				new Plane(new Point(1500, 1500, 0), new Point(-1500, -1500, 3850), new Point(-1500, 1500, 0))
 						.setEmission(new Color(java.awt.Color.BLACK).reduce(5))
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(2000)));
