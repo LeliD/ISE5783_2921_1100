@@ -29,7 +29,7 @@ public class RayTracerBasic extends RayTracerBase {
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final Double3 INITIAL_K = Double3.ONE;
 	/* The resolution of the grid */
-	private int nXY = 10;
+	private int nXY = 15;
 	/* The distance to the grid */
 	private double distanceGrid = 1;
 

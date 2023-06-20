@@ -62,14 +62,13 @@ public class Geometries extends Intersectable {
 			this.geometries.addAll(Arrays.asList(geometries));
 			createBox();
 		}
-		
 
 	}
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<GeoPoint> intersections = null;
-		
+
 		if (box != null && box.IntersectionBox(ray) == false)
 			return null;
 
@@ -113,11 +112,12 @@ public class Geometries extends Intersectable {
 		}
 		this.box = new Box(x0, x1, y0, y1, z0, z1);
 	}
+
 	/**
 	 * puts the geometries in the right boxes and creates a fitting tree
 	 */
 	public void createBVH() {
-		if (geometries.size() <= 2) {//if there are two geometries in the box
+		if (geometries.size() <= 2) {// if there are two geometries in the box
 			return;
 		}
 		char axis = 'x';
@@ -151,20 +151,20 @@ public class Geometries extends Intersectable {
 	}
 
 	/**
-	 * sorts the list of intersectables with bubble sort
+	 * sorts the list of intersectable geometries with bubble sort
 	 * 
-	 * @param L list of geometries
+	 * @param L    list of geometries
 	 * @param axis the axis that the geometries are sorted by it
 	 */
-	private void bubbleSort(List<Intersectable> L, char axis) {
-		int n = L.size();
+	private void bubbleSort(List<Intersectable> l, char axis) {
+		int n = l.size();
 		for (int i = 0; i < n - 1; i++)
 			for (int j = 0; j < n - i - 1; j++) {
-				if (sizeRelToAxis(L.get(j), axis) > sizeRelToAxis(L.get(j + 1), axis)) {
+				if (sizeRelToAxis(l.get(j), axis) > sizeRelToAxis(l.get(j + 1), axis)) {
 					// swap arr[j+1] and arr[j]
-					Intersectable temp = L.get(j);
-					L.set(j, L.get(j + 1));
-					L.set(j + 1, temp);
+					Intersectable temp = l.get(j);
+					l.set(j, l.get(j + 1));
+					l.set(j + 1, temp);
 				}
 			}
 	}
@@ -173,7 +173,7 @@ public class Geometries extends Intersectable {
 	 * returns the middle of the box relatively to the selected axis
 	 * 
 	 * @param inter an intersectable
-	 * @param axis the longest axis
+	 * @param axis  the longest axis
 	 * @return the middle point of this axis of the intersectable's box
 	 */
 	private double sizeRelToAxis(Intersectable inter, char axis) {
@@ -181,13 +181,13 @@ public class Geometries extends Intersectable {
 		double sum = 0;
 		switch (axis) {
 		case 'x':
-			sum = (temp.getX1() + temp.getX0())/2;
+			sum = (temp.getX1() + temp.getX0()) / 2;
 			break;
 		case 'y':
-			sum = (temp.getY1() + temp.getY0())/2;
+			sum = (temp.getY1() + temp.getY0()) / 2;
 			break;
 		case 'z':
-			sum = (temp.getZ1() + temp.getZ0())/2;
+			sum = (temp.getZ1() + temp.getZ0()) / 2;
 			break;
 		}
 		return sum;

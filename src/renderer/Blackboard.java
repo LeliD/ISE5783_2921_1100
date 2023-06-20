@@ -68,7 +68,7 @@ public class Blackboard {
 		double sizeOfCube = gridSize / nXY;// height of each pixel
 		// double rX = gridSize / nX;// width of each pixel
 		Random random = new Random(); // Create a random number generator
-		// n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);// fix
+		n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);// fix
 		// the normal direction
 		for (int i = 0; i < nXY; i++)
 			for (int j = 0; j < nXY; j++) {
@@ -90,12 +90,12 @@ public class Blackboard {
 				if (alignZero(yi) != 0)
 					pij = pij.add(vUp.scale(-yi));
 
-				// Vector tempRayVector = pij.subtract(p0);
+				Vector tempRayVector = pij.subtract(p0);
 
-				// if (n.dotProduct(tempRayVector) < 0 && direction == 1) // transparency
-				// rays.add(new Ray(p0, tempRayVector));
-				// if (n.dotProduct(tempRayVector) > 0 && direction == -1) // reflection
-				// rays.add(new Ray(p0, tempRayVector));
+				if (n.dotProduct(tempRayVector) < 0 && direction == 1) // transparency
+					rays.add(new Ray(p0, tempRayVector, n));
+				if (n.dotProduct(tempRayVector) > 0 && direction == -1) // reflection
+					rays.add(new Ray(p0, tempRayVector, n));
 				rays.add(new Ray(p0, pij.subtract(p0)));
 				// return new Ray(p0, pij.subtract(p0));
 
