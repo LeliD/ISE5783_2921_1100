@@ -385,11 +385,22 @@ public class ReflectionRefractionTests {
 						new Point(-80, -120, 410)) // down squere
 						.setEmission(new Color(130, 160, 210)) //
 						.setMaterial(new Material().setKr(0.1).setGd(40)),
+				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
+						new Point(-100, -120, 400)) // down squere
+						.setEmission(new Color(java.awt.Color.WHITE)) //
+						.setMaterial(new Material()),
+
 				new Sphere(new Point(10, -20, -60), 25) // body
 						.setEmission(new Color(RED))
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
 				new Sphere(new Point(0, -6, -40), 3) // button
-						.setEmission(new Color(GREEN))
+						.setEmission(new Color(java.awt.Color.RED)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Sphere(new Point(-3, -18, -36), 3) // button
+						.setEmission(new Color(java.awt.Color.RED)) //
+						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)),
+				new Sphere(new Point(0, -30, -40), 3) // button
+						.setEmission(new Color(java.awt.Color.RED)) //
 						.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)));
 		scene.lights.add( //
 				new SpotLight(new Color(1000, 600, 200), new Point(-250, 400, 500), new Vector(-1, -1, -2)) //
