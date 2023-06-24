@@ -7,6 +7,7 @@ import java.util.List;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * The Intersectable interface represents a geometry object that can be
@@ -18,15 +19,23 @@ import primitives.Ray;
 public abstract class Intersectable {
 	/** a box- for BVH */
 	protected Box box = null;
-
+	/** set cbr improvement */
+	protected static boolean cbr = false;
+	/**
+	 *  Set cbr improvement 
+	 *  
+	 */
+	public static void createCBR() {
+		Intersectable.cbr = true;
+	}
 	/**
 	 * C-TOR that gets a box
 	 * 
 	 * @param box a box
 	 */
-	public Intersectable(Box box) {
-		this.box = box;
-	}
+	//public Intersectable(Box box) {
+	//	this.box = box;
+	//}
 
 	/**
 	 * Class for representing a Box for BVH contains 6 double values of x,y,z
@@ -37,17 +46,17 @@ public abstract class Intersectable {
 	 */
 	public static class Box {// for MP2
 		/** x minimum */
-		protected final double x0;
+		protected double x0;
 		/** x maximum */
-		protected final double x1;
+		protected double x1;
 		/** y minimum */
-		protected final double y0;
+		protected double y0;
 		/** y maximum */
-		protected final double y1;
+		protected double y1;
 		/** z minimum */
-		protected final double z0;
+		protected double z0;
 		/** z maximum */
-		protected final double z1;
+		protected double z1;
 
 		/**
 		 * Constructor, build a box around among of shapes
@@ -60,7 +69,6 @@ public abstract class Intersectable {
 		 * @param z1 z max
 		 */
 		public Box(double x0, double x1, double y0, double y1, double z0, double z1) {
-			super();
 			this.x0 = x0;
 			this.x1 = x1;
 			this.y0 = y0;
@@ -68,59 +76,17 @@ public abstract class Intersectable {
 			this.z0 = z0;
 			this.z1 = z1;
 		}
-
 		/**
-		 * Get x0
+		 * Empty Constructor, build an infinity box
 		 * 
-		 * @return x0 value
 		 */
-		public double getX0() {
-			return x0;
-		}
-
-		/**
-		 * Get x1
-		 * 
-		 * @return x1 value
-		 */
-		public double getX1() {
-			return x1;
-		}
-
-		/**
-		 * Get y0
-		 * 
-		 * @return y0 value
-		 */
-		public double getY0() {
-			return y0;
-		}
-
-		/**
-		 * Get y1
-		 * 
-		 * @return y1 value
-		 */
-		public double getY1() {
-			return y1;
-		}
-
-		/**
-		 * Get z0
-		 * 
-		 * @return z0 value
-		 */
-		public double getZ0() {
-			return z0;
-		}
-
-		/**
-		 * Get z1
-		 * 
-		 * @return z1 value
-		 */
-		public double getZ1() {
-			return z1;
+		public Box() {
+			this.x0 = Double.POSITIVE_INFINITY;
+			this.x1 = Double.NEGATIVE_INFINITY;
+			this.y0 = Double.POSITIVE_INFINITY;
+			this.y1 = Double.NEGATIVE_INFINITY;
+			this.z0 = Double.POSITIVE_INFINITY;
+			this.z1 = Double.NEGATIVE_INFINITY;
 		}
 
 		/**
@@ -131,63 +97,71 @@ public abstract class Intersectable {
 		 */
 		public boolean IntersectionBox(Ray r) {
 
-			double txMin = (x0 - r.getP0().getX()) / r.getDir().getX();
-			double txMax = (x1 - r.getP0().getX()) / r.getDir().getX();
-			if (txMin > txMax) {
-				double temp = txMin;
-				txMin = txMax;
-				txMax = temp;
+			Point origin = r.getP0();
+			double originX = origin.getX();
+			double originY = origin.getY();
+			double originZ = origin.getZ();
+			Vector dir = r.getDir();
+			double dirX = dir.getX();
+			double dirY = dir.getY();
+			double dirZ = dir.getZ();
+
+			// Initially will receive the values of tMinX and tMaxX
+			double tMin = Double.NEGATIVE_INFINITY;
+			double tMax = Double.POSITIVE_INFINITY;
+
+			// the values are depend on the direction of the ray
+
+			if (dirX > 0) {
+				tMin = (x0 - originX) / dirX; // b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
+				tMax = (x1 - originX) / dirX;
+			} else if (dirX < 0) {
+				tMin = (x1 - originX) / dirX;
+				tMax = (x0 - originX) / dirX;
 			}
-			double tyMin = (y0 - r.getP0().getY()) / r.getDir().getY();
-			double tyMax = (y1 - r.getP0().getY()) / r.getDir().getY();
-			if (tyMin > tyMax) {
-				double temp = tyMin;
-				tyMin = tyMax;
-				tyMax = temp;
+
+			double tMinY = Double.NEGATIVE_INFINITY;
+			double tMaxY = Double.POSITIVE_INFINITY;
+			if (dirY > 0) {
+				tMinY = (y0 - originY) / dirY;
+				tMaxY = (y1 - originY) / dirY;
+			} else if (dirY < 0) {
+				tMinY = (y1 - originY) / dirY;
+				tMaxY = (y0 - originY) / dirY;
 			}
-			if ((txMin > tyMax) || (tyMin > txMax))
+
+			// If either the max value of Y is smaller than overall min value, or min value
+			// of Y is bigger than the overall
+			// max, we can already return false.
+			// Otherwise we'll update the overall min and max values and perform the same
+			// check on the Z values.
+			if ((tMin > tMaxY) || (tMinY > tMax))
 				return false;
-			if (tyMin > txMin)
-				txMin = tyMin;
-			if (tyMax < txMax)
-				txMax = tyMax;
-			double tzMin = (z0 - r.getP0().getZ()) / r.getDir().getZ();
-			double tzMax = (z1 - r.getP0().getZ()) / r.getDir().getZ();
-			if (tzMin > tzMax) {
-				double temp = tzMin;
-				tzMin = tzMax;
-				tzMax = temp;
+
+			if (tMinY > tMin)
+				tMin = tMinY;
+			if (tMaxY < tMax)
+				tMax = tMaxY;
+
+			double tMinZ = Double.NEGATIVE_INFINITY;
+			double tMaxZ = Double.POSITIVE_INFINITY;
+			if (dirZ > 0) {
+				tMinZ = (z0 - originZ) / dirZ;
+				tMaxZ = (z1 - originZ) / dirZ;
+			} else if (dirZ < 0) {
+				tMinZ = (z1 - originZ) / dirZ;
+				tMaxZ = (z0 - originZ) / dirZ;
 			}
-			if ((txMin > tzMax) || (tzMin > txMax))
-				return false;
-			if (tzMin > txMin)
-				txMin = tzMin;
-			if (tzMax < txMax)
-				txMax = tzMax;
-			return true;
+
+			// If either the max value of Z is smaller than overall min value, or min value
+			// of Z is bigger than the overall
+			// max, we can already return false. Otherwise we can return true since no other
+			// coordinate checks are needed.
+			return tMin <= tMaxZ && tMinZ <= tMax;
 		}
 
 	}
 
-	/**
-	 * Get box
-	 * 
-	 * @return the box
-	 */
-	public Box getBox() {
-		return box;
-	}
-
-	/**
-	 * Constructs an Intersectable object with a given box.
-	 * 
-	 * @param box the box of the Intersectable object
-	 * @return The Intersectable object itself (for method chaining)
-	 */
-	public Intersectable setBox(Box box) {
-		this.box = box;
-		return this;
-	}
 
 	/**
 	 * The GeoPoint class represents an intersection point between a ray and a
@@ -247,7 +221,8 @@ public abstract class Intersectable {
 	 *         are no intersections
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
-		return findGeoIntersectionsHelper(ray);
+		return box != null && !box.IntersectionBox(ray) ? null : findGeoIntersectionsHelper(ray);
+		//return findGeoIntersectionsHelper(ray);
 	}
 
 	/**

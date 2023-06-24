@@ -17,14 +17,13 @@ import primitives.Ray;
  */
 public class Geometries extends Intersectable {
 	/** List of intersectable geometries */
-	private List<Intersectable> geometries;
-
+	private List<Intersectable> geometries=new LinkedList<>();
+	/** List of infinities geometries */
+	private final List<Intersectable> infinitiesGeometries = new LinkedList<>();
 	/**
-	 * Default constructor, creates an empty list of geometries.
+	 * Default constructor.
 	 */
 	public Geometries() {
-		super(null);
-		geometries = new LinkedList<Intersectable>();
 	}
 
 	/**
@@ -35,11 +34,19 @@ public class Geometries extends Intersectable {
 	 *                   of geometries.
 	 */
 	public Geometries(Intersectable... geometries) {
-		super(null);
-		this.geometries = new LinkedList<Intersectable>(Arrays.asList(geometries));
-		createBox();
+		//this.geometries = new LinkedList<Intersectable>(Arrays.asList(geometries));
+		//createBox();
+		add(geometries);
 	}
-
+	/**
+	 * constructor that gets several intersectables and add them to the geometries
+	 * list
+	 * 
+	 * @param geometries geometries to add to list
+	 */
+	public Geometries(List<Intersectable> geometries) {
+		add(geometries);
+	}
 	/**
 	 * 
 	 * Returns the list of intersectable geometries.
@@ -58,21 +65,70 @@ public class Geometries extends Intersectable {
 	 *                   of geometries.
 	 */
 	public void add(Intersectable... geometries) {
-		if (geometries != null) {
-			this.geometries.addAll(Arrays.asList(geometries));
-			createBox();
-		}
+		add(List.of(geometries));
+		//if (geometries != null) {
+		//	this.geometries.addAll(Arrays.asList(geometries));
+		//	createBox();
+		//}
 
 	}
+
+	/**
+	 * Adds geometries to the list
+	 * 
+	 * @param geometries the geomtries to add
+	 */
+	public void add(List<Intersectable> geometries) {
+		if (!cbr) {
+			this.geometries.addAll(geometries);
+			return;
+		}
+
+		for (var geometry : geometries) {
+			if (geometry.box == null)
+				infinitiesGeometries.add(geometry);
+			else {
+				this.geometries.add(geometry);
+				if (infinitiesGeometries.isEmpty()) {
+					if (box == null)
+						box = new Box();
+					if (geometry.box.x0 < box.x0)
+						box.x0 = geometry.box.x0;
+					if (geometry.box.y0 < box.y0)
+						box.y0 = geometry.box.y0;
+					if (geometry.box.z0 < box.z0)
+						box.z0 = geometry.box.z0;
+					if (geometry.box.x1 > box.x1)
+						box.x1 = geometry.box.x1;
+					if (geometry.box.y1 > box.y1)
+						box.y1 = geometry.box.y1;
+					if (geometry.box.z1 > box.z1)
+						box.z1 = geometry.box.z1;
+				}
+			}
+		}
+		// if there are inifinities objects
+		if (!infinitiesGeometries.isEmpty())
+			box = null;
+	}
+
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<GeoPoint> intersections = null;
 
-		if (box != null && box.IntersectionBox(ray) == false)
-			return null;
+		//if (box != null && box.IntersectionBox(ray) == false)
+		//	return null;
 
 		for (Intersectable geo : geometries) {
+			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);// list of single geometry
+			if (IntersectionsPerGeometry != null) {
+				if (intersections == null)// for the first time
+					intersections = new LinkedList<>();
+				intersections.addAll(IntersectionsPerGeometry);
+			}
+		}
+		for (Intersectable geo : infinitiesGeometries) {
 			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);// list of single geometry
 			if (IntersectionsPerGeometry != null) {
 				if (intersections == null)// for the first time
@@ -84,113 +140,91 @@ public class Geometries extends Intersectable {
 
 	}
 
-	/**
-	 * Creating a box containing all the geometries boxes
-	 */
-	private void createBox() {
-		// Restart
-		double x1 = Double.NEGATIVE_INFINITY;
-		double x0 = Double.POSITIVE_INFINITY;
-		double y1 = Double.NEGATIVE_INFINITY;
-		double y0 = Double.POSITIVE_INFINITY;
-		double z1 = Double.NEGATIVE_INFINITY;
-		double z0 = Double.POSITIVE_INFINITY;
-		// Adjust the size of the box to contain all the boxes
-		for (Intersectable geo : geometries) {
-			if (geo.getBox().getX0() < x0)
-				x0 = geo.getBox().getX0();
-			if (geo.getBox().getX1() > x1)
-				x1 = geo.getBox().getX1();
-			if (geo.getBox().getY0() < y0)
-				y0 = geo.getBox().getY0();
-			if (geo.getBox().getY1() > y1)
-				y1 = geo.getBox().getY1();
-			if (geo.getBox().getZ0() < z0)
-				z0 = geo.getBox().getZ0();
-			if (geo.getBox().getZ1() > z1)
-				z1 = geo.getBox().getZ1();
-		}
-		this.box = new Box(x0, x1, y0, y1, z0, z1);
-	}
+	
 
 	/**
 	 * puts the geometries in the right boxes and creates a fitting tree
 	 */
 	public void createBVH() {
-		if (geometries.size() <= 2) {// if there are two geometries in the box
+		if (!cbr)
+			return;
+		// min amount of geometries in a box is 2
+		if (geometries.size() <= 4)
+			return;
+
+		if (box == null) {
+			var finites = new Geometries(geometries);
+			geometries.clear();
+			geometries.add(finites);
 			return;
 		}
-		char axis = 'x';
-		double x = box.getX1() - box.getX0();
-		double y = box.getY1() - box.getY0();
-		double z = box.getZ1() - box.getZ0();
 
-		if (y > x && y > z) {
-			axis = 'y';
-		}
-		if (z > x && z > y) {
-			axis = 'z';
-		}
-
-		bubbleSort(geometries, axis);
-
-		Geometries left = new Geometries();
-		Geometries right = new Geometries();
-		for (int i = 0; i < geometries.size() / 2; i++) {
-			left.add(geometries.get(i));
-		}
-		for (int i = geometries.size() / 2; i < geometries.size(); i++) {
-			right.add(geometries.get(i));
-		}
-		right.createBVH();
-		left.createBVH();
-
-		geometries.clear();
-		geometries.add(left);
-		geometries.add(right);
-	}
-
-	/**
-	 * sorts the list of intersectable geometries with bubble sort
-	 * 
-	 * @param L    list of geometries
-	 * @param axis the axis that the geometries are sorted by it
-	 */
-	private void bubbleSort(List<Intersectable> l, char axis) {
-		int n = l.size();
-		for (int i = 0; i < n - 1; i++)
-			for (int j = 0; j < n - i - 1; j++) {
-				if (sizeRelToAxis(l.get(j), axis) > sizeRelToAxis(l.get(j + 1), axis)) {
-					// swap arr[j+1] and arr[j]
-					Intersectable temp = l.get(j);
-					l.set(j, l.get(j + 1));
-					l.set(j + 1, temp);
-				}
-			}
-	}
-
-	/**
-	 * returns the middle of the box relatively to the selected axis
-	 * 
-	 * @param inter an intersectable
-	 * @param axis  the longest axis
-	 * @return the middle point of this axis of the intersectable's box
-	 */
-	private double sizeRelToAxis(Intersectable inter, char axis) {
-		Box temp = inter.getBox();
-		double sum = 0;
+		double x = box.x1 - box.x0;
+		double y = box.y1 - box.y0;
+		double z = box.z1 - box.z0;
+		// which axis we are reffering to
+		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
+		
+		var left = new Geometries();
+		var middle = new Geometries();
+		var right = new Geometries();
+		double midX = (box.x1 + box.x0) / 2;
+		double midY = (box.y1 + box.y0) / 2;
+		double midZ = (box.z1 + box.z0) / 2;
 		switch (axis) {
 		case 'x':
-			sum = (temp.getX1() + temp.getX0()) / 2;
+			for (var g : geometries) {
+				if (g.box.x0 > midX)
+					right.add(g);
+				else if (g.box.x1 < midX)
+					left.add(g);
+				else
+					middle.add(g);
+			}
 			break;
 		case 'y':
-			sum = (temp.getY1() + temp.getY0()) / 2;
+			for (var g : geometries) {
+				if (g.box.y0 > midY)
+					right.add(g);
+				else if (g.box.y1 < midY)
+					left.add(g);
+				else
+					middle.add(g);
+			}
 			break;
 		case 'z':
-			sum = (temp.getZ1() + temp.getZ0()) / 2;
+			for (var g : geometries) {
+				if (g.box.z0 > midZ)
+					right.add(g);
+				else if (g.box.z1 < midZ)
+					left.add(g);
+				else
+					middle.add(g);
+			}
 			break;
 		}
-		return sum;
+
+
+		geometries.clear();
+		if (left.geometries.size() <= 2)
+			geometries.addAll(left.geometries);
+		else {
+			left.createBVH();
+			geometries.add(left);
+		}
+
+		if (middle.geometries.size() <= 2)
+			geometries.addAll(middle.geometries);
+		else
+			geometries.add(middle);
+		
+		if (right.geometries.size() <= 2)
+			geometries.addAll(right.geometries);
+		else {
+			right.createBVH();
+			geometries.add(right);
+		}
 	}
+
 
 }

@@ -24,14 +24,7 @@ public abstract class Geometry extends Intersectable {
 	*/
 	private Material material=new Material();
 
-	/**
-	 * C-TOR that gets a box
-	 * @param box a box
-	 */
-	public Geometry(Box box)
-	{
-		super(box);
-	}
+	
 	/**
 	 * 
 	 * Calculates the normal vector of a point on the surface of the geometry shape.

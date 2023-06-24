@@ -31,8 +31,6 @@ public class Plane extends Geometry {
 	 */
 
 	public Plane(Point p1, Point p2, Point p3) {
-		super(new Box(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-				Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
 		this.p0 = p1;
 		Vector v1 = p2.subtract(p1);
 		Vector v2 = p3.subtract(p1);
@@ -49,8 +47,6 @@ public class Plane extends Geometry {
 	 * @param v The normal vector to the plane
 	 */
 	public Plane(Point p, Vector v) {
-		super(new Box(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-				Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
 		p0 = p;
 		normal = v.normalize();
 	}
@@ -87,8 +83,8 @@ public class Plane extends Geometry {
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		if (this.getBox().IntersectionBox(ray) == false)
-			return null;
+		//if (this.getBox().IntersectionBox(ray) == false)
+		//	return null;
 		// get ray point and vector
 		Point p0ray = ray.getP0();
 		Vector v = ray.getDir();

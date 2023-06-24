@@ -4,6 +4,7 @@
 package scene;
 
 import geometries.Geometries;
+import geometries.Intersectable;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
@@ -87,6 +88,25 @@ public class Scene {
 	 */
 	public Scene setLights(List<LightSource> lights) {
 		this.lights = lights;
+		return this;
+	}
+	/**
+	 * Sets Conservative Bounding Region for creating the scene (for its 3D model).<br>
+	 * It must be called <b><u>before</u></b> creating the 3D model (adding bodyes to the scene).
+	 * @return scene object itself
+	 */
+	public Scene setCBR() {
+		Intersectable.createCBR();
+		return this;
+	}
+
+	/**
+	 * Creates Bounding Volume Hierarchy in the scene's 3D model<br>
+	 * It must be called <b><u>after</u></b> creating the 3D model (adding bodyes to the scene).
+	 * @return scene object itself
+	 */
+	public Scene setBVH() {
+		geometries.createBVH();	
 		return this;
 	}
 }

@@ -22,7 +22,6 @@ public abstract class RadialGeometry extends Geometry {
 	@param r the radius of the radial geometry.
 	*/
 	public RadialGeometry(double r) {
-		super(null);
 		radius = r;
 		radius2 = r * r;
 	}
