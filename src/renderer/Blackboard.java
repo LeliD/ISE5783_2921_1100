@@ -63,24 +63,22 @@ public class Blackboard {
 	 *
 	 * @return A list of Ray objects representing the jittered grid rays.
 	 */
-	public List<Ray> gridRays(Vector n, int direction) {
+	public List<Ray> gridRays() {
 		List<Ray> rays = new LinkedList<>();
-		double sizeOfCube = gridSize / nXY;// height of each pixel
-		// double rX = gridSize / nX;// width of each pixel
+		double sizeOfPixel = gridSize / nXY;// height and width of each pixel
 		Random random = new Random(); // Create a random number generator
-		n = n.dotProduct(vTo) > 0 ? n.scale(-direction) : n.scale(direction);// fix
-		// the normal direction
+
 		for (int i = 0; i < nXY; i++)
 			for (int j = 0; j < nXY; j++) {
 
 				// Calculate the jittered offsets between -0.5sizeOfCube to 0.5sizeOfCube for x
 				// and y coordinates
-				double xOffset = random.nextDouble() * sizeOfCube - sizeOfCube / 2;
-				double yOffset = random.nextDouble() * sizeOfCube - sizeOfCube / 2;
+				double xOffset = random.nextDouble() * sizeOfPixel - sizeOfPixel / 2;
+				double yOffset = random.nextDouble() * sizeOfPixel - sizeOfPixel / 2;
 
 				// Calculate the middle of the jittered pixel (xj, yi)
-				double yi = (i - (nXY - 1) / 2d) * sizeOfCube + xOffset;
-				double xj = (j - (nXY - 1) / 2d) * sizeOfCube + yOffset;
+				double yi = (i - (nXY - 1) / 2d) * sizeOfPixel + xOffset;
+				double xj = (j - (nXY - 1) / 2d) * sizeOfPixel + yOffset;
 
 				Point pij = pc;
 
@@ -90,14 +88,7 @@ public class Blackboard {
 				if (alignZero(yi) != 0)
 					pij = pij.add(vUp.scale(-yi));
 
-				Vector tempRayVector = pij.subtract(p0);
-
-				if (n.dotProduct(tempRayVector) < 0 && direction == 1) // transparency
-					rays.add(new Ray(p0, tempRayVector, n));
-				if (n.dotProduct(tempRayVector) > 0 && direction == -1) // reflection
-					rays.add(new Ray(p0, tempRayVector, n));
 				rays.add(new Ray(p0, pij.subtract(p0)));
-				// return new Ray(p0, pij.subtract(p0));
 
 			}
 		return rays;

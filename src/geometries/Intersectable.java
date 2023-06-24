@@ -179,9 +179,9 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * set box
+	 * Constructs an Intersectable object with a given box.
 	 * 
-	 * @param box
+	 * @param box the box of the Intersectable object
 	 * @return The Intersectable object itself (for method chaining)
 	 */
 	public Intersectable setBox(Box box) {

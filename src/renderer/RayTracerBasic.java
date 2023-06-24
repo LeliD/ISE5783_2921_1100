@@ -29,7 +29,7 @@ public class RayTracerBasic extends RayTracerBase {
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final Double3 INITIAL_K = Double3.ONE;
 	/* The resolution of the grid */
-	private int nXY = 15;
+	private int nXY = 22;
 	/* The distance to the grid */
 	private double distanceGrid = 1;
 
@@ -314,7 +314,7 @@ public class RayTracerBasic extends RayTracerBase {
 		Ray transparencyRay = new Ray(p, v, n);
 		if (isZero(gd))
 			return List.of(transparencyRay);
-		return new Blackboard(nXY, transparencyRay, distanceGrid, gd).gridRays(n, 1);
+		return new Blackboard(nXY, transparencyRay, distanceGrid, gd).gridRays();
 		// return gridRays(n, transparencyRay, 1, gd);
 	}
 
@@ -335,7 +335,7 @@ public class RayTracerBasic extends RayTracerBase {
 		Vector reflectionDirection = (v.subtract(n.scale(2 * vn))).normalize();
 		if (isZero(gd))
 			return List.of(new Ray(p, reflectionDirection, n));
-		return new Blackboard(nXY, new Ray(p, reflectionDirection, n), distanceGrid, gd).gridRays(n, -1);
+		return new Blackboard(nXY, new Ray(p, reflectionDirection, n), distanceGrid, gd).gridRays();
 		// return gridRays(n, new Ray(p, reflectionDirection, n), -1, gd);
 
 	}
