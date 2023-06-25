@@ -3,7 +3,6 @@
  */
 package geometries;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,9 +16,10 @@ import primitives.Ray;
  */
 public class Geometries extends Intersectable {
 	/** List of intersectable geometries */
-	private List<Intersectable> geometries=new LinkedList<>();
+	private List<Intersectable> geometries = new LinkedList<>();
 	/** List of infinities geometries */
 	private final List<Intersectable> infinitiesGeometries = new LinkedList<>();
+
 	/**
 	 * Default constructor.
 	 */
@@ -34,10 +34,11 @@ public class Geometries extends Intersectable {
 	 *                   of geometries.
 	 */
 	public Geometries(Intersectable... geometries) {
-		//this.geometries = new LinkedList<Intersectable>(Arrays.asList(geometries));
-		//createBox();
+		// this.geometries = new LinkedList<Intersectable>(Arrays.asList(geometries));
+		// createBox();
 		add(geometries);
 	}
+
 	/**
 	 * constructor that gets several intersectables and add them to the geometries
 	 * list
@@ -47,6 +48,7 @@ public class Geometries extends Intersectable {
 	public Geometries(List<Intersectable> geometries) {
 		add(geometries);
 	}
+
 	/**
 	 * 
 	 * Returns the list of intersectable geometries.
@@ -66,10 +68,10 @@ public class Geometries extends Intersectable {
 	 */
 	public void add(Intersectable... geometries) {
 		add(List.of(geometries));
-		//if (geometries != null) {
-		//	this.geometries.addAll(Arrays.asList(geometries));
-		//	createBox();
-		//}
+		// if (geometries != null) {
+		// this.geometries.addAll(Arrays.asList(geometries));
+		// createBox();
+		// }
 
 	}
 
@@ -112,13 +114,12 @@ public class Geometries extends Intersectable {
 			box = null;
 	}
 
-
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<GeoPoint> intersections = null;
 
-		//if (box != null && box.IntersectionBox(ray) == false)
-		//	return null;
+		// if (box != null && box.IntersectionBox(ray) == false)
+		// return null;
 
 		for (Intersectable geo : geometries) {
 			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);// list of single geometry
@@ -139,8 +140,6 @@ public class Geometries extends Intersectable {
 		return intersections;
 
 	}
-
-	
 
 	/**
 	 * puts the geometries in the right boxes and creates a fitting tree
@@ -164,7 +163,7 @@ public class Geometries extends Intersectable {
 		double z = box.z1 - box.z0;
 		// which axis we are reffering to
 		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
-		
+
 		var left = new Geometries();
 		var middle = new Geometries();
 		var right = new Geometries();
@@ -204,7 +203,6 @@ public class Geometries extends Intersectable {
 			break;
 		}
 
-
 		geometries.clear();
 		if (left.geometries.size() <= 2)
 			geometries.addAll(left.geometries);
@@ -217,7 +215,7 @@ public class Geometries extends Intersectable {
 			geometries.addAll(middle.geometries);
 		else
 			geometries.add(middle);
-		
+
 		if (right.geometries.size() <= 2)
 			geometries.addAll(right.geometries);
 		else {
@@ -225,6 +223,5 @@ public class Geometries extends Intersectable {
 			geometries.add(right);
 		}
 	}
-
 
 }

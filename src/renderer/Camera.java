@@ -197,32 +197,37 @@ public class Camera {
 		this.imageWriter = imageWriter;
 		return this;
 	}
-	/**
 
-	Sets the number of threads for multi-threading in the Camera.
-	@param threads the number of threads to be set
-	@return the updated Camera object
-	@throws IllegalArgumentException if the number of threads is negative
-	*/
+	/**
+	 * 
+	 * Sets the number of threads for multi-threading in the Camera.
+	 * 
+	 * @param threads the number of threads to be set
+	 * @return the updated Camera object
+	 * @throws IllegalArgumentException if the number of threads is negative
+	 */
 	public Camera setMultiThreading(int threads) {
 		if (threads < 0)
 			throw new IllegalArgumentException("number of threads must not be negative");
 		threadsCount = threads;
 		return this;
 	}
-	/**
 
-	Sets the debug print interval for the Camera.
-	@param interval the debug print interval to be set
-	@return the updated Camera object
-	@throws IllegalArgumentException if the print interval is negative
-	*/
+	/**
+	 * 
+	 * Sets the debug print interval for the Camera.
+	 * 
+	 * @param interval the debug print interval to be set
+	 * @return the updated Camera object
+	 * @throws IllegalArgumentException if the print interval is negative
+	 */
 	public Camera setDebugPrint(double interval) {
 		if (interval < 0)
 			throw new IllegalArgumentException("print interval must not be negative");
 		printInterval = interval;
 		return this;
 	}
+
 	/**
 	 * 
 	 * Constructs a ray through a specified pixel on the view plane.
@@ -255,8 +260,7 @@ public class Camera {
 	}
 
 	/**
-	 * Renders the image by casting rays and writing pixels (determines them a
-	 * color)to the image writer.
+	 * Renders the image by casting rays
 	 * 
 	 * @throws MissingResourceException if any required field is null
 	 * @return The Camera object itself (for method chaining)
@@ -270,41 +274,45 @@ public class Camera {
 		pixelManager = new PixelManager(nY, nX, printInterval);
 		if (threadsCount == 0)
 			for (int i = 0; i < nY; i++)
-			     for (int j = 0; j < nX; j++)
-				//imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
-			    	 castRay(nX, nY, j, i); 
+				for (int j = 0; j < nX; j++)
+					// imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
+					castRay(nX, nY, j, i);
 		else { // see further... option 2
-			 var threads = new LinkedList<Thread>(); // list of threads
-			 while (threadsCount-- > 0) // add appropriate number of threads
-			 threads.add(new Thread(() -> { // add a thread with its code
-			 Pixel pixel; // current pixel(row,col)
-			 // allocate pixel(row,col) in loop until there are no more pixels
-			 while ((pixel = pixelManager.nextPixel()) != null)
-			 // cast ray through pixel (and color it – inside castRay)
-			 castRay(nX, nY, pixel.col(), pixel.row());
-			 }));
-			 // start all the threads
-			 for (var thread : threads) thread.start();
-			 // wait until all the threads have finished
-			 try { for (var thread : threads) thread.join(); } catch (InterruptedException ignore) {}
-			 }
-       return this;
+			var threads = new LinkedList<Thread>(); // list of threads
+			while (threadsCount-- > 0) // add appropriate number of threads
+				threads.add(new Thread(() -> { // add a thread with its code
+					Pixel pixel; // current pixel(row,col)
+					// allocate pixel(row,col) in loop until there are no more pixels
+					while ((pixel = pixelManager.nextPixel()) != null)
+						// cast ray through pixel (and color it – inside castRay)
+						castRay(nX, nY, pixel.col(), pixel.row());
+				}));
+			// start all the threads
+			for (var thread : threads)
+				thread.start();
+			// wait until all the threads have finished
+			try {
+				for (var thread : threads)
+					thread.join();
+			} catch (InterruptedException ignore) {
+			}
+		}
+		return this;
 	}
 
-	 /** Cast ray from camera and color a pixel
-		 * @param nX resolution on X axis (number of pixels in row)
-		 * @param nY resolution on Y axis (number of pixels in column)
-		 * @param col pixel's column number (pixel index in row)
-		 * @param row pixel's row number (pixel index in column)
-		 */
-	//private Color castRay(int nX, int nY, int j, int i) {
-	//	Ray ray = constructRay(nX, nY, j, i);
-	//	return this.rayTracer.traceRay(ray);
-	//}
-	 private void castRay(int nX, int nY, int col, int row) {
-	 imageWriter.writePixel(col, row, rayTracer.traceRay(constructRay(nX, nY, col, row)));
-	 pixelManager.pixelDone();
-	 }
+	/**
+	 * Cast ray from camera and color a pixel
+	 * 
+	 * @param nX  resolution on X axis (number of pixels in row)
+	 * @param nY  resolution on Y axis (number of pixels in column)
+	 * @param col pixel's column number (pixel index in row)
+	 * @param row pixel's row number (pixel index in column)
+	 */
+
+	private void castRay(int nX, int nY, int col, int row) {
+		imageWriter.writePixel(col, row, rayTracer.traceRay(constructRay(nX, nY, col, row)));
+		pixelManager.pixelDone();
+	}
 
 	/**
 	 * 
@@ -314,7 +322,8 @@ public class Camera {
 	 * @param color    The color of the grid lines.
 	 * 
 	 * @throws MissingResourceException if the imageWriter field is null.
-	 * @throws IllegalArgumentException if the interval is not a divisor of both nX and nY.
+	 * @throws IllegalArgumentException if the interval is not a divisor of both nX
+	 *                                  and nY.
 	 * @return The Camera object itself (for method chaining)
 	 */
 	public Camera printGrid(int interval, Color color) {
