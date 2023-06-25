@@ -52,7 +52,7 @@ public class Polygon extends Geometry {
 		
 		size = vertices.length;
 		if (cbr)
-		    this.box=createBox();// build the box
+		   createBox();// build the box
 		// Generate the plane according to the first three vertices and associate the
 		// polygon with this plane.
 		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
@@ -130,7 +130,7 @@ public class Polygon extends Geometry {
 	 * 
 	 * @return Box
 	 */
-	private Box createBox() {
+	private void createBox() {
         box=new Box();
 		// Adjust the size of the box according to the vertices
 		for (Point v : vertices) {
@@ -147,7 +147,6 @@ public class Polygon extends Geometry {
 			if (v.getZ() > box.z1)
 				box.z1 = v.getZ();
 		}
-		return box;
-
+		
 	}
 }
