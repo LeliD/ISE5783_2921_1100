@@ -24,7 +24,6 @@ import static java.awt.Color.*;
 
 /**
  * Tests for BVH improvement
- * 
  * @author Shilat and Leli
  */
 public class MiniProject2Tests {
