@@ -94,18 +94,18 @@ public class Geometries extends Intersectable {
 				if (infinitiesGeometries.isEmpty()) {
 					if (box == null)
 						box = new Box();
-					if (geometry.box.x0 < box.x0)
-						box.x0 = geometry.box.x0;
-					if (geometry.box.y0 < box.y0)
-						box.y0 = geometry.box.y0;
-					if (geometry.box.z0 < box.z0)
-						box.z0 = geometry.box.z0;
-					if (geometry.box.x1 > box.x1)
-						box.x1 = geometry.box.x1;
-					if (geometry.box.y1 > box.y1)
-						box.y1 = geometry.box.y1;
-					if (geometry.box.z1 > box.z1)
-						box.z1 = geometry.box.z1;
+					if (geometry.box.minX < box.minX)
+						box.minX = geometry.box.minX;
+					if (geometry.box.minY < box.minY)
+						box.minY = geometry.box.minY;
+					if (geometry.box.minZ < box.minZ)
+						box.minZ = geometry.box.minZ;
+					if (geometry.box.maxX > box.maxX)
+						box.maxX = geometry.box.maxX;
+					if (geometry.box.maxY > box.maxY)
+						box.maxY = geometry.box.maxY;
+					if (geometry.box.maxZ > box.maxZ)
+						box.maxZ = geometry.box.maxZ;
 				}
 			}
 		}
@@ -119,7 +119,8 @@ public class Geometries extends Intersectable {
 		List<GeoPoint> intersections = null;
 
 		for (Intersectable geo : geometries) {
-			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);// list of single geometry
+			// list of single geometry
+			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);
 			if (IntersectionsPerGeometry != null) {
 				if (intersections == null)// for the first time
 					intersections = new LinkedList<>();
@@ -155,24 +156,24 @@ public class Geometries extends Intersectable {
 			return;
 		}
 
-		double x = box.x1 - box.x0;
-		double y = box.y1 - box.y0;
-		double z = box.z1 - box.z0;
+		double x = box.maxX - box.minX;
+		double y = box.maxY - box.minY;
+		double z = box.maxZ - box.minZ;
 		// the axis we are referring to is the longest
 		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
 
 		var left = new Geometries();
 		var middle = new Geometries();
 		var right = new Geometries();
-		double midX = (box.x1 + box.x0) / 2;
-		double midY = (box.y1 + box.y0) / 2;
-		double midZ = (box.z1 + box.z0) / 2;
+		double midX = (box.maxX + box.minX) / 2;
+		double midY = (box.maxY + box.minY) / 2;
+		double midZ = (box.maxZ + box.minZ) / 2;
 		switch (axis) {
 		case 'x':
 			for (var g : geometries) {
-				if (g.box.x0 > midX)
+				if (g.box.minX > midX)
 					right.add(g);
-				else if (g.box.x1 < midX)
+				else if (g.box.maxX < midX)
 					left.add(g);
 				else
 					middle.add(g);
@@ -180,9 +181,9 @@ public class Geometries extends Intersectable {
 			break;
 		case 'y':
 			for (var g : geometries) {
-				if (g.box.y0 > midY)
+				if (g.box.minY > midY)
 					right.add(g);
-				else if (g.box.y1 < midY)
+				else if (g.box.maxY < midY)
 					left.add(g);
 				else
 					middle.add(g);
@@ -190,9 +191,9 @@ public class Geometries extends Intersectable {
 			break;
 		case 'z':
 			for (var g : geometries) {
-				if (g.box.z0 > midZ)
+				if (g.box.minZ > midZ)
 					right.add(g);
-				else if (g.box.z1 < midZ)
+				else if (g.box.maxZ < midZ)
 					left.add(g);
 				else
 					middle.add(g);

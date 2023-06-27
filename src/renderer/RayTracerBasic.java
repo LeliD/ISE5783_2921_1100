@@ -38,9 +38,11 @@ public class RayTracerBasic extends RayTracerBase {
 	 * Sets the distance of the grid.
 	 * 
 	 * @param distanceGrid the distance of the grid to be set
+	 * @return the object itself
 	 */
-	public void setDistanceGrid(double distanceGrid) {
+	public RayTracerBase setDistanceGrid(double distanceGrid) {
 		this.distanceGrid = distanceGrid;
+		return this;
 	}
 
 	/**

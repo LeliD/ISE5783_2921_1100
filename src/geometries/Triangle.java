@@ -30,7 +30,7 @@ public class Triangle extends Polygon {
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray);
+		List<GeoPoint> intersections = plane.findGeoIntersections(ray);
 		if (intersections == null)// if the ray doesn't cross the plane of the triangle
 			return null;
 		Point p0 = ray.getP0();

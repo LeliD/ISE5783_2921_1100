@@ -4,6 +4,7 @@
 package geometries;
 
 import java.util.List;
+import static java.lang.Math.*;
 
 import primitives.Point;
 import primitives.Ray;
@@ -17,6 +18,8 @@ import primitives.Vector;
  *
  */
 public abstract class Intersectable {
+	public static long count = 0;
+	public static long positives = 0;
 
 	/** a box- for BVH */
 	protected Box box = null;
@@ -27,8 +30,11 @@ public abstract class Intersectable {
 	 * Set CBR improvement
 	 * 
 	 */
-	public static void createCBR() {
-		Intersectable.cbr = true;
+	public static void createCBR(boolean cbr) {
+		Intersectable.cbr = cbr;
+		Box.count = 0;
+		Box.positives = 0;
+		count = 0;
 	}
 
 	/**
@@ -39,18 +45,21 @@ public abstract class Intersectable {
 	 *
 	 */
 	public static class Box {
+		public static long count = 0;
+		public static long positives = 0;
+
 		/** x minimum */
-		protected double x0;
+		protected double minX;
 		/** x maximum */
-		protected double x1;
+		protected double maxX;
 		/** y minimum */
-		protected double y0;
+		protected double minY;
 		/** y maximum */
-		protected double y1;
+		protected double maxY;
 		/** z minimum */
-		protected double z0;
+		protected double minZ;
 		/** z maximum */
-		protected double z1;
+		protected double maxZ;
 
 		/**
 		 * Constructor, build a box around among of shapes
@@ -63,12 +72,12 @@ public abstract class Intersectable {
 		 * @param z1 z max
 		 */
 		public Box(double x0, double x1, double y0, double y1, double z0, double z1) {
-			this.x0 = x0;
-			this.x1 = x1;
-			this.y0 = y0;
-			this.y1 = y1;
-			this.z0 = z0;
-			this.z1 = z1;
+			this.minX = x0;
+			this.maxX = x1;
+			this.minY = y0;
+			this.maxY = y1;
+			this.minZ = z0;
+			this.maxZ = z1;
 		}
 
 		/**
@@ -76,12 +85,12 @@ public abstract class Intersectable {
 		 * 
 		 */
 		public Box() {
-			this.x0 = Double.POSITIVE_INFINITY;
-			this.x1 = Double.NEGATIVE_INFINITY;
-			this.y0 = Double.POSITIVE_INFINITY;
-			this.y1 = Double.NEGATIVE_INFINITY;
-			this.z0 = Double.POSITIVE_INFINITY;
-			this.z1 = Double.NEGATIVE_INFINITY;
+			this.minX = Double.POSITIVE_INFINITY;
+			this.maxX = Double.NEGATIVE_INFINITY;
+			this.minY = Double.POSITIVE_INFINITY;
+			this.maxY = Double.NEGATIVE_INFINITY;
+			this.minZ = Double.POSITIVE_INFINITY;
+			this.maxZ = Double.NEGATIVE_INFINITY;
 		}
 
 		/**
@@ -90,46 +99,35 @@ public abstract class Intersectable {
 		 * @param r ray
 		 * @return True if the ray intersects the box. Otherwise, False
 		 */
-		public boolean IntersectionBox(Ray r) {
-
+		public boolean isIntersected(Ray r) {
+			++count;
 			Point origin = r.getP0();
-			double originX = origin.getX();
-			double originY = origin.getY();
-			double originZ = origin.getZ();
 			Vector dir = r.getDir();
-			double dirX = dir.getX();
-			double dirY = dir.getY();
-			double dirZ = dir.getZ();
+			double v1, v2;
 
-			// Initially will receive the values of tMinX and tMaxX
 			double tMin = Double.NEGATIVE_INFINITY;
 			double tMax = Double.POSITIVE_INFINITY;
-
-			// the values are depend on the direction of the ray
-
-			if (dirX > 0) {
-				tMin = (x0 - originX) / dirX; // b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
-				tMax = (x1 - originX) / dirX;
-			} else if (dirX < 0) {
-				tMin = (x1 - originX) / dirX;
-				tMax = (x0 - originX) / dirX;
+			double originX = origin.getX();
+			double dirX = dir.getX();
+			if (dirX != 0) {
+				// b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
+				v1 = (minX - originX) / dirX;
+				v2 = (maxX - originX) / dirX;
+				tMin = min(v1, v2);
+				tMax = max(v1, v2);
 			}
 
 			double tMinY = Double.NEGATIVE_INFINITY;
 			double tMaxY = Double.POSITIVE_INFINITY;
-			if (dirY > 0) {
-				tMinY = (y0 - originY) / dirY;
-				tMaxY = (y1 - originY) / dirY;
-			} else if (dirY < 0) {
-				tMinY = (y1 - originY) / dirY;
-				tMaxY = (y0 - originY) / dirY;
+			double originY = origin.getY();
+			double dirY = dir.getY();
+			if (dirY != 0) {
+				// b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
+				v1 = (minY - originY) / dirY;
+				v2 = (maxY - originY) / dirY;
+				tMinY = min(v1, v2);
+				tMaxY = max(v1, v2);
 			}
-
-			// If either the max value of Y is smaller than overall min value, or min value
-			// of Y is bigger than the overall
-			// max, we can already return false.
-			// Otherwise we'll update the overall min and max values and perform the same
-			// check on the Z values.
 			if ((tMin > tMaxY) || (tMinY > tMax))
 				return false;
 
@@ -138,21 +136,26 @@ public abstract class Intersectable {
 			if (tMaxY < tMax)
 				tMax = tMaxY;
 
+			double originZ = origin.getZ();
+			double dirZ = dir.getZ();
 			double tMinZ = Double.NEGATIVE_INFINITY;
 			double tMaxZ = Double.POSITIVE_INFINITY;
-			if (dirZ > 0) {
-				tMinZ = (z0 - originZ) / dirZ;
-				tMaxZ = (z1 - originZ) / dirZ;
-			} else if (dirZ < 0) {
-				tMinZ = (z1 - originZ) / dirZ;
-				tMaxZ = (z0 - originZ) / dirZ;
+			if (dirZ != 0) {
+				// b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
+				v1 = (minZ - originZ) / dirZ;
+				v2 = (maxZ - originZ) / dirZ;
+				tMinZ = min(v1, v2);
+				tMaxZ = max(v1, v2);
 			}
 
 			// If either the max value of Z is smaller than overall min value, or min value
 			// of Z is bigger than the overall
 			// max, we can already return false. Otherwise we can return true since no other
 			// coordinate checks are needed.
-			return tMin <= tMaxZ && tMinZ <= tMax;
+			boolean check = tMin <= tMaxZ && tMinZ <= tMax;
+			if (check)
+				++positives;
+			return check;
 		}
 
 	}
@@ -215,7 +218,17 @@ public abstract class Intersectable {
 	 *         are no intersections
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
-		return box != null && !box.IntersectionBox(ray) ? null : findGeoIntersectionsHelper(ray);
+		return box == null || box.isIntersected(ray) //
+				? intermediate(ray) //
+				: null;
+	}
+
+	private final List<GeoPoint> intermediate(Ray ray) {
+		++count;
+		var list = findGeoIntersectionsHelper(ray);
+		if (list != null)
+			++positives;
+		return list;
 	}
 
 	/**

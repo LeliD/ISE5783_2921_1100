@@ -96,7 +96,7 @@ public class Polygon extends Geometry {
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray);
+		List<GeoPoint> intersections = plane.findGeoIntersections(ray);
 		if (intersections == null)
 			return null;
 
@@ -135,18 +135,21 @@ public class Polygon extends Geometry {
 		box = new Box();
 		// Adjust the size of the box according to the vertices
 		for (Point v : vertices) {
-			if (v.getX() < box.x0)
-				box.x0 = v.getX();
-			if (v.getX() > box.x1)
-				box.x1 = v.getX();
-			if (v.getY() < box.y0)
-				box.y0 = v.getY();
-			if (v.getY() > box.y1)
-				box.y1 = v.getY();
-			if (v.getZ() < box.z0)
-				box.z0 = v.getZ();
-			if (v.getZ() > box.z1)
-				box.z1 = v.getZ();
+			double x = v.getX();
+			double y = v.getY();
+			double z = v.getZ();
+			if ( x < box.minX)
+				box.minX = x;
+			if (x > box.maxX)
+				box.maxX = x;
+			if (y < box.minY)
+				box.minY = y;
+			if (y > box.maxY)
+				box.maxY = y;
+			if (z < box.minZ)
+				box.minZ = z;
+			if (z > box.maxZ)
+				box.maxZ = z;
 		}
 
 	}

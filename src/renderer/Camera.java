@@ -291,11 +291,11 @@ public class Camera {
 			for (var thread : threads)
 				thread.start();
 			// wait until all the threads have finished
-			try {
-				for (var thread : threads)
+			for (var thread : threads)
+				try {
 					thread.join();
-			} catch (InterruptedException ignore) {
-			}
+				} catch (InterruptedException ignore) {
+				}
 		}
 		return this;
 	}
@@ -328,8 +328,8 @@ public class Camera {
 	 */
 	public Camera printGrid(int interval, Color color) {
 		if (imageWriter == null)
-			throw new MissingResourceException("The render's field imageWriter mustn't be null", "ImageWriter",
-					"imageWriter");
+			throw new MissingResourceException("The render's field imageWriter mustn't be null", //
+					"ImageWriter", "imageWriter");
 
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();

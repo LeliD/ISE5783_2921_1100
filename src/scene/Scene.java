@@ -39,6 +39,7 @@ public class Scene {
 	 */
 	public Scene(String name) {
 		this.name = name;
+		Intersectable.createCBR(false);
 	}
 
 	/**
@@ -97,7 +98,7 @@ public class Scene {
 	 * @return the Scene object itself (for method chaining)
 	 */
 	public Scene setCBR() {
-		Intersectable.createCBR();
+		Intersectable.createCBR(true);
 		return this;
 	}
 
