@@ -17,25 +17,19 @@ import primitives.Vector;
  *
  */
 public abstract class Intersectable {
+
 	/** a box- for BVH */
 	protected Box box = null;
-	/** set cbr improvement */
+	/** Sets CBR improvement */
 	protected static boolean cbr = false;
+
 	/**
-	 *  Set cbr improvement 
-	 *  
+	 * Set CBR improvement
+	 * 
 	 */
 	public static void createCBR() {
 		Intersectable.cbr = true;
 	}
-	/**
-	 * C-TOR that gets a box
-	 * 
-	 * @param box a box
-	 */
-	//public Intersectable(Box box) {
-	//	this.box = box;
-	//}
 
 	/**
 	 * Class for representing a Box for BVH contains 6 double values of x,y,z
@@ -44,7 +38,7 @@ public abstract class Intersectable {
 	 * @author Shilat Sharon and Lea Drach
 	 *
 	 */
-	public static class Box {// for MP2
+	public static class Box {
 		/** x minimum */
 		protected double x0;
 		/** x maximum */
@@ -76,8 +70,9 @@ public abstract class Intersectable {
 			this.z0 = z0;
 			this.z1 = z1;
 		}
+
 		/**
-		 * Empty Constructor, build an infinity box
+		 * Empty Constructor, builds an infinity box
 		 * 
 		 */
 		public Box() {
@@ -162,7 +157,6 @@ public abstract class Intersectable {
 
 	}
 
-
 	/**
 	 * The GeoPoint class represents an intersection point between a ray and a
 	 * geometry.
@@ -222,7 +216,6 @@ public abstract class Intersectable {
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
 		return box != null && !box.IntersectionBox(ray) ? null : findGeoIntersectionsHelper(ray);
-		//return findGeoIntersectionsHelper(ray);
 	}
 
 	/**

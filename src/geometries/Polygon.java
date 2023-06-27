@@ -47,12 +47,13 @@ public class Polygon extends Geometry {
 	public Polygon(Point... vertices) {
 		if (vertices.length < 3)
 			throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
-		
+
 		this.vertices = List.of(vertices);
-		
+
 		size = vertices.length;
+		// if CBR improvement is on
 		if (cbr)
-		   createBox();// build the box
+			createBox();// build the box
 		// Generate the plane according to the first three vertices and associate the
 		// polygon with this plane.
 		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
@@ -125,13 +126,13 @@ public class Polygon extends Geometry {
 		return intersections;
 
 	}
+
 	/**
-	 * Create Box according to the vertices
+	 * Creates the Box of the polygon according to its vertices
 	 * 
-	 * @return Box
 	 */
 	private void createBox() {
-        box=new Box();
+		box = new Box();
 		// Adjust the size of the box according to the vertices
 		for (Point v : vertices) {
 			if (v.getX() < box.x0)
@@ -147,6 +148,6 @@ public class Polygon extends Geometry {
 			if (v.getZ() > box.z1)
 				box.z1 = v.getZ();
 		}
-		
+
 	}
 }

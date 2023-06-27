@@ -3,14 +3,14 @@
  */
 package scene;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import geometries.Geometries;
 import geometries.Intersectable;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Scene class for representing a 3D scene that contains objects, lights, and a
@@ -90,9 +90,11 @@ public class Scene {
 		this.lights = lights;
 		return this;
 	}
+
 	/**
-	 * Sets Conservative Bounding Region for creating the scene 
-	 * @return scene object itself
+	 * Sets Conservative Bounding Region for creating the scene
+	 * 
+	 * @return the Scene object itself (for method chaining)
 	 */
 	public Scene setCBR() {
 		Intersectable.createCBR();
@@ -100,11 +102,12 @@ public class Scene {
 	}
 
 	/**
-	 * Creates Bounding Volume Hierarchy in the scene 
-	 * @return scene object itself
+	 * Creates Bounding Volume Hierarchy in the scene
+	 * 
+	 * @return the Scene object itself (for method chaining)
 	 */
 	public Scene setBVH() {
-		geometries.createBVH();	
+		geometries.createBVH();
 		return this;
 	}
 }

@@ -68,10 +68,6 @@ public class Geometries extends Intersectable {
 	 */
 	public void add(Intersectable... geometries) {
 		add(List.of(geometries));
-		// if (geometries != null) {
-		// this.geometries.addAll(Arrays.asList(geometries));
-		// createBox();
-		// }
 
 	}
 
@@ -81,16 +77,20 @@ public class Geometries extends Intersectable {
 	 * @param geometries the geomtries to add
 	 */
 	public void add(List<Intersectable> geometries) {
+		// if CBR improvement is off
 		if (!cbr) {
 			this.geometries.addAll(geometries);
 			return;
 		}
-
+		// CBR improvement is on
 		for (var geometry : geometries) {
+			// box is null => infinity geometry
 			if (geometry.box == null)
 				infinitiesGeometries.add(geometry);
+			// geometry with a box
 			else {
 				this.geometries.add(geometry);
+				// if there is an infinity geometry in the geometries, there is no box
 				if (infinitiesGeometries.isEmpty()) {
 					if (box == null)
 						box = new Box();
@@ -109,7 +109,7 @@ public class Geometries extends Intersectable {
 				}
 			}
 		}
-		// if there are inifinities objects
+		// if there are infinities objects, there is no box
 		if (!infinitiesGeometries.isEmpty())
 			box = null;
 	}
@@ -117,9 +117,6 @@ public class Geometries extends Intersectable {
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<GeoPoint> intersections = null;
-
-		// if (box != null && box.IntersectionBox(ray) == false)
-		// return null;
 
 		for (Intersectable geo : geometries) {
 			List<GeoPoint> IntersectionsPerGeometry = geo.findGeoIntersections(ray);// list of single geometry
@@ -147,7 +144,7 @@ public class Geometries extends Intersectable {
 	public void createBVH() {
 		if (!cbr)
 			return;
-		// min amount of geometries in a box is 2
+
 		if (geometries.size() <= 4)
 			return;
 
@@ -161,7 +158,7 @@ public class Geometries extends Intersectable {
 		double x = box.x1 - box.x0;
 		double y = box.y1 - box.y0;
 		double z = box.z1 - box.z0;
-		// which axis we are reffering to
+		// the axis we are referring to is the longest
 		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
 
 		var left = new Geometries();

@@ -203,7 +203,7 @@ public class Camera {
 	 * Sets the number of threads for multi-threading in the Camera.
 	 * 
 	 * @param threads the number of threads to be set
-	 * @return the updated Camera object
+	 * @return The Camera object itself (for method chaining)
 	 * @throws IllegalArgumentException if the number of threads is negative
 	 */
 	public Camera setMultiThreading(int threads) {
@@ -272,12 +272,12 @@ public class Camera {
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
 		pixelManager = new PixelManager(nY, nX, printInterval);
-		if (threadsCount == 0)
+		if (threadsCount == 0)// without multi threading improvement
 			for (int i = 0; i < nY; i++)
 				for (int j = 0; j < nX; j++)
 					// imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
 					castRay(nX, nY, j, i);
-		else { // see further... option 2
+		else { // multi threading
 			var threads = new LinkedList<Thread>(); // list of threads
 			while (threadsCount-- > 0) // add appropriate number of threads
 				threads.add(new Thread(() -> { // add a thread with its code

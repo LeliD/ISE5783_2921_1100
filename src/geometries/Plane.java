@@ -83,8 +83,6 @@ public class Plane extends Geometry {
 
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		//if (this.getBox().IntersectionBox(ray) == false)
-		//	return null;
 		// get ray point and vector
 		Point p0ray = ray.getP0();
 		Vector v = ray.getDir();

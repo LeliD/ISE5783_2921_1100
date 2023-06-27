@@ -336,47 +336,7 @@ public class RayTracerBasic extends RayTracerBase {
 		if (isZero(gd))
 			return List.of(new Ray(p, reflectionDirection, n));
 		return new Blackboard(nXY, new Ray(p, reflectionDirection, n), distanceGrid, gd).gridRays();
-		// return gridRays(n, new Ray(p, reflectionDirection, n), -1, gd);
 
 	}
 
-	/**
-	 * 
-	 * Generates a list of rays in a grid pattern.
-	 * 
-	 * @param n         the surface normal vector
-	 * 
-	 * @param mainRay   the main ray
-	 * 
-	 * @param direction the direction of the rays (-1 for reflection, 1 for
-	 *                  transparency)
-	 * 
-	 * @param gd        the grid distance
-	 * 
-	 * @return a list of rays in the grid
-	 * 
-	 *         List<Ray> gridRays(Vector n, Ray mainRay, int direction, double gd) {
-	 *         if (isZero(gd)) return List.of(mainRay); int numOfRowCol = (int)
-	 *         Math.ceil(Math.sqrt(gdNumRays)); Point pMainRay = mainRay.getP0();
-	 *         Vector vTo = mainRay.getDir(); Vector vUp = vTo.findOrthogonal();
-	 *         Vector vRight = vUp.crossProduct(vTo).normalize(); Point pij =
-	 *         pMainRay.add(vTo.scale(distanceGrid)); // center point of the grid
-	 *         double sizeOfCube = gd / numOfRowCol;// size of each cube in the grid
-	 *         List<Ray> rays = new LinkedList<>(); n = n.dotProduct(vTo) > 0 ?
-	 *         n.scale(-direction) : n.scale(direction);// fix the normal direction
-	 *         Point currentPoint = pij;// save the center of the grid Vector
-	 *         currentRay; for (int j = 0; j < numOfRowCol; j++) { double xJ = (j -
-	 *         (numOfRowCol / 2d)) * sizeOfCube + sizeOfCube / 2d; for (int i = 0; i
-	 *         < numOfRowCol; i++) { double yI = (i - (numOfRowCol / 2d)) *
-	 *         sizeOfCube + sizeOfCube / 2d; if (xJ != 0) currentPoint =
-	 *         pij.add(vRight.scale(xJ));// ???? if (yI != 0) currentPoint =
-	 *         pij.add(vUp.scale(-yI)); currentRay =
-	 *         currentPoint.subtract(pMainRay); if (n.dotProduct(currentRay) < 0 &&
-	 *         direction == 1) // transparency rays.add(new Ray(pMainRay,
-	 *         currentRay, n)); if (n.dotProduct(currentRay) > 0 && direction == -1)
-	 *         // reflection rays.add(new Ray(pMainRay, currentRay, n)); } } return
-	 *         rays;
-	 * 
-	 *         }
-	 */
 }

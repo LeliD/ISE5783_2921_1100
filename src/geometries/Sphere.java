@@ -27,10 +27,12 @@ public class Sphere extends RadialGeometry {
 	public Sphere(Point p, double r) {
 		super(r);
 		center = p;
-		if(cbr)
-		   this.box=new Box(center.getX() - radius, center.getX() + radius,//
-		                    center.getY() - radius, center.getY() + radius,//
-		                    center.getZ() - radius, center.getZ() + radius);// build the box
+		// if CBR improvement is on
+		if (cbr)
+			// builds the sphere's box
+			this.box = new Box(center.getX() - radius, center.getX() + radius, //
+					center.getY() - radius, center.getY() + radius, //
+					center.getZ() - radius, center.getZ() + radius);
 	}
 
 	/**

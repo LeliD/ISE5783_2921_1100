@@ -6,7 +6,6 @@ import static java.awt.Color.RED;
 import static java.awt.Color.WHITE;
 import static java.awt.Color.darkGray;
 import static java.awt.Color.white;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,22 +23,8 @@ import primitives.Vector;
 import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.RayTracerBasic;
-import geometries.Plane;
-import geometries.Polygon;
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.SpotLight;
-import primitives.Color;
-import primitives.Double3;
-import primitives.Material;
-import primitives.Point;
-import primitives.Vector;
-import renderer.Camera;
-import renderer.ImageWriter;
-import renderer.RayTracerBasic;
 import scene.Scene;
+
 class MiniProject1Tests {
 
 	private Scene scene = new Scene("Test scene");
@@ -68,7 +53,7 @@ class MiniProject1Tests {
 				new Polygon(new Point(-40, 20, -390), new Point(140, 20, -390), new Point(100, -120, 410),
 						new Point(-80, -120, 410)) // down square
 						.setEmission(new Color(130, 160, 210)) //
-						.setMaterial(new Material().setKr(0.1).setGd(0)),
+						.setMaterial(new Material().setKr(0.1).setGd(40)),
 				new Polygon(new Point(-140, 20, -400), new Point(140, 20, -400), new Point(100, -120, 400),
 						new Point(-100, -120, 400)) // down square
 						.setEmission(new Color(java.awt.Color.WHITE)) //
